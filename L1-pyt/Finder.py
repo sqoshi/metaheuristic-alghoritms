@@ -64,9 +64,9 @@ def generateNeigh(x):
 
 def chooseFunction(b):
     if b == 0:
-        f = griewank
-    else:
         f = happyCat
+    else:
+        f = griewank
     return f
 
 
@@ -92,6 +92,6 @@ def findLocalMin(t, b):
 
 l = [1, 2, 3, 4]
 
-findLocalMin(60, 0)
+findLocalMin(60, 1)
 
 print((l[1:3]))
