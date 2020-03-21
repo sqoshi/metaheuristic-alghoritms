@@ -51,8 +51,8 @@ def griewank(l, i):
 
 def happyCat(l, i):
     p1 = numpy.linalg.norm([l[i], l[i + 1], l[i + 2], l[i + 3]])
-    return 1 / 2 + pow(pow(pow(p1, 2) - 4, 2), 1 / 8) + \
-           1 / 4 * (1 / 2 * pow(p1, 2) + sum([l[i], l[i + 1], l[i + 2], l[i + 3]]))
+    return 0.5 + pow(pow(pow(p1, 2) - 4, 2), 1 / 8) + 0.25 * (
+            0.5 * pow(p1, 2) + sum([l[i], l[i + 1], l[i + 2], l[i + 3]]))
 
 
 def generateNeigh(x):
@@ -92,6 +92,4 @@ def findLocalMin(t, b):
 
 l = [1, 2, 3, 4]
 
-findLocalMin(60, 1)
-
-print((l[1:3]))
+findLocalMin(45, 1)
