@@ -62,12 +62,16 @@ def generateNeigh(x):
     return l
 
 
-def program(S, b):
+def chooseFunction(b):
     if b == 0:
         f = griewank
     else:
         f = happyCat
+    return f
 
+
+def program(S, b):
+    f = chooseFunction(b)
     while 1:
         neighs = generateNeigh(S)
         for i in range(len(neighs) - 4):
@@ -77,9 +81,13 @@ def program(S, b):
         print(neighs[:4], griewank(neighs, index))
 
 
-try:
-    with time_limit(5):
-        program(0.4, 1)
-except TimeoutException as e:
-    print("Timed out!")
-print(sum([1, 2, 3]))
+def findLocalMin(t, b):
+    S = random.randint(-10, 10)
+    try:
+        with time_limit(t):
+            program(S, b)
+    except TimeoutException as e:
+        print("Timed out!")
+
+
+findLocalMin(60, 0)
