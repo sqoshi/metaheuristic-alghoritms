@@ -4,6 +4,8 @@ import random
 import signal
 from contextlib import contextmanager
 
+import numpy
+
 e = 0.01
 
 
@@ -47,6 +49,12 @@ def griewank(l, i):
     return 1 + s - p
 
 
+def happyCat(l, i):
+    p1 = numpy.linalg.norm(l[i:i + 3])
+    return 1 / 2 + pow(pow(pow(p1, 2) - 4, 2), 1 / 8) + \
+           1 / 4 * (1 / 2 * pow(p1, 2) + sum(l[i:i + 3]))
+
+
 def generateNeigh(x):
     l = [x]
     for i in range(1000):
@@ -54,18 +62,24 @@ def generateNeigh(x):
     return l
 
 
-def program(S):
+def program(S, b):
+    if b == 0:
+        f = griewank
+    else:
+        f = happyCat
+
     while 1:
         neighs = generateNeigh(S)
         for i in range(len(neighs) - 4):
-            if griewank(neighs, i) > griewank(neighs, i + 1):
+            if f(neighs, i) > f(neighs, i + 1):
                 S = neighs[i + 1]
                 index = i + 1
         print(neighs[:4], griewank(neighs, index))
 
 
 try:
-    with time_limit(120):
-        program(1.4)
+    with time_limit(5):
+        program(0.4, 1)
 except TimeoutException as e:
     print("Timed out!")
+print(sum([1, 2, 3]))
