@@ -2,8 +2,8 @@ import operator
 from math import sqrt, cos
 import random
 import signal
+import sys
 from contextlib import contextmanager
-
 import numpy
 
 e = 0.01
@@ -24,8 +24,6 @@ def time_limit(seconds):
     finally:
         signal.alarm(0)
 
-
-# algorytm zaczyna sie pnizej
 
 def sumOfQuadrates(l):
     s = 0
@@ -61,19 +59,29 @@ def generateNeighbour(x):
     return res
 
 
+""" 
+Wartosci zostaly wyznaczone eksperymentalnie!
+"""
+
+
 def chooseFunction(b):
     if b == 0:
         f = happyCat
+        l = 1.0e-6
     else:
         f = griewank
-    return f
+        l = 1.0e-9
+
+    return f, l
 
 
-def main(b):
-    S = [random.uniform(-5, 5), random.uniform(-5, 5), random.uniform(-5, 5), random.uniform(-5, 5)]
-    f = open("output", "w")
+def findMin(b, out):
+    size = random.randint(0, 200)
+    S = [random.uniform(-size, size), random.uniform(-size, size)
+        , random.uniform(-size, size), random.uniform(-size, size)]
+    f = open(out, "w")
     mins = []
-    function = chooseFunction(b)
+    function, limit = chooseFunction(b)
     while 1:
         neighbour = generateNeighbour(S)
         fs = function(S)
@@ -81,9 +89,10 @@ def main(b):
         diff = fs - fn
         if diff > 0:
             # ucieczka z lokalnego min i spawn w nowym losowym miejscu. @@@@RESET@@@
-            if diff < 1.5e-10:  # ta magiczna liczba zostala wyznaczona eksperymentalnie na podstawie prob
+            if diff < limit:  # ta magiczna liczba zostala wyznaczona eksperymentalnie na podstawie prob
                 mins.append((S, fs))
-                S = [random.uniform(-5, 5), random.uniform(-5, 5), random.uniform(-5, 5), random.uniform(-5, 5)]
+                S = [random.uniform(-size, size), random.uniform(-size, size)
+                    , random.uniform(-size, size), random.uniform(-size, size)]
                 m = "{0}\n".format(min(mins, key=operator.itemgetter(1)))
                 f.seek(0)
                 f.write(m)
@@ -91,12 +100,12 @@ def main(b):
                 S = neighbour
 
 
-def findLocalMin(t, b):
+def main(t, b, out):
     try:
         with time_limit(t):
-            main(b)
+            findMin(b, out)
     except TimeoutException:
         print("Timed out!")
 
 
-findLocalMin(60, 1)
+main(int(sys.argv[1]), int(sys.argv[2]), sys.argv[3])
