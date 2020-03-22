@@ -27,39 +27,38 @@ def time_limit(seconds):
 
 # algorytm zaczyna sie pnizej
 
-def sumOfQuadrates(a, b, c, d):
-    l = [a, b, c, d]
+def sumOfQuadrates(l):
     s = 0
     for x in l:
         s += pow(x, 2)
     return s
 
 
-def productOfCos(a, b, c, d):
-    l = [a, b, c, d]
+def productOfCos(l):
     p = 1
     for i in range(len(l)):
         p *= cos(l[i] / sqrt(i + 1))
     return p
 
 
-def griewank(l, i):
-    s = sumOfQuadrates(l[i], l[i + 1], l[i + 2], l[i + 3])
-    p = productOfCos(l[i], l[i + 1], l[i + 2], l[i + 3])
+def griewank(l):
+    s = sumOfQuadrates(l)
+    p = productOfCos(l)
     return 1 + s - p
 
 
-def happyCat(l, i):
-    p1 = numpy.linalg.norm([l[i], l[i + 1], l[i + 2], l[i + 3]])
-    return 0.5 + pow(pow(pow(p1, 2) - 4, 2), 1 / 8) + 0.25 * (
-            0.5 * pow(p1, 2) + sum([l[i], l[i + 1], l[i + 2], l[i + 3]]))
+def happyCat(l):
+    x = numpy.linalg.norm(l)
+    x2 = pow(x, 2)
+    return 0.5 + pow(pow(x2 - 4, 2), 0.125) + 0.25 * (
+            0.5 * x2 + sum(l))
 
 
-def generateNeigh(x):
-    l = [x]
-    for i in range(1000):
-        l.append(l[len(l) - 1] + e * (random.uniform(-0.05, 0.05)))
-    return l
+def generateNeighbour(x):
+    res = []
+    for i in range(4):
+        res.append(x[i] + e * (random.uniform(-0.05, 0.05)))
+    return res
 
 
 def chooseFunction(b):
@@ -70,26 +69,26 @@ def chooseFunction(b):
     return f
 
 
-def program(S, b):
+def main(S, b):
+    fs = open("output", "w")
     f = chooseFunction(b)
+    fs.write(str(f))
+    fs.write("\n")
     while 1:
-        neighs = generateNeigh(S)
-        for i in range(len(neighs) - 4):
-            if f(neighs, i) > f(neighs, i + 1):
-                S = neighs[i + 1]
-                index = i + 1
-        print(neighs[:4], griewank(neighs, index))
+        neighbour = generateNeighbour(S)
+        if f(S) > f(neighbour):
+            S = neighbour
+            m = "{0}{1}\n".format(str(S), str(f(S)))
+            fs.write(m)
 
 
 def findLocalMin(t, b):
-    S = random.randint(-10, 10)
+    S = [1, 2, 3, 4]
     try:
         with time_limit(t):
-            program(S, b)
+            main(S, b)
     except TimeoutException as e:
         print("Timed out!")
 
 
-l = [1, 2, 3, 4]
-
-findLocalMin(45, 1)
+findLocalMin(60, 1)
