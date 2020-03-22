@@ -74,25 +74,21 @@ def main(b):
     f = open("output", "w")
     mins = []
     function = chooseFunction(b)
-    f.write(str(f))
-    f.write("\n")
     while 1:
         neighbour = generateNeighbour(S)
         fs = function(S)
         fn = function(neighbour)
         diff = fs - fn
         if diff > 0:
-            # ucieczka z lokalnego min i spawn w nowym losowym miejscu.
+            # ucieczka z lokalnego min i spawn w nowym losowym miejscu. @@@@RESET@@@
             if diff < 1.5e-10:  # ta magiczna liczba zostala wyznaczona eksperymentalnie na podstawie prob
-                print('Stucked in local min - new spawn.')
                 mins.append((S, fs))
                 S = [random.uniform(-5, 5), random.uniform(-5, 5), random.uniform(-5, 5), random.uniform(-5, 5)]
-                print(min(mins, key=operator.itemgetter(1)))
+                m = "{0}\n".format(min(mins, key=operator.itemgetter(1)))
+                f.seek(0)
+                f.write(m)
             else:
                 S = neighbour
-
-        # m = "{0}{1}\n".format(str(S), str(f(S)))
-        # f.write(m)
 
 
 def findLocalMin(t, b):
@@ -103,12 +99,4 @@ def findLocalMin(t, b):
         print("Timed out!")
 
 
-def macheps():
-    m = 1.0
-    while not m / 2 == 0:
-        m = m / 2
-    print(m)
-
-
-# macheps()
 findLocalMin(60, 1)
