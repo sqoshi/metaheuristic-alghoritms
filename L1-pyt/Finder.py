@@ -1,4 +1,4 @@
-import signal
+import operator
 from math import sqrt, cos
 import random
 import signal
@@ -69,26 +69,46 @@ def chooseFunction(b):
     return f
 
 
-def main(S, b):
-    fs = open("output", "w")
-    f = chooseFunction(b)
-    fs.write(str(f))
-    fs.write("\n")
+def main(b):
+    S = [random.uniform(-5, 5), random.uniform(-5, 5), random.uniform(-5, 5), random.uniform(-5, 5)]
+    f = open("output", "w")
+    mins = []
+    function = chooseFunction(b)
+    f.write(str(f))
+    f.write("\n")
     while 1:
         neighbour = generateNeighbour(S)
-        if f(S) > f(neighbour):
-            S = neighbour
-            m = "{0}{1}\n".format(str(S), str(f(S)))
-            fs.write(m)
+        fs = function(S)
+        fn = function(neighbour)
+        diff = fs - fn
+        if diff > 0:
+            # ucieczka z lokalnego min i spawn w nowym losowym miejscu.
+            if diff < 1.5e-10:  # ta magiczna liczba zostala wyznaczona eksperymentalnie na podstawie prob
+                print('Stucked in local min - new spawn.')
+                mins.append((S, fs))
+                S = [random.uniform(-5, 5), random.uniform(-5, 5), random.uniform(-5, 5), random.uniform(-5, 5)]
+                print(min(mins, key=operator.itemgetter(1)))
+            else:
+                S = neighbour
+
+        # m = "{0}{1}\n".format(str(S), str(f(S)))
+        # f.write(m)
 
 
 def findLocalMin(t, b):
-    S = [1, 2, 3, 4]
     try:
         with time_limit(t):
-            main(S, b)
-    except TimeoutException as e:
+            main(b)
+    except TimeoutException:
         print("Timed out!")
 
 
+def macheps():
+    m = 1.0
+    while not m / 2 == 0:
+        m = m / 2
+    print(m)
+
+
+# macheps()
 findLocalMin(60, 1)
