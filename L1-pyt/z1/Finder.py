@@ -67,7 +67,7 @@ Wartosci zostaly wyznaczone eksperymentalnie!
 def chooseFunction(b):
     if b == 0:
         f = happyCat
-        l = 1.0e-6
+        l = 1.0e-5
     else:
         f = griewank
         l = 1.0e-9
@@ -76,11 +76,12 @@ def chooseFunction(b):
 
 
 def findMin(b, out):
-    size = random.randint(0, 200)
-    S = [random.uniform(-size, size), random.uniform(-size, size)
-        , random.uniform(-size, size), random.uniform(-size, size)]
+    q = 25
+    size = random.randint(-q, q)
+    S = [random.uniform(-size, size), random.uniform(-size, size),
+         random.uniform(-size, size), random.uniform(-size, size)]
     f = open(out, "w")
-    mins = []
+    minimalValues = []
     function, limit = chooseFunction(b)
     while 1:
         neighbour = generateNeighbour(S)
@@ -90,14 +91,15 @@ def findMin(b, out):
         if diff > 0:
             # ucieczka z lokalnego min i spawn w nowym losowym miejscu. @@@@RESET@@@
             if diff < limit:  # ta magiczna liczba zostala wyznaczona eksperymentalnie na podstawie prob
-                mins.append((S, fs))
-                S = [random.uniform(-size, size), random.uniform(-size, size)
-                    , random.uniform(-size, size), random.uniform(-size, size)]
-                m = "{0}\n".format(min(mins, key=operator.itemgetter(1)))
-                f.seek(0)
-                f.write(m)
+                minimalValues.append((S, fs))
+                S = [random.uniform(-size, size), random.uniform(-size, size),
+                     random.uniform(-size, size), random.uniform(-size, size)]
             else:
                 S = neighbour
+        if len(minimalValues) > 0:
+            m = "{0}\n".format(min(minimalValues, key=operator.itemgetter(1)))
+            f.seek(0)
+            f.write(m)
 
 
 def main(t, b, out):

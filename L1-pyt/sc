@@ -1,0 +1,8 @@
+from pywebcopy import save_webpage
+
+url = 'http://some-site.com/some-page.html'
+download_folder = '/path/to/downloads/'
+
+kwargs = {'bypass_robots': True, 'project_name': 'recognisable-name'}
+
+save_webpage(url, download_folder, **kwargs)

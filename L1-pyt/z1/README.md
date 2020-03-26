@@ -1,6 +1,7 @@
 t - czas dzialania programu 
 b - happycat dla 0, else griewank
 output_filename - nazwa pliku docelowego outputu
+
 python3 t b output_filename
 
 example:
