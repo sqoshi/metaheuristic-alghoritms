@@ -4,6 +4,9 @@ import tsp
 from contextlib import contextmanager
 from collections import defaultdict
 import numpy as np, pandas as pd
+import itertools
+
+global result
 
 
 class TimeoutException(Exception):
@@ -57,43 +60,96 @@ def initial(graphAdj, n, s):
 def findMinimalDistance(lis, T):
     l = lis.copy()
     tabuElsIncurrentRow = [lis[t] for t in T]
-    diff = list(set(l).difference(tabuElsIncurrentRow))
+    # print(l, tabuElsIncurrentRow)
+    diff = l.copy()  # list(set(l).difference(tabuElsIncurrentRow))
+    for i in range(len(l)):
+        if i in T:
+            diff.remove(l[i])
+    print(l, T, diff)
     if len(diff) == 0:
+        print(T)
         raise Exception
     else:
         minDistance = min(diff)
-    # print(l, T, 'Wybieram z :', diff)
     index = lis.index(minDistance)
-    # print('minimalnyDistance, index = ', minDistance, ',', index)
     return minDistance, index
 
 
-def findFirstSolution(graphAdj, n):
-    start = random.randint(0, n - 1)
+def calculateDistance(graph, path):
+    distance = 0
+    for i in range(0, len(path) - 1):
+        distance += graph[path[i]][path[i + 1]]
+    return distance
+
+
+def swapPositions(list, pos1, pos2):
+    l = list.copy()
+    l[pos1], l[pos2] = l[pos2], l[pos1]
+    return l
+
+
+def findFirstSolution(graph, n):
+    start = 2  # random.randint(0, n - 1)
     totalDistance = 0
     x = start
     # print('Wylosowalem start:', start)
     T = [start]
     while len(T) < n:
-        neighbours = graphAdj[x]
+        neighbours = graph[x]
         try:
             minDistance, cityIndex = findMinimalDistance(neighbours, T)
         except:
+            print('es')
             break
         x = cityIndex
         totalDistance += minDistance
-        # print('Przechodze do kolejnego miasta:', x, 'aktualny koszt:', totalDistance, T)
+        print('Przechodze do kolejnego miasta:', x, 'aktualny koszt:', totalDistance, T)
         T.append(x)
-    totalDistance += graphAdj[T[len(T) - 1]][start]
-    print(graphAdj[T[len(T) - 1]][start])
+    totalDistance += graph[T[len(T) - 1]][start]
     T.append(start)
     return T, totalDistance
 
 
-def tabu_search(graphAdj, n):
-    print(graphAdj)
-    path, dist = findFirstSolution(graphAdj, int(n))
+def findAllSwaps(list):
+    result = []
+    for i, j in itertools.combinations([i for i in range(len(list))], 2):
+        result.append(swapPositions(list, i, j))
+    return result
+
+
+def tabu_search(graph, n):
+    global result
+    bestSolutions = []
+    print(graph)
+    path, dist = findFirstSolution(graph, int(n))
     print(path, dist)
+    T = []
+    x = path
+    bestSolutions.append((x, dist))
+    startOfCycle = path[0]
+    while True:
+        result = min(bestSolutions, key=lambda t: t[1])
+        distances = []
+        l1 = findAllSwaps(x[1:len(x) - 1])
+        neighbours = [m for m in l1 if m not in T]
+        for neighbour in neighbours:
+            neighbour.insert(0, startOfCycle)
+            neighbour.append(startOfCycle)
+            distances.append(calculateDistance(graph, neighbour))
+        minDist = min(distances)
+        index = distances.index(minDist)
+        minPath = neighbours[index]
+        pair = (minPath, minDist)
+        if pair not in T:
+            bestSolutions.append(pair)
+        T.extend([m for m in neighbours if m not in T])
+        if calculateDistance(graph, minPath) <= calculateDistance(graph, x):
+            x = minPath
+
+
+def removeDuplicates(l):
+    l = list(dict.fromkeys(l))
+    return l
 
 
 def main():
@@ -102,7 +158,7 @@ def main():
         with time_limit(int(t)):
             tabu_search(g, n)
     except TimeoutException:
-        print("Timed out!")
+        print("Timed out!", result)
 
 
 main()
