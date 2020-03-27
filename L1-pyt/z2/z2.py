@@ -1,12 +1,7 @@
+import itertools
 import random
 import signal
-import tsp
 from contextlib import contextmanager
-from collections import defaultdict
-import numpy as np, pandas as pd
-import itertools
-
-global result
 
 
 class TimeoutException(Exception):
@@ -26,8 +21,8 @@ def time_limit(seconds):
         signal.alarm(0)
 
 
-def readData():
-    f = open("data", "r")
+def readData(filename):
+    f = open(filename, "r")
     line = f.readline()
     t, n = line.split()
     line = f.readline()
@@ -36,43 +31,6 @@ def readData():
         array.append([int(x) for x in line.split()])
         line = f.readline()
     return t, n, array
-
-
-def initial(graphAdj, n, s):
-    start = s
-    notVisited = [int(x) for x in range(n)]
-    notVisited.remove(s)
-    path = [s]
-    while graphAdj[path[len(path) - 1]][start] == 0:
-        while len(notVisited) > 0:
-            nextCity = random.choice(notVisited)
-            # jesli odleglosc do danego miasta jest zerem musimy wylosowac inne miasto.
-            while graphAdj[s][nextCity] == 0:
-                nextCity = random.choice(notVisited)
-            # wchodzimy do miasta nowego i usuwamy go z listy
-            if graphAdj[s][nextCity] != 0:
-                notVisited.remove(nextCity)
-            s = nextCity
-            path.append(s)
-    return path + [start]
-
-
-def findMinimalDistance(lis, T):
-    l = lis.copy()
-    tabuElsIncurrentRow = [lis[t] for t in T]
-    # print(l, tabuElsIncurrentRow)
-    diff = l.copy()  # list(set(l).difference(tabuElsIncurrentRow))
-    for i in range(len(l)):
-        if i in T:
-            diff.remove(l[i])
-    print(l, T, diff)
-    if len(diff) == 0:
-        print(T)
-        raise Exception
-    else:
-        minDistance = min(diff)
-    index = lis.index(minDistance)
-    return minDistance, index
 
 
 def calculateDistance(graph, path):
@@ -88,28 +46,6 @@ def swapPositions(list, pos1, pos2):
     return l
 
 
-def findFirstSolution(graph, n):
-    start = 2  # random.randint(0, n - 1)
-    totalDistance = 0
-    x = start
-    # print('Wylosowalem start:', start)
-    T = [start]
-    while len(T) < n:
-        neighbours = graph[x]
-        try:
-            minDistance, cityIndex = findMinimalDistance(neighbours, T)
-        except:
-            print('es')
-            break
-        x = cityIndex
-        totalDistance += minDistance
-        print('Przechodze do kolejnego miasta:', x, 'aktualny koszt:', totalDistance, T)
-        T.append(x)
-    totalDistance += graph[T[len(T) - 1]][start]
-    T.append(start)
-    return T, totalDistance
-
-
 def findAllSwaps(list):
     result = []
     for i, j in itertools.combinations([i for i in range(len(list))], 2):
@@ -117,48 +53,85 @@ def findAllSwaps(list):
     return result
 
 
-def tabu_search(graph, n):
-    global result
-    bestSolutions = []
-    print(graph)
-    path, dist = findFirstSolution(graph, int(n))
-    print(path, dist)
+def findNextCity(graph, T):
+    city = T[0]
+    initialMinium = 0
+    row = graph[T[len(T) - 1]]
+    for i in range(len(row)):
+        if i not in T:
+            if initialMinium > row[i] or initialMinium == 0:
+                initialMinium = row[i]
+                city = i
+    return city
+
+
+def initialSolution(graph, n, src):
+    T = [src]
+    for i in range(n):
+        minimalCity = findNextCity(graph, T)
+        T.append(minimalCity)
+    return T
+
+
+def makeCycles(list, src):
+    for element in list:
+        element.insert(0, src)
+        element.append(src)
+    return list
+
+
+global CurrentBestPath
+global CurrentBestDist
+
+
+def tabu_search(graph, n, src):
+    global CurrentBestPath
+    global CurrentBestDist
+    global BestSolutions
+    initial = initialSolution(graph, n, src)
+    calculateDistance(graph, initial)
+    CurrentBestPath, CurrentBestDist = initial, calculateDistance(graph, initial)
+    x = initial
     T = []
-    x = path
-    bestSolutions.append((x, dist))
-    startOfCycle = path[0]
-    while True:
-        result = min(bestSolutions, key=lambda t: t[1])
-        distances = []
-        l1 = findAllSwaps(x[1:len(x) - 1])
-        neighbours = [m for m in l1 if m not in T]
-        for neighbour in neighbours:
-            neighbour.insert(0, startOfCycle)
-            neighbour.append(startOfCycle)
-            distances.append(calculateDistance(graph, neighbour))
-        minDist = min(distances)
-        index = distances.index(minDist)
-        minPath = neighbours[index]
-        pair = (minPath, minDist)
-        if pair not in T:
-            bestSolutions.append(pair)
-        T.extend([m for m in neighbours if m not in T])
-        if calculateDistance(graph, minPath) <= calculateDistance(graph, x):
-            x = minPath
+    bestSols = []
+    cycles = 1
+    # neighbours = makeCycles(findAllSwaps(x[1:len(x) - 1]), src)
+    while cycles < 150:
+        cycles += 1
+        neighbours = makeCycles(findAllSwaps(x[1:len(x) - 1]), src)
+        mins = calculateDistance(graph, neighbours[0])
+        for neigh in neighbours:
+            if neigh not in T:
+                sample = calculateDistance(graph, neigh)
+                # print(sample, mins)
+                if sample <= mins:
+                    # print(neigh, sample, 'new')
+                    mins = sample
+                    x = neigh
+                    if CurrentBestDist >= sample:
+                        print('- Actual Minimal Distance-', sample, neigh)
+                        CurrentBestDist = sample
+                        CurrentBestPath = x
+                        BestSolutions.append((x, sample))
+                    T.append(neigh)
+            CurrentBestPath = x
+        # print('Best', CurrentBestDist, CurrentBestPath)
+    tabu_search(graph, n, random.randint(0, n))  # resetuje wyszukiwanie w innym wierzcholku jesli wpadl w lokalne min
 
 
-def removeDuplicates(l):
-    l = list(dict.fromkeys(l))
-    return l
+BestSolutions = []
 
 
 def main():
-    t, n, g = readData()
+    t, n, g = readData("data1")
     try:
         with time_limit(int(t)):
-            tabu_search(g, n)
+            tabu_search(g, int(n), 5)
     except TimeoutException:
-        print("Timed out!", result)
+        print("Timed out!")
+        print(CurrentBestPath)
+        print(CurrentBestDist)
+        print(min(BestSolutions, key=lambda t: t[1]))
 
 
 main()
