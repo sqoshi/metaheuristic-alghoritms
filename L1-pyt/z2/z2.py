@@ -93,10 +93,9 @@ def tabu_search(graph, n, src):
     CurrentBestPath, CurrentBestDist = initial, calculateDistance(graph, initial)
     x = initial
     T = []
-    bestSols = []
     cycles = 1
-    # neighbours = makeCycles(findAllSwaps(x[1:len(x) - 1]), src)
-    while cycles < 150:
+    # best is 26 vertex!
+    while cycles < 100:
         cycles += 1
         neighbours = makeCycles(findAllSwaps(x[1:len(x) - 1]), src)
         mins = calculateDistance(graph, neighbours[0])
@@ -129,8 +128,6 @@ def main():
             tabu_search(g, int(n), 5)
     except TimeoutException:
         print("Timed out!")
-        print(CurrentBestPath)
-        print(CurrentBestDist)
         print(min(BestSolutions, key=lambda t: t[1]))
 
 
