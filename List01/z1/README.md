@@ -14,7 +14,7 @@ Mimo wszystko uwazam, ze znacznie wygodniej jest odkomenttowac linijke
  126 : # main(int(sys.argv[1]), int(sys.argv[2]), sys.argv[3])
 i odpalic po prostu 
     
-    ./z1.py 60 0 output_filename
+    python3 z1.py 60 0 output_filename
 
 
 Program wykorzystuje metode HillClimbing.

@@ -20,7 +20,7 @@ i zakomentowac opcjonalnie
 
 i odpalic po prostu 
     
-    ./z2.py file_name
+    python3 z2.py file_name
     
 Markup:
    1. Wczytuje plik z danymi

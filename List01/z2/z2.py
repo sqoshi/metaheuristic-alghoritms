@@ -57,7 +57,6 @@ def findAllSwaps(list):
 def findNextCity(graph, T):
     city = T[0]
     initialMinium = 0
-    print(T[len(T) - 1])
     row = graph[T[len(T) - 1]]
     for i in range(len(row)):
         if i not in T:
@@ -72,8 +71,6 @@ def initialSolution(graph, n, src):
     for i in range(n):
         minimalCity = findNextCity(graph, T)
         T.append(minimalCity)
-        print(minimalCity)
-        print(T)
     return T
 
 
@@ -131,7 +128,7 @@ def main():
     # t, n, g = readData(sys.argv[1])
     src = 0
     # bo wybieram 26 miasto jako pierwssze :D
-    if n > 27:
+    if int(n) > 27:
         src = 26
     try:
         with time_limit(int(t)):

@@ -26,7 +26,7 @@ i zakomentowac opcjonalnie
 
 i odpalic po prostu 
     
-    ./z3.py file_name
+    python3 z3.py file_name
     
 Markup:
    1. Znajduje rozwiazanie poczatkowe idac do gory do sciany, pozniej w prawo, dol, lewo i znowu gora, Jesli spotka wyjscie wychodzi.
