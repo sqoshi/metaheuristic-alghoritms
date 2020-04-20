@@ -30,7 +30,7 @@ def generate_neighbour(x):
     e = 0.01
     n = []
     for i in range(len(x)):
-        k = (random.randint(-5, 5))
+        k = random.randint(-5, 5)  # (random.uniform(-1, 1))
         n.append((x[i] + k * e))
     return n
 
@@ -41,52 +41,38 @@ def acceptanceProbability(energy, newEnergy, temperature):
     return math.exp((energy - newEnergy) / temperature)
 
 
-# @ray.remote
 def simulated_annealing(t, x0, resets):
     startTime = int(round(time.time() * 1000))
     endTime = startTime + t
     x = x0
-    best = [x, salomon(x)]
-    T0 = 100
+    fx = salomon(x)
+    best = [x, fx]
+    T0 = 300
     T = T0
     i = 1
+    c = 0.005
     while int(round(time.time() * 1000)) <= endTime and T > 0:
+        print(T, fx, x)
         i += 1
-        # Perform reset after 500 000 just because results are better and concept of SA is preserved.
-        # Run out of local optimum.
-        # Move back to the best solution maybe he will went to other side.
-        if i % 500000 == 0 and fx > best[1] and resets:
-            x = generate_neighbour(best[0])  # [(random.randint(-10, 10)) for _ in range(4)]  # Lose
-        # Generate Neighbour
         neighbour = generate_neighbour(x)
-        # Quality Function
-        fx, fn = (salomon(x)), (salomon(neighbour))
+        fx, fn = salomon(x), salomon(neighbour)
         delta = fn - fx
-        # Random value between 0 and 1.
-        loss = (random.uniform(0, 1.0))
-        # Calculate probability.
-        # prob = pow(math.e, (delta / T))
-        prob = acceptanceProbability(fx, fn, T)
-        #  print(T, loss, prob)
-        # Sometimes we accept worse solutions.
-        if loss < prob:
-            x = neighbour
+        r = random.uniform(0, 1.0)
+        prob = math.exp(-delta / T)
+        if prob > r:
             fx = fn
-        #    print(x, fx)
-        # T = T / (T * c + 1)  #
-        # Decrease temperature.
-        T = T0 / (math.log10(i))
-        # Check if solution is better than our best.
+            x = neighbour
+        T = (1 - c) * T
         if fx < best[1]:
             best[1] = fx
-            best[0] = neighbour
+            best[0] = x
     return best
 
 
 def main(args):
     duration = int(args.split()[0]) * pow(10, 3)  # in millis
     x = [int(i) for i in args.split()[1:]]
-    print(simulated_annealing(duration, x, True))
+    print(simulated_annealing(duration, x, False))
 
 
 main(input())
