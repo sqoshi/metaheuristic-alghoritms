@@ -1,10 +1,9 @@
 import time
 import math
-import random
-import sys
 import smtplib
-import ray as ray
-from runpy import run_path
+import numpy as np
+import numpy.random as rn
+import matplotlib.pyplot as plt
 
 
 def sendMail(to, file):
@@ -17,65 +16,78 @@ def sendMail(to, file):
     server.sendmail(from_mail, to, message)
 
 
+def plot_graphs(states, costs):
+    plt.figure()
+    plt.subplot(121)
+    plt.plot(states, 'r')
+    plt.title("States")
+    plt.subplot(122)
+    plt.plot(costs, 'b')
+    plt.title("Costs")
+    plt.show()
+
+
 #################################################################
 ######################## Main Problem ###########################
 #################################################################
 
+
 def salomon(x):
-    sum_of_squares = (math.sqrt(sum([pow(xi, 2) for xi in x])))
+    sum_of_squares = math.sqrt(sum([pow(xi, 2) for xi in x]))
     return 1 - (math.cos(2 * math.pi * sum_of_squares)) + 0.1 * sum_of_squares
 
 
-def generate_neighbour(x):
-    e = 0.01
-    n = []
-    for i in range(len(x)):
-        k = random.randint(-5, 5)  # (random.uniform(-1, 1))
-        n.append((x[i] + k * e))
-    return n
+def random_neighbour(x):
+    neighbour = []
+    for xi in x:
+        e = 0.5
+        k = rn.randint(-5, 5)
+        neighbour.append(xi + k * e)
+    return neighbour
 
 
-def acceptanceProbability(energy, newEnergy, temperature):
-    if newEnergy < energy:
-        return 1.0
-    return math.exp((energy - newEnergy) / temperature)
+def acceptance_probability(cost, new_cost, temp):
+    if new_cost < cost:
+        return 1
+    else:
+        p = np.exp(- (new_cost - cost) / temp)
+        return p
 
 
-def simulated_annealing(t, x0, resets):
+def temperature(fraction):
+    return max(0.01, min(1, 1 - fraction))
+
+
+def simulated_annealing(t, start, T):
     startTime = int(round(time.time() * 1000))
-    endTime = startTime + t
-    x = x0
-    fx = salomon(x)
-    best = [x, fx]
-    T0 = 300
-    T = T0
-    i = 1
-    c = 0.005
+    endTime = startTime + t * 1000
+    state = start
+    cost = salomon(state)
+    states, costs = [state], [cost]
+    step = 1
     while int(round(time.time() * 1000)) <= endTime and T > 0:
-        print(T, fx, x)
-        i += 1
-        neighbour = generate_neighbour(x)
-        fx, fn = salomon(x), salomon(neighbour)
-        delta = fn - fx
-        r = random.uniform(0, 1.0)
-        prob = math.exp(-delta / T)
-        if prob > r:
-            fx = fn
-            x = neighbour
-        T = (1 - c) * T
-        if fx < best[1]:
-            best[1] = fx
-            best[0] = x
-    return best
+        step += 1
+        T = T * 0.99
+        new_state = random_neighbour(state)
+        new_cost = salomon(new_state)
+        if acceptance_probability(cost, new_cost, T) > rn.random():
+            state, cost = new_state, new_cost
+            if costs[len(costs) - 1] > cost:
+                states.append(state)
+                costs.append(cost)
+    plot_graphs(states, costs)
+    print(states, costs)
+    return min(costs), states, costs
 
 
 def main(args):
-    duration = int(args.split()[0]) * pow(10, 3)  # in millis
-    x = [int(i) for i in args.split()[1:]]
-    print(simulated_annealing(duration, x, False))
+    # duration = int(args.split()[0]) * pow(10, 3)  # in millis
+    # x = [int(i) for i in args.split()[1:]]
+    minimal, states, costs = simulated_annealing(10, [rn.randint(-100, 100) for _ in range(4)], 100)
+    print(minimal)
 
 
-main(input())
+main("as")
 # main(sys.argv[1:6])
 
 """
