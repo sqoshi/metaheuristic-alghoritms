@@ -38,12 +38,13 @@ def salomon(x):
 
 
 def random_neighbour(x):
-    neighbour = []
-    for xi in x:
-        e = 0.5
-        k = rn.randint(-5, 5)
-        neighbour.append(xi + k * e)
-    return neighbour
+    if -1 < salomon(x) < 1:
+        return x + x * (np.random.random(4) * 2 - 1)
+    else:
+        neigh = []
+        for i in range(len(x)):
+            neigh.append(x[i] + rn.uniform(-5, 5))
+        return neigh
 
 
 def acceptance_probability(cost, new_cost, temp):
@@ -54,21 +55,19 @@ def acceptance_probability(cost, new_cost, temp):
         return p
 
 
-def temperature(fraction):
-    return max(0.01, min(1, 1 - fraction))
-
-
-def simulated_annealing(t, start, T):
+def simulated_annealing(t, start, T0):
     startTime = int(round(time.time() * 1000))
     endTime = startTime + t * 1000
+    T = T0
     state = start
     cost = salomon(state)
     states, costs = [state], [cost]
     step = 1
     while int(round(time.time() * 1000)) <= endTime and T > 0:
         step += 1
-        T = T * 0.99
+        T = T * 0.9995
         new_state = random_neighbour(state)
+        print(new_state)
         new_cost = salomon(new_state)
         if acceptance_probability(cost, new_cost, T) > rn.random():
             state, cost = new_state, new_cost
@@ -77,14 +76,14 @@ def simulated_annealing(t, start, T):
                 costs.append(cost)
     plot_graphs(states, costs)
     print(states, costs)
-    return min(costs), states, costs
+    return costs[len(costs) - 1], states[len(states) - 1], states, costs
 
 
 def main(args):
-    # duration = int(args.split()[0]) * pow(10, 3)  # in millis
+    # duration = int(args.split()[0])  # in seconds
     # x = [int(i) for i in args.split()[1:]]
-    minimal, states, costs = simulated_annealing(10, [rn.randint(-100, 100) for _ in range(4)], 100)
-    print(minimal)
+    minimal, state, states, costs = simulated_annealing(1, [rn.uniform(-1000, 1000) for _ in range(4)], 100)
+    print(minimal, state)
 
 
 main("as")

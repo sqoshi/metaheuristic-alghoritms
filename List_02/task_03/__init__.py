@@ -1,8 +1,17 @@
-import math
 import random
 import copy
 import time
 import tkinter as tk
+import numpy as np
+import numpy.random as rn
+import matplotlib.pyplot as plt
+
+
+def plot_graphs(costs):
+    plt.figure()
+    plt.plot(costs, 'b')
+    plt.title("Costs")
+    plt.show()
 
 
 def readData(filename):
@@ -25,7 +34,6 @@ def calculateDistance(graph, path):
 
 
 def swapPositions(list, pos1, pos2):
-    print(pos1, pos2)
     l = list.copy()
     l[pos1], l[pos2] = l[pos2], l[pos1]
     return l
@@ -152,7 +160,6 @@ def isInGate(board, x, y, path):
         else:
             endX -= 1
         if board[endY][endX] == 1:
-            print('error')
             return False
         elif board[endY][endX] == 8:
             return True
@@ -195,47 +202,42 @@ def removeConsts(li):
     return list(z)
 
 
-def probability(energy, newEnergy, temperature):
-    if newEnergy < energy:
-        return 1.0
-    return math.exp((energy - newEnergy) / temperature)
+def acceptance_probability(cost, new_cost, temp):
+    if new_cost < cost:
+        return 1
+    else:
+        p = np.exp(- (new_cost - cost) / temp)
+        return p
 
 
-def simulatedAnnealing(b, t):
+def simulated_annealing(t, b, T0):
     startTime = int(round(time.time() * 1000))
-    endTime = startTime + t
-    x0, y0 = findStartPosition(b)
-    initial_path = initialSolution(b, x0, y0)
-    print('Initial ', initial_path)
-    T0 = 1000
+    endTime = startTime + t * 1000
     T = T0
-    path = initial_path
-    best = [path, len(path)]
-    i = 1
-    print(i)
+    x0, y0 = findStartPosition(b)
+    state = initialSolution(b, x0, y0)
+    cost = len(state)
+    states, costs = [state], [cost]
+    step = 1
     while int(round(time.time() * 1000)) <= endTime and T > 0:
-        print(T)
-        i += 1
-        neigh = removeConsts(getNeighbour(path))
-        while not isInGate(b, x0, y0, neigh):
-            neigh = removeConsts(getNeighbour(path))
-        fx, fn = len(path), len(neigh)
-        loss = random.uniform(0, 1.0)
-        prob = probability(fx, fn, T)
-        if loss < prob:
-            path = neigh
-            fx = fn
-        print(path, fx)
-        T = T0 / (math.log10(i))
-        if fx < best[1]:
-            best[1] = fx
-            best[0] = neigh
-    return best
+        step += 1
+        T = T * 0.9995
+        new_state = removeConsts(getNeighbour(state))
+        while not isInGate(b, x0, y0, new_state):
+            new_state = removeConsts(getNeighbour(state))
+        new_cost = len(new_state)
+        if acceptance_probability(cost, new_cost, T) > rn.random():
+            state, cost = new_state, new_cost
+            if costs[len(costs) - 1] > cost:
+                states.append(state)
+                costs.append(cost)
+    plot_graphs(costs)
+    return costs[len(costs) - 1], states[len(states) - 1], states, costs
 
 
 def main():
     t, n, m, b = readData('tests/t2')
-    print(simulatedAnnealing(b, t * 1000))
+    print(simulated_annealing(t, b, 100))
 
 
 main()
