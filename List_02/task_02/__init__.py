@@ -1,10 +1,15 @@
+from __future__ import print_function
+
 import copy
 import math
 import itertools
 import random
+import sys
+
 import matplotlib.pyplot as plt
 import numpy as np
 
+import sys
 ########################################################################################
 ################################# Data Section #########################################
 ########################################################################################
@@ -47,12 +52,26 @@ def compute_distance(A, B):
     return distance
 
 
+def eprint(a):
+    for i in range(len(a)):
+        for j in range(len(a[i])):
+            if j != len(a[i]) - 1:
+                sys.stderr.write(str(a[i][j]))
+                sys.stderr.write(" ")
+            else:
+                sys.stderr.write(str(a[i][j]))
+        sys.stderr.write("\n")
+
+
 def printM(M):
     """Formatted display"""
-    print('\n'.join([''.join(['{:4}'.format(item) for item in row])
-                     for row in M]))
-    print()
 
+    print('\n'.join([''.join(['{:1}'.format(item) for item in row]) for row in M]))
+
+
+########################################################################################
+##################################### Colouring ########################################
+########################################################################################
 
 def set_color_avg(left_up, right_down, M):
     """Set start colors as average of elements in each block."""
@@ -73,6 +92,9 @@ def set_color(left_up, right_down, M, value):
             M[y][x] = value
 
 
+########################################################################################
+################## Functions mostly for initial solution ###############################
+########################################################################################
 def select_zoom_value(avg):
     """Selects value from list closest to the average for example avg: 217,4 result: 223"""
     values = [0, 32, 64, 128, 160, 192, 223, 255]
@@ -117,25 +139,19 @@ def init_abstract_net(n, m, k, M):
     columns = [i * k - 1 for i in range(1, r1)]
     rows.append(n - 1)
     columns.append(m - 1)
-    right_down_all = [[x, y] for x, y in itertools.product(columns, rows)]  # wierzcholek jest w kwadracie
+    right_down_all = [[x, y] for x, y in itertools.product(columns, rows)]  # vertexes are inside rectangle! lu,rd
     left_up_all = get_left_up_all(n, m, k, right_down_all)
     for i in range(len(right_down_all)):
         set_color_avg(left_up_all[i], right_down_all[i], board)
     return board, left_up_all, right_down_all
 
 
-def change_random_rectangle_color(b, rectangles):
-    """ Changes random block's color on random color."""
-    value = random.choice([0, 32, 64, 128, 160, 192, 223, 255])
-    to_change = random.choice(rectangles)
-    lu, rd = to_change
-    set_color(lu, rd, b, value)
-
-
 ########################################################################################
 ###################### Neighbouring blocks validation ##################################
 ########################################################################################
 def check_left(rectangles, rect, k):
+    """Function checks if block to the left of rect meets the conditions to be reduced
+    and return this block if it's proper"""
     concrete_lu, concrete_rd = rect
     left_x, up_y = concrete_lu
     right_x, down_y = concrete_rd
@@ -149,6 +165,8 @@ def check_left(rectangles, rect, k):
 
 
 def check_right(rectangles, rect, k):
+    """Function checks if block to the right of rect meets the conditions to be reduced
+    and return this block if it's proper"""
     lu, rd = rect
     left_x, up_y = lu
     right_x, down_y = rd
@@ -162,9 +180,11 @@ def check_right(rectangles, rect, k):
 
 
 def check_upper(rectangles, rect, k):
+    """Function checks if block up on rect meets the conditions to be reduced
+    and return this block if it's proper"""
     lu, rd = rect
-    left_x, up_y = lu  # rect[0]  # concrete_lu
-    right_x, down_y = rd  # rect[1]  # concrete_rd
+    left_x, up_y = lu
+    right_x, down_y = rd
     for r in rectangles:
         lu, rd = r
         l_x, u_y = lu
@@ -175,6 +195,8 @@ def check_upper(rectangles, rect, k):
 
 
 def check_down(rectangles, rect, k):
+    """Function checks if block under rect meets the conditions to be reduced
+    and return this block if it's proper"""
     concrete_lu, concrete_rd = rect
     left_x, up_y = concrete_lu
     right_x, down_y = concrete_rd
@@ -187,7 +209,19 @@ def check_down(rectangles, rect, k):
             return r
 
 
+########################################################################################
+########################### Operations on rectangles ###################################
+########################################################################################
+def change_random_rectangle_color(b, rectangles):
+    """ Changes random block's color on random color."""
+    value = random.choice([0, 32, 64, 128, 160, 192, 223, 255])
+    to_change = random.choice(rectangles)
+    lu, rd = to_change
+    set_color(lu, rd, b, value)
+
+
 def find_good_one(rectangles, k):
+    """Function chooses rectangle to be extended and check if his neighbours are "extendable"."""
     to_extend = random.choice(rectangles)
     environment = []
     if check_left(rectangles, to_extend, k) is not None:
@@ -212,6 +246,7 @@ def find_good_one(rectangles, k):
 
 
 def random_extend(rects, k):
+    """ Function randomly chooses one of block and which direction of extension we are going."""
     rectangles = copy.deepcopy(rects)
     to_extend, environment = find_good_one(rectangles, k)
     pivot = random.choice(environment)
@@ -276,14 +311,16 @@ def acceptance_probability(cost, new_cost, temp):
         return p
 
 
-def plot_graphs(costs):
+def plot_graph(costs):
+    """Display graph of costs function"""
     plt.figure()
     plt.plot(costs, 'b')
     plt.title("Costs")
     plt.show()
 
 
-def repaint(rectangles, b):
+def paint(rectangles, b):
+    """Paints board by co-ordinates in rectangles list."""
     board = copy.deepcopy(b)
     for lu, rd in rectangles:
         x, y = lu[0] + 2, lu[1] + 2
@@ -291,16 +328,19 @@ def repaint(rectangles, b):
     return board
 
 
-def simulated_annealing(t, b, n, m, k, T0):
+def simulated_annealing(t, b, n, m, k, T0, graph):
+    """Function simulate annealing"""
     board_Copy = copy.deepcopy(b)
+    # Find end time.
     startTime = int(round(time.time() * 1000))
     endTime = startTime + t * 1000
     T = T0
-
+    # Let's impose net on our board, and take co-ordinates of rectangles made by net.
     board, left_up_all, right_down_all = init_abstract_net(n, m, k + 1, board_Copy)
     rectangles = [[left_up_all[i], right_down_all[i]] for i in range(0, len(right_down_all))]
     cost = compute_distance(b, board)
 
+    # Init our history!
     boards = [board]
     history_of_rectangles = [rectangles]
     costs = [cost]
@@ -308,35 +348,42 @@ def simulated_annealing(t, b, n, m, k, T0):
     step = 1
     while int(round(time.time() * 1000)) <= endTime and T > 0:
         step += 1
-        T = T0 * math.log(step, 10)
+        # Decrease time.
+        T = T * 0.99  # T0 / math.log(step, 10)
 
+        # Random neighbour choosing
+        change_random_rectangle_color(board, rectangles)
         new_rectangles = random_extend(rectangles, k)
-        new_board = repaint(new_rectangles, board)
+        new_board = paint(new_rectangles, board)
+        change_random_rectangle_color(new_board, new_rectangles)
         new_cost = compute_distance(board, new_board)
-
+        # We need to check if we did not extended block A by block B, which has same values.
         while new_cost == 0:
             new_rectangles = random_extend(rectangles, k)
-            new_board = repaint(new_rectangles, board)
-            if random.uniform(0, 1) <= 0.5:
-                change_random_rectangle_color(new_board, new_rectangles)
+            new_board = paint(new_rectangles, board)
+            change_random_rectangle_color(new_board, new_rectangles)
             new_cost = compute_distance(board, new_board)
+
         if acceptance_probability(cost, new_cost, T) > random.uniform(0, 1):
+            # update our candidates
             rectangles, cost, board = new_rectangles, new_cost, new_board
-            if cost < costs[len(costs) - 1]:
-                costs.append(cost)
-                history_of_rectangles.append(rectangles)
-                boards.append(board)
-        print(T)
-        printM(board)
-        print(cost)
-    plot_graphs(costs)
-    print(costs)
-    return costs[len(costs) - 1]
+            # update bests.
+        if cost < costs[len(costs) - 1]:
+            costs.append(cost)
+            history_of_rectangles.append(rectangles)
+            boards.append(board)
+    if graph:
+        plot_graph(costs)
+    return costs[len(costs) - 1], boards[len(boards) - 1]
 
 
 def main():
-    t, n, m, k, M = read_data_from_file('tests/t1')
-    print(simulated_annealing(20, M, n, m, k, 100000000000000))
+    # t, n, m, k, M = read_data_from_file('tests/t1')
+    t, n, m, k = [int(x) for x in input().split()]
+    M = [[int(x) for x in input().split()] for i in range(n)]
+    cost, board = simulated_annealing(t, M, n, m, k, 1000, graph=False)
+    print(cost)
+    eprint(board)
 
 
 main()
