@@ -12,9 +12,13 @@ lub statycznie x_i = x_i + random.uniform(0.99,0.99))
 9. Sprawdzamy czy aktualna wartość jest lepsza od najlepszej dotychczas znalezionej best, jeśli tak dodajemy do historii.
 10. Wracamy do 3.
 
-
 W programie została zaimplementowana również możliwość reset'ów. Tzn jeśli wpadniemy w lokalne minimum lub wpadniemy po prostu na "złą trasę"
 to restartujemy, tzn cofnięcia się do naszego dotychczas najlepszego rozwiązania i wylosowanie nowego sąsiada, wtedy być może pójdźiemy w innym kierunku
 niż ostatnio i uciekniemy w taki sposób z minimum lokalnego.
 Ewentualnie można też zrobić losowy spawn na określonym przedziale np(-10,10)(chyba), ale wydaje się to mniej ciekawe.
 Została też zaimplementowana możliwość rysowania wykresów funkcji kosztu, czy nawet zmian samych współrzędnych wektora.
+
+Funkcja Kosztu: Funkcja Salamon'a.
+
+Sąsiedztwo: Naprzemienne zaburzenia wektora V^4 
+względem jego samego(losowe odchylenia) lub skalowanie.

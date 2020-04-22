@@ -1,9 +1,10 @@
+import math
 import random
 import time
-import math
+
+import matplotlib.pyplot as plt
 import numpy as np
 import numpy.random as rn
-import matplotlib.pyplot as plt
 
 
 def plot_graphs(states, costs):
@@ -13,25 +14,23 @@ def plot_graphs(states, costs):
     plt.plot(states, 'r')
     plt.title("States")
     plt.subplot(122)
-    plt.plot(costs, 'b')
+    plt.plot(costs[10:], 'b')
     plt.title("Costs")
     plt.show()
 
 
 def salomon(x):
     """Salomon's Function"""
-    sum_of_squares = math.sqrt(sum([pow(xi , 2) for xi in x]))
+    sum_of_squares = math.sqrt(sum([pow(xi, 2) for xi in x]))
     return 1 - (math.cos(2 * math.pi * sum_of_squares)) + 0.1 * sum_of_squares
 
 
-def random_neighbour(x):
+def random_neighbour(x, step):
     """Random neighbour generating function"""
-    neigh = []
-    e = 0.99
-    for i in range(len(x)):
-        c = random.choice([x[i] * (1 + rn.uniform(-e, e)), x[i] + rn.uniform(-e, e)])
-        neigh.append(c)
-    return neigh
+    if step % 2 == 0:
+        return [xi * (1 + (random.uniform(-1, 1))) for xi in x]
+    else:
+        return [xi + random.uniform(-4, 4) for xi in x]
 
 
 def acceptance_probability(cost, new_cost, temp):
@@ -57,12 +56,12 @@ def simulated_annealing(t, start, T0, resets, graphs):
     while int(round(time.time() * 1000)) <= endTime and T > 0:
         step += 1
         # Decrease temperature
-        T = T0 / math.log(step, 10)  # 0.9995
+        T *= 0.99
         # If user prefers to use resets, it's implemented.
         if resets and cost > costs[len(costs) - 1] and step % 500000 == 0:
             state, cost = states[len(states) - 1], costs[len(costs) - 1]
         # Generate neighbour
-        new_state = random_neighbour(state)
+        new_state = random_neighbour(state, step)
         new_cost = salomon(new_state)
         # if probability is bigger than float from range 0,1 ( The less time  we have the less we jump to worse x)
         if acceptance_probability(cost, new_cost, T) > rn.random():
@@ -71,7 +70,6 @@ def simulated_annealing(t, start, T0, resets, graphs):
             if costs[len(costs) - 1] > cost:
                 states.append(state)
                 costs.append(cost)
-               # print(cost)
     if graphs:
         plot_graphs(states, costs)
     return states, costs
@@ -80,8 +78,12 @@ def simulated_annealing(t, start, T0, resets, graphs):
 def main(args):
     duration = int(args.split()[0])  # in seconds
     x = [int(i) for i in args.split()[1:]]
-    states, costs = simulated_annealing(duration, x, T0=10000, resets=False, graphs=False)
-    print(states[len(states) - 1], costs[len(costs) - 1])
+
+    states, costs = simulated_annealing(duration, x, T0=10000, resets=False, graphs=True)
+
+    for x in states[len(states) - 1]:
+        print(x, end=' ')
+    print(costs[len(costs) - 1])
 
 
 main(input())

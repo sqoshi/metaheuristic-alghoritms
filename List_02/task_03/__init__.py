@@ -161,19 +161,23 @@ def check_way(board, x, y, path):
 
 
 def initial_solution(b, x, y):
-    """Finds initial solution for simulated annealing (random,stay,radnom,stay ...)"""
+    """Finds initial solution for simulated annealing (random,stay,radnom,stay ...)
+    Traveller follows random path till he meets wall, than he stays and loss other path.
+    Procedure is being followed until he finds exit."""
     board = copy.deepcopy(b)
     full_path = []
     n = len(board)
     m = len(board[0])
     b = copy.deepcopy(board)
     startX, startY = x, y
+
     while 8 not in get_neighbours(x, y, b):
         sec, x, y, b = explore(b, x, y, random_path(n, m))
         full_path.extend(sec)
     full_path.append(choose_dir(get_neighbours(x, y, b).index(8)))
     full_path = remove_constant_points(full_path)
     check_way(board, startX, startY, full_path)
+
     return full_path
 
 
@@ -256,7 +260,7 @@ def main():
         z = list(input())
         arr.append([int(x) for x in z if x != '\n'])
     b = arr
-    c, s = simulated_annealing(t, b, 100, graph=False)
+    c, s = simulated_annealing(t, b, T0=100, graph=False)
     z = ''.join(s)
     print(c)
     sys.stderr.write(z)
@@ -266,7 +270,7 @@ main()
 
 
 def visualise(n, m, b):
-    """useless"""
+    """Visualise"""
     window = tk.Tk()
 
     for i in range(n):

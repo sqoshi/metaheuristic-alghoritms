@@ -1,8 +1,9 @@
 ##Simulated Annealing For Limited Zoom
 1. Określamy czas zakończenia.
-2. Nakładamy abstrakcyjną siatkę, tworzać tym samym rozwiązanie inicjalne. 
-Dzielimy taką siatką macierz na bloki 
-k+1 x k+1 elementowe, lub większe, czemu nie kxk? Bo wtedy mamy większą swobodę ruchu, lepszy wybór sąsiada, bardziej swobodny.
+2. Nakładamy abstrakcyjną siatkę, tworząc po tym rozwiązanie inicjalne. 
+- Dzielimy taką siatką macierz na bloki 
+k+1 x k+1 elementowe, lub większe.
+ - Czemu nie kxk? Bo wtedy mamy większą swobodę ruchu, lepszy wybór sąsiada, bardziej swobodny.
 3. Inicjujemy nasze najlepsze wyniki jako w listach.
 4. Dopóki temperatura jest większa od zera i nie skończył się czas.
 5. Wylosuj sąsiada. W jaki sposób jest losowany?
@@ -20,4 +21,12 @@ Została również zaimplementowana możliwość rysowania wykresu funkcji koszt
 naturalnie jest zaimplementowana tylko dla bestów, ale można zakomentować(polecam ciekawe wykresy wychodzą!)
 ```356: if cost < costs[len(costs) - 1]:```
 i wtedy będzie wykres kolejnych wartości przez, które rzeczywiście przeszliśmy.    
+
+Funkcja Kosztu: compute_distance() (zadana w poleceniu zadania)
+
+Sąsiedztwo: Zmiana wartości( koloru) losowego bloku i/lub rozszerzenia losowego bloku kosztem innego bloku.
+ Tzn jeśli mamy np maksymalnie prawy górny
+ blok wiekości (założmy Wysokość x Szerokość) k+1 x k+1 i jego  sąsiadów lewego L i dolnego D, to sprawdzamy, czy dane bloki
+ mają odpowiednie wymiary, tj czy po ucięciu kolumny czy też wiersza będą nadal większe niz k x k. Losujemy np Lewego Sprawdzamy,
+  czy lewy leży na tej samej wysokości, i potem czy po zjedzeniu kolumny jego wymiar szerokość będzie większa niż k. 
     
