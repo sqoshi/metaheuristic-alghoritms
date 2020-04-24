@@ -33,57 +33,91 @@ def plot_graphs(states, costs):
 
 
 def salomon(x):
+    """Salomon's Function"""
     sum_of_squares = math.sqrt(sum([pow(xi, 2) for xi in x]))
     return 1 - (math.cos(2 * math.pi * sum_of_squares)) + 0.1 * sum_of_squares
 
 
 def random_neighbour(x):
-    if -1 < salomon(x) < 1:
-        return x + x * (np.random.random(4) * 2 - 1)
-    else:
-        neigh = []
-        for i in range(len(x)):
-            neigh.append(x[i] + rn.uniform(-5, 5))
-        return neigh
+    """Random neighbour"""
+    neigh = []
+    e = 2
+    for i in range(len(x)):
+        neigh.append(x[i] + rn.uniform(-e, e))
+    return neigh
 
 
 def acceptance_probability(cost, new_cost, temp):
+    # If new cost is smaller ret 1
     if new_cost < cost:
         return 1
+    # Else use return p from formula e^(-delta/temperature)
     else:
         p = np.exp(- (new_cost - cost) / temp)
         return p
 
 
-def simulated_annealing(t, start, T0):
+def simulated_annealing(t, start, T0, resets):
+    # Find end time
     startTime = int(round(time.time() * 1000))
     endTime = startTime + t * 1000
     T = T0
+    # set initial solution
     state = start
     cost = salomon(state)
     states, costs = [state], [cost]
     step = 1
+    # while we have time and temperature is bigger than 0.
     while int(round(time.time() * 1000)) <= endTime and T > 0:
         step += 1
+        # Decrease temperature
         T = T * 0.9995
+        # Generate neighbour
+        if resets and cost > costs[len(costs) - 1] and step % 500000 == 0:
+            state, cost = states[len(states) - 1], costs[len(costs) - 1]
         new_state = random_neighbour(state)
-        print(new_state)
         new_cost = salomon(new_state)
+        # if probability is bigger than float from range 0,1 ( The less time  we have the less we jump to worse x)
         if acceptance_probability(cost, new_cost, T) > rn.random():
             state, cost = new_state, new_cost
+            # Let's make history of our bests for example to make beautiful diagram cost/n.
             if costs[len(costs) - 1] > cost:
                 states.append(state)
                 costs.append(cost)
     plot_graphs(states, costs)
-    print(states, costs)
-    return costs[len(costs) - 1], states[len(states) - 1], states, costs
+    return states, costs
+
+
+def SA(t, x0, resets):
+    startTime = int(round(time.time() * 1000))
+    endTime = startTime + t * 1000
+    x = x0
+    best = [x, salomon(x)]
+    T0 = 100
+    T = T0
+    i = 1
+    while int(round(time.time() * 1000)) <= endTime and T > 0:
+        i += 1
+        if i % 500000 == 0 and fx > best[1] and resets:
+            x = random_neighbour(best[0])  # [(random.randint(-10, 10)) for _ in range(4)]  # Lose
+        neighbour = random_neighbour(x)
+        fx, fn = (salomon(x)), (salomon(neighbour))
+        if rn.uniform(0, 1.0) < acceptance_probability(fx, fn, T):
+            x = neighbour
+            fx = fn
+        T = T * 0.99
+        if fx < best[1]:
+            best[1] = fx
+            best[0] = neighbour
+    return best
 
 
 def main(args):
     # duration = int(args.split()[0])  # in seconds
     # x = [int(i) for i in args.split()[1:]]
-    minimal, state, states, costs = simulated_annealing(1, [rn.uniform(-1000, 1000) for _ in range(4)], 100)
-    print(minimal, state)
+    states, costs = simulated_annealing(30, [rn.uniform(-10, 10) for _ in range(4)], 100, False)
+    print(SA(30, [rn.uniform(-10, 10) for _ in range(4)], False))
+    print(states[len(states) - 1], costs[len(costs) - 1])
 
 
 main("as")

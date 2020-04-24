@@ -232,7 +232,7 @@ def simulated_annealing(t, b, T0):
                 states.append(state)
                 costs.append(cost)
     plot_graphs(costs)
-    return costs[len(costs) - 1], states[len(states) - 1], states, costs
+    return costs[len(costs) - 1], states[len(states) - 1]
 
 
 def main():
