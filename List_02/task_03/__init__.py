@@ -1,5 +1,6 @@
 import random
 import copy
+import sys
 import time
 import tkinter as tk
 import numpy as np
@@ -7,7 +8,7 @@ import numpy.random as rn
 import matplotlib.pyplot as plt
 
 
-def plot_graphs(costs):
+def plot_graph(costs):
     plt.figure()
     plt.plot(costs, 'b')
     plt.title("Costs")
@@ -210,7 +211,7 @@ def acceptance_probability(cost, new_cost, temp):
         return p
 
 
-def simulated_annealing(t, b, T0):
+def simulated_annealing(t, b, T0, graph):
     startTime = int(round(time.time() * 1000))
     endTime = startTime + t * 1000
     T = T0
@@ -231,13 +232,23 @@ def simulated_annealing(t, b, T0):
             if costs[len(costs) - 1] > cost:
                 states.append(state)
                 costs.append(cost)
-    plot_graphs(costs)
+    if graph:
+        plot_graph(costs)
     return costs[len(costs) - 1], states[len(states) - 1]
 
 
 def main():
-    t, n, m, b = readData('tests/t2')
-    print(simulated_annealing(t, b, 100))
+    # t, n, m, b = readData('tests/t2')
+    t, n, m = [int(x) for x in input().split()]
+    arr = []
+    for i in range(n):
+        z = list(input())
+        arr.append([int(x) for x in z if x != '\n'])
+    b = arr
+    c, s = simulated_annealing(t, b, 100, graph=False)
+    z = ''.join(s)
+    print(c)
+    sys.stderr.write(z)
 
 
 main()
