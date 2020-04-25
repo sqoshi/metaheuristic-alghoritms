@@ -10,4 +10,5 @@
 ### Main
 Szczegółowe opisy wszystkiego od funkcji kosztu przez sąsiedztwo aż po algorytm znajduję się w podkatalogach l_i/z_i
 
+Programy zostały napisane na ubuntu 19.04 w pycharm.
  
