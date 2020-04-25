@@ -345,16 +345,20 @@ def simulated_annealing(t, b, n, m, k, T0, graph):
     history_of_rectangles = [rectangles]
     costs = [cost]
 
+    # Graphs Data
+    all_costs = [cost]
+
     step = 1
     while int(round(time.time() * 1000)) <= endTime and T > 0:
         step += 1
         # Decrease time.
-        T = T * 0.99  # T0 / math.log(step, 10)
+        T *= 0.8
 
         # Random neighbour choosing
         change_random_rectangle_color(board, rectangles)
         new_rectangles = random_extend(rectangles, k)
         new_board = paint(new_rectangles, board)
+        change_random_rectangle_color(new_board, new_rectangles)
         change_random_rectangle_color(new_board, new_rectangles)
         new_cost = compute_distance(board, new_board)
         # We need to check if we did not extended block A by block B, which has same values.
@@ -362,26 +366,30 @@ def simulated_annealing(t, b, n, m, k, T0, graph):
             new_rectangles = random_extend(rectangles, k)
             new_board = paint(new_rectangles, board)
             change_random_rectangle_color(new_board, new_rectangles)
+            change_random_rectangle_color(new_board, new_rectangles)
             new_cost = compute_distance(board, new_board)
 
         if acceptance_probability(cost, new_cost, T) > random.uniform(0, 1):
             # update our candidates
             rectangles, cost, board = new_rectangles, new_cost, new_board
             # update bests.
-        if cost < costs[len(costs) - 1]:
-            costs.append(cost)
-            history_of_rectangles.append(rectangles)
-            boards.append(board)
+            if cost < costs[len(costs) - 1]:
+                costs.append(cost)
+                history_of_rectangles.append(rectangles)
+                boards.append(board)
+            # Data for graph (Avoiding repetitions to make graphs more clean)
+            if cost not in all_costs:
+                all_costs.append(cost)
     if graph:
-        plot_graph(costs)
+        plot_graph(all_costs)
     return costs[len(costs) - 1], boards[len(boards) - 1]
 
 
 def main():
     # t, n, m, k, M = read_data_from_file('tests/t1')
     t, n, m, k = [int(x) for x in input().split()]
-    M = [[int(x) for x in input().split()] for i in range(n)]
-    cost, board = simulated_annealing(t, M, n, m, k, 1000, graph=False)
+    M = [[int(x) for x in input().split()] for _ in range(n)]
+    cost, board = simulated_annealing(t, M, n, m, k, 1000000, graph=False)
     print(cost)
     eprint(board)
 

@@ -17,16 +17,17 @@ k+1 x k+1 elementowe, lub większe.
 to updateujemy wartości " przechodzimy do wygenerowanego sąsiada "
 7. Jeśli wynik jest lepszy od ostatniego najlepszego zapisujemy.
 
-Została również zaimplementowana możliwość rysowania wykresu funkcji kosztu, 
-naturalnie jest zaimplementowana tylko dla bestów, ale można zakomentować(polecam ciekawe wykresy wychodzą!)
-```356: if cost < costs[len(costs) - 1]:```
+
 i wtedy będzie wykres kolejnych wartości przez, które rzeczywiście przeszliśmy.    
 
 - Funkcja Kosztu: compute_distance() (zadana w poleceniu zadania)
 
-- Sąsiedztwo: Zmiana wartości( koloru) losowego bloku i/lub rozszerzenia losowego bloku kosztem innego bloku.
+- Sąsiedztwo: Zmiana wartości( koloru) losowego bloku i/lub rozszerzenia losowego bloku kosztem innego bloku lub/i swap wartości losowych bloków.
  Tzn jeśli mamy np maksymalnie prawy górny
  blok wiekości (założmy Wysokość x Szerokość) k+1 x k+1 i jego  sąsiadów lewego L i dolnego D, to sprawdzamy, czy dane bloki
  mają odpowiednie wymiary, tj czy po ucięciu kolumny czy też wiersza będą nadal większe niz k x k. Losujemy np Lewego Sprawdzamy,
   czy lewy leży na tej samej wysokości, i potem czy po zjedzeniu kolumny jego wymiar szerokość będzie większa niż k. 
-    
+
+
+Została również zaimplementowana możliwość rysowania wykresu funkcji kosztu, 
+naturalnie jest zaimplementowana dla niepowtarzających się kosztów ( w celu zachowania przyjemnego wyglądu SA).

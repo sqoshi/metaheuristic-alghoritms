@@ -133,6 +133,35 @@ def random_path(n, m):
     return rand_path
 
 
+def random_path_by_size(size):
+    """Function returns random path with size length."""
+    dirs = ['U', 'D', 'L', 'R']
+    rand_path = [random.choice(dirs) for x in range(size)]
+    rand_path = remove_constant_points(rand_path)
+    while len(rand_path) != size:
+        part = [random.choice(dirs) for x in range(size - len(rand_path))]
+        rand_path.extend(part)
+        rand_path = remove_constant_points(rand_path)
+    return rand_path
+
+
+def get_path_with_same_prefix(state, b, x0, y0):
+    """Function takes a path and returns other path but with random length same suffix."""
+    i = random.randint(0, len(state) - 1)
+    part_state = state[:i]
+    rest = random_path_by_size(len(state))
+    part_state.extend(rest)
+    new_state = part_state
+    while not follow_way_succed(b, x0, y0, new_state):
+        i = random.randint(0, len(state) - 1)
+        part_state = state[:i]
+        rest = random_path_by_size(len(state))
+        part_state.extend(rest)
+        new_state = part_state
+    new_state = follow_way_succed(b, x0, y0, new_state)
+    return new_state
+
+
 def get_neighbour(list):
     """Returns transpositin of proper path"""
     i = random.randint(0, len(list) - 1)
@@ -158,6 +187,26 @@ def check_way(board, x, y, path):
             return False
         elif board[endY][endX] == 8:
             return True
+
+
+def follow_way_succed(board, x, y, path):
+    """Follow path and return path to entertance if found."""
+    step = 0
+    endX, endY = x, y
+    for d in path:
+        step += 1
+        if d == 'U':
+            endY -= 1
+        elif d == 'D':
+            endY += 1
+        elif d == 'R':
+            endX += 1
+        else:
+            endX -= 1
+        if board[endY][endX] == 1:
+            return False
+        elif board[endY][endX] == 8:
+            return path[:step]
 
 
 def initial_solution(b, x, y):
@@ -212,8 +261,8 @@ def acceptance_probability(cost, new_cost, temp):
         return p
 
 
-def simulated_annealing(t, b, T0, graph):
-    """Simulated annealing"""
+def simulated_annealing_transpositions(t, b, T0, graph):
+    """Simulated annealing based on swaps"""
     # Find end time
     startTime = int(round(time.time() * 1000))
     endTime = startTime + t * 1000
@@ -225,12 +274,14 @@ def simulated_annealing(t, b, T0, graph):
     cost = len(state)
     # initialize our history
     states, costs = [state], [cost]
+    # Data for graph
+    all_costs = [cost]
     step = 1
     # While time is up and temp is bigger than 0
     while int(round(time.time() * 1000)) <= endTime and T > 0:
         step += 1
         # decrease temperature
-        T = T * 0.9995
+        T = T * 0.9
         # get neighbour
         new_state = remove_constant_points(get_neighbour(state))
         # while way is not proper, get other neighbour
@@ -246,21 +297,57 @@ def simulated_annealing(t, b, T0, graph):
             if costs[len(costs) - 1] > cost:
                 states.append(state)
                 costs.append(cost)
+            # Data collecting for graph
+            if cost not in all_costs:
+                all_costs.append(cost)
     # plot costs
     if graph:
-        plot_graph(costs)
+        plot_graph(all_costs)
+    return costs[len(costs) - 1], states[len(states) - 1]
+
+
+def simulated_annealing_prefixes(t, b, T0, graph):
+    """Simulate annealing based on removing suffixes of initial path."""
+    startTime = int(round(time.time() * 1000))
+    # find end time.
+    endTime = startTime + t * 1000
+    T = T0
+    # find initial solution
+    x0, y0 = find_initial_position(b)
+    state = initial_solution(b, x0, y0)
+    cost = len(state)
+    # best ranking
+    states, costs = [state], [cost]
+    # graph data
+    all_costs = [cost]
+    step = 1
+    # until we have time and temp is above 0
+    while int(round(time.time() * 1000)) <= endTime and T > 0:
+        step += 1
+        T *= 0.99
+        new_state = get_path_with_same_prefix(state, b, x0, y0)
+        new_cost = len(new_state)
+        if acceptance_probability(cost, new_cost, T) > rn.random():
+            state, cost = new_state, new_cost
+            if costs[len(costs) - 1] > cost:
+                states.append(state)
+                costs.append(cost)
+            if cost not in all_costs:
+                all_costs.append(cost)
+    if graph:
+        plot_graph(all_costs)
     return costs[len(costs) - 1], states[len(states) - 1]
 
 
 def main():
-    # t, n, m, b = readData('tests/t2')
-    t, n, m = [int(x) for x in input().split()]
-    arr = []
-    for i in range(n):
-        z = list(input())
-        arr.append([int(x) for x in z if x != '\n'])
-    b = arr
-    c, s = simulated_annealing(t, b, T0=100, graph=False)
+    t, n, m, b = read_data('tests/t2')
+    # t, n, m = [int(x) for x in input().split()]
+    # arr = []
+    # for i in range(n):
+    #    z = list(input())
+    #    arr.append([int(x) for x in z if x != '\n'])
+    # b = arr
+    c, s = simulated_annealing_prefixes(50, b, T0=1000, graph=False)
     z = ''.join(s)
     print(c)
     sys.stderr.write(z)

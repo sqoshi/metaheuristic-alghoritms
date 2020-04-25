@@ -51,6 +51,8 @@ def simulated_annealing(t, start, T0, resets, graphs):
     state = start
     cost = salomon(state)
     states, costs = [state], [cost]
+    # lists for beautiful graphs!
+    all_states, all_costs = [state], [cost]
     step = 1
     # while we have time and temperature is bigger than 0.
     while int(round(time.time() * 1000)) <= endTime and T > 0:
@@ -68,18 +70,23 @@ def simulated_annealing(t, start, T0, resets, graphs):
             state, cost = new_state, new_cost
             # Let's make history of our bests for example to make beautiful diagram cost/n.
             if costs[len(costs) - 1] > cost:
-                states.append(state)
                 costs.append(cost)
+                states.append(state)
+            # Data for graph (Avoiding repetitions to make graphs more clean)
+            if cost not in all_costs:
+                all_states.append(state)
+                all_costs.append(cost)
+
     if graphs:
-        plot_graphs(states, costs)
+        plot_graphs(all_states, all_costs)
     return states, costs
 
 
 def main(args):
     duration = int(args.split()[0])  # in seconds
-    x = [int(i) for i in args.split()[1:]]
+    x = [float(i) for i in args.split()[1:]]
 
-    states, costs = simulated_annealing(duration, x, T0=10000, resets=False, graphs=True)
+    states, costs = simulated_annealing(duration, x, T0=100, resets=False, graphs=False)
 
     for x in states[len(states) - 1]:
         print(x, end=' ')
