@@ -1,4 +1,5 @@
 ##Simulated Annealing For Salomon's Function
+```
 0. Temperatura początkowa zostaje zainicjowana na wysoką wartość np.: 100, 1000, 10000
 1. Program działa w pętli dopóki nie przekroczy limitu czasowego, lub T osiąggnie wartość 0.
 2. Wyliczamy wartość funkcji Salomon'a ( quality function) na podstawie rozwiązania początkowego i zapisujemy do "historii best'ów".
@@ -11,7 +12,7 @@ lub statycznie x_i = x_i + random.uniform(0.99,0.99))
 8. Zmniejszamy T( temperaturę ) w określony sposób ( jeden z wykładów np T_{i+1}= T_i/log(i))
 9. Sprawdzamy czy aktualna wartość jest lepsza od najlepszej dotychczas znalezionej best, jeśli tak dodajemy do historii.
 10. Wracamy do 3.
-
+```
 W programie została zaimplementowana również możliwość reset'ów. Tzn jeśli wpadniemy w lokalne minimum lub wpadniemy po prostu na "złą trasę"
 to restartujemy, tzn cofnięcia się do naszego dotychczas najlepszego rozwiązania i wylosowanie nowego sąsiada, wtedy być może pójdźiemy w innym kierunku
 niż ostatnio i uciekniemy w taki sposób z minimum lokalnego.
