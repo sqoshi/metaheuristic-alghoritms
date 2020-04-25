@@ -16,7 +16,7 @@
 7. Zapisujemy wynik do bestów, jeśli jest lepszy od ostatniego besta.
 8. Wracamy do 5.
 
-Funkcja Kosztu: Długość ścieżki.
-Sąsiedztwo: Transpozycje danej ścieżki. np LLU , neigh = LUL itd.
-
 Została zaimplementowana również możliwość stworzenia wykresu bestów od kolejnych kroków.
+
+- Funkcja Kosztu: Długość ścieżki.
+- Sąsiedztwo: Transpozycje danej ścieżki. np LLU , neigh = LUL itd.

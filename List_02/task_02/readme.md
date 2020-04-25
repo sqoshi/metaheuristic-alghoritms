@@ -22,9 +22,9 @@ naturalnie jest zaimplementowana tylko dla bestów, ale można zakomentować(pol
 ```356: if cost < costs[len(costs) - 1]:```
 i wtedy będzie wykres kolejnych wartości przez, które rzeczywiście przeszliśmy.    
 
-Funkcja Kosztu: compute_distance() (zadana w poleceniu zadania)
+- Funkcja Kosztu: compute_distance() (zadana w poleceniu zadania)
 
-Sąsiedztwo: Zmiana wartości( koloru) losowego bloku i/lub rozszerzenia losowego bloku kosztem innego bloku.
+- Sąsiedztwo: Zmiana wartości( koloru) losowego bloku i/lub rozszerzenia losowego bloku kosztem innego bloku.
  Tzn jeśli mamy np maksymalnie prawy górny
  blok wiekości (założmy Wysokość x Szerokość) k+1 x k+1 i jego  sąsiadów lewego L i dolnego D, to sprawdzamy, czy dane bloki
  mają odpowiednie wymiary, tj czy po ucięciu kolumny czy też wiersza będą nadal większe niz k x k. Losujemy np Lewego Sprawdzamy,
