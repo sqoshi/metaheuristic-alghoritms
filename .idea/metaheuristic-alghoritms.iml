@@ -12,7 +12,7 @@
   <component name="TemplatesService">
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/venv/lib/python3.7/site-packages/ray/projects/templates" />
+        <option value="$MODULE_DIR$/List01/venv/lib/python3.7/site-packages/pandas/io/formats/templates" />
       </list>
     </option>
   </component>
