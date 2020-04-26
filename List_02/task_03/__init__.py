@@ -1,4 +1,3 @@
-import random
 import copy
 import sys
 import time
@@ -6,6 +5,7 @@ import tkinter as tk
 import numpy as np
 import numpy.random as rn
 import matplotlib.pyplot as plt
+from numpy import random
 
 
 def plot_graph(costs):
@@ -340,35 +340,16 @@ def simulated_annealing_prefixes(t, b, T0, graph):
 
 
 def main():
-    t, n, m, b = read_data('tests/t2')
-    # t, n, m = [int(x) for x in input().split()]
-    # arr = []
-    # for i in range(n):
-    #    z = list(input())
-    #    arr.append([int(x) for x in z if x != '\n'])
-    # b = arr
-    c, s = simulated_annealing_prefixes(50, b, T0=1000, graph=False)
+    t, n, m = [int(x) for x in input().split()]
+    arr = []
+    for i in range(n):
+        z = list(input())
+        arr.append([int(x) for x in z if x != '\n'])
+    b = arr
+    c, s = simulated_annealing_prefixes(t, b, T0=1000, graph=False)
     z = ''.join(s)
     print(c)
     sys.stderr.write(z)
 
 
 main()
-
-
-def visualise(n, m, b):
-    """Visualise"""
-    window = tk.Tk()
-
-    for i in range(n):
-        for j in range(m):
-            frame = tk.Frame(
-                master=window,
-                relief=tk.RAISED,
-                borderwidth=1
-            )
-            frame.grid(row=i, column=j)
-            label = tk.Label(master=frame, text=f"{b[i][j]}")
-            label.pack()
-
-    window.mainloop()
