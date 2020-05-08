@@ -2,11 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="46cac7c6-fbce-4cb3-9da2-0ada98cce32c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/metaheuristic-alghoritms.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/List_02.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/List_02.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,7 +31,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/venv/bin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../python-course/List05" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -156,6 +151,10 @@
       <workItem from="1587854858410" duration="28000" />
       <workItem from="1587878913205" duration="2358000" />
       <workItem from="1587881301176" duration="176000" />
+      <workItem from="1587905685831" duration="32000" />
+      <workItem from="1588438275355" duration="661000" />
+      <workItem from="1588445335384" duration="579000" />
+      <workItem from="1588446446422" duration="23000" />
     </task>
     <task id="LOCAL-00001" summary="L2 - time measurement + initial Dirs">
       <created>1587135524762</created>
@@ -278,11 +277,11 @@
     <state x="2831" y="72" width="999" height="978" key="CommitChangelistDialog2/70.27.1850.1053/1920.0.1920.1080@1920.0.1920.1080" timestamp="1587838867546" />
     <state x="1016" y="97" width="872" height="919" key="CommitChangelistDialog2/70.27.1850.1053@70.27.1850.1053" timestamp="1587771752362" />
     <state x="1998" y="97" key="CommitChangelistDialog2/70.27.3770.1053@70.27.3770.1053" timestamp="1587770298468" />
-    <state x="779" y="311" width="424" height="491" key="FileChooserDialogImpl" timestamp="1587880706907">
+    <state x="779" y="311" width="424" height="491" key="FileChooserDialogImpl" timestamp="1588446466854">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state x="778" y="311" width="424" height="491" key="FileChooserDialogImpl/70.27.1850.1053@70.27.1850.1053" timestamp="1587854884866" />
-    <state x="779" y="311" width="424" height="491" key="FileChooserDialogImpl/72.27.1848.1053@72.27.1848.1053" timestamp="1587880706907" />
+    <state x="779" y="311" width="424" height="491" key="FileChooserDialogImpl/72.27.1848.1053@72.27.1848.1053" timestamp="1588446466854" />
     <state width="439" height="191" key="GridCell.Tab.0.bottom" timestamp="1587881271276">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
