@@ -1,12 +1,10 @@
+import os
 import random
 import sys
 import time
 from math import sqrt, cos
 
 import numpy as np
-
-e = 0.01
-
 
 def sum_of_quadrates(l):
     s = 0
@@ -50,11 +48,32 @@ def get_environment(x):
     return [get_neighbour(x) for _ in range(10)]
 
 
+def get_time():
+    return int(round(time.time() * 1000))
+
+
+def hill_climbing(t, quality):
+    T = t * 1000
+    end_time = get_time() + T
+    S = [random.uniform(-5, 5) for _ in range(4)]
+    best = S
+    while get_time() < end_time:
+        time_local = random.randint(get_time(), end_time)
+        while get_time() < time_local:
+            R = get_neighbour(S)
+            if quality(R) < quality(S):
+                S = R
+        if quality(S) < quality(best):
+            best = S
+        S = [random.uniform(-5, 5) for _ in range(4)]
+    return best
+
+
 def local_search(t, quality):
-    end_time = int(round(time.time() * 1000)) + t * 1000
+    end_time = get_time() + t * 1000
     x = [random.uniform(-5, 5) for _ in range(4)]
     best_solution = x
-    while int(round(time.time() * 1000)) < end_time:
+    while get_time() < end_time:
         x = min(get_environment(x), key=quality)
         if x == best_solution:
             x = [random.uniform(-5, 5) for _ in range(4)]
@@ -75,7 +94,10 @@ def main():
         sys.stderr.write('Could not parse values')
         sys.exit(0)
     result = local_search(t, get_func(b))
+    r1 = hill_climbing(t, get_func(b))
     print(result, get_func(b)(result))
+    print(r1, get_func(b)(r1))
+    os.system('rm tempData')
 
 
 main()

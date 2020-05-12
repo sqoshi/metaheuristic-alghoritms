@@ -274,10 +274,8 @@ def main():
     #    z = list(input())
     #    arr.append([int(x) for x in z if x != '\n'])
     # b = arr
-    t, n, m, b = read_data('tests/board1')
-    result = modern_tabu_search(t, b)
+    t, n, m, b = read_data('tests/board')
     r2 = tabu_search(t, b)
-    print(result, len(result))
     print(r2, len(r2))
 
 
