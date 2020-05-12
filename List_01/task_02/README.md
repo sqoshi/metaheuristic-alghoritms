@@ -12,7 +12,7 @@ W celu utworzenia skryptu i nadaniu mu odpowiednich praw
  , gdzie In, Out to nazwy plikow.
 Mimo wszystko uwazam, ze znacznie wygodniej jest odkomenttowac linijke
     
-    130: # t, n, g = readData(sys.argv[1])
+    130: # t, n, g = read_data(sys.argv[1])
 i zakomentowac opcjonalnie
     
     128: t, n = [int(x) for x in input().split()]
@@ -26,13 +26,13 @@ Markup:
    1. Wczytuje plik z danymi
    2. Wchodzi w procedure main ktora przerywa dzialanie po okreslonym czasie t wczytanym z pliku.
    3. w czas dzialania w petli pracuje algorytm tabu-search z zadanym startowym wierzcholkiem src.
-   4. Wstepnie program znajduje initialSolution bazujace na algorytmie zachlannym. 
+   4. Wstepnie program znajduje get_initial bazujace na algorytmie zachlannym. 
    ( po po prostu bierze kolejne minimalne dystanse i pamieta do ktorch miast nie moze juz wstapic.)
     Nie jest dla mnie pewne co znaczy "pierwsze miasto",
      bo za pierwsze miasto moge chyba uznac dowolne, 
      wiec ja uznalem ze startuje z miasta 26,
       co nie powinno robic roznicy to w koncu cykl.
-   5. Naszym x staje sie teraz initialSolution
+   5. Naszym x staje sie teraz get_initial
    6. algorytm zamyka sie w petli dopoki nie przerwie go timeout.
     Jednak co LIMIT przejsc petli 
     algorytm moze wpasc w lokalne

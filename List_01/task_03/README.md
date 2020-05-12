@@ -12,7 +12,7 @@ W celu utworzenia skryptu i nadaniu mu odpowiednich praw
  , gdzie In, Out to nazwy plikow.
 Mimo wszystko uwazam, ze znacznie wygodniej jest odkomenttowac linijke
     
-    234: # t, n, g = readData(sys.argv[1])
+    234: # t, n, g = read_data(sys.argv[1])
 i zakomentowac opcjonalnie
     
 ```
