@@ -1,17 +1,17 @@
 import copy
-import math
 import itertools
+import math
 import random
 import sys
+import time
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-import sys
+
 ########################################################################################
 ################################# Data Section #########################################
 ########################################################################################
-import time
 
 
 def read_data():
@@ -63,12 +63,11 @@ def eprint(a):
 
 def printM(M):
     """Formatted display"""
-
     print('\n'.join([''.join(['{:1}'.format(item) for item in row]) for row in M]))
 
 
 ########################################################################################
-##################################### Colouring ########################################
+##################################### Coloring ########################################
 ########################################################################################
 
 def set_color_avg(left_up, right_down, M):
@@ -326,7 +325,7 @@ def paint(rectangles, b):
     return board
 
 
-def simulated_annealing(t, b, n, m, k, T0, graph):
+def simulated_annealing(t, b, n, m, k, T0, graph, scale=0.8):
     """Function simulate annealing"""
     board_Copy = copy.deepcopy(b)
     # Find end time.
@@ -350,13 +349,12 @@ def simulated_annealing(t, b, n, m, k, T0, graph):
     while int(round(time.time() * 1000)) <= endTime and T > 0:
         step += 1
         # Decrease time.
-        T *= 0.8
+        T *= scale
 
         # Random neighbour choosing
         change_random_rectangle_color(board, rectangles)
         new_rectangles = random_extend(rectangles, k)
         new_board = paint(new_rectangles, board)
-        change_random_rectangle_color(new_board, new_rectangles)
         change_random_rectangle_color(new_board, new_rectangles)
         new_cost = compute_distance(board, new_board)
         # We need to check if we did not extended block A by block B, which has same values.
@@ -376,18 +374,18 @@ def simulated_annealing(t, b, n, m, k, T0, graph):
                 history_of_rectangles.append(rectangles)
                 boards.append(board)
             # Data for graph (Avoiding repetitions to make graphs more clean)
-            if cost not in all_costs:
-                all_costs.append(cost)
+            # if cost not in all_costs:
+            all_costs.append(cost)
     if graph:
         plot_graph(all_costs)
     return costs[len(costs) - 1], boards[len(boards) - 1]
 
 
 def main():
-    # t, n, m, k, M = read_data_from_file('tests/t1')
-    t, n, m, k = [int(x) for x in input().split()]
-    M = [[int(x) for x in input().split()] for _ in range(n)]
-    cost, board = simulated_annealing(t, M, n, m, k, 1000000, graph=False)
+    t, n, m, k, M = read_data_from_file('tests/t3')
+    # t, n, m, k = [int(x) for x in input().split()]
+    # M = [[int(x) for x in input().split()] for _ in range(n)]
+    cost, board = simulated_annealing(t, M, n, m, k, T0=1000000, graph=True)
     print(cost)
     eprint(board)
 

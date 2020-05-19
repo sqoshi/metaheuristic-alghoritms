@@ -1,10 +1,10 @@
 import copy
 import sys
 import time
-import tkinter as tk
+
+import matplotlib.pyplot as plt
 import numpy as np
 import numpy.random as rn
-import matplotlib.pyplot as plt
 from numpy import random
 
 
@@ -261,7 +261,7 @@ def acceptance_probability(cost, new_cost, temp):
         return p
 
 
-def simulated_annealing_transpositions(t, b, T0, graph):
+def simulated_annealing_transpositions(t, b, T0, graph, scale=0.9):
     """Simulated annealing based on swaps"""
     # Find end time
     startTime = int(round(time.time() * 1000))
@@ -281,7 +281,7 @@ def simulated_annealing_transpositions(t, b, T0, graph):
     while int(round(time.time() * 1000)) <= endTime and T > 0:
         step += 1
         # decrease temperature
-        T = T * 0.9
+        T = T * scale
         # get neighbour
         new_state = remove_constant_points(get_neighbour(state))
         # while way is not proper, get other neighbour
@@ -305,8 +305,7 @@ def simulated_annealing_transpositions(t, b, T0, graph):
         plot_graph(all_costs)
     return costs[len(costs) - 1], states[len(states) - 1]
 
-
-def simulated_annealing_prefixes(t, b, T0, graph):
+def simulated_annealing_prefixes(t, b, T0, graph, scale=0.6):
     """Simulate annealing based on removing suffixes of initial path."""
     startTime = int(round(time.time() * 1000))
     # find end time.
@@ -324,7 +323,7 @@ def simulated_annealing_prefixes(t, b, T0, graph):
     # until we have time and temp is above 0
     while int(round(time.time() * 1000)) <= endTime and T > 0:
         step += 1
-        T *= 0.99
+        T *= scale
         new_state = get_path_with_same_prefix(state, b, x0, y0)
         new_cost = len(new_state)
         if acceptance_probability(cost, new_cost, T) > rn.random():
@@ -340,15 +339,17 @@ def simulated_annealing_prefixes(t, b, T0, graph):
 
 
 def main():
-    t, n, m = [int(x) for x in input().split()]
-    arr = []
-    for i in range(n):
-        z = list(input())
-        arr.append([int(x) for x in z if x != '\n'])
-    b = arr
-    c, s = simulated_annealing_prefixes(t, b, T0=1000, graph=False)
+    # t, n, m = [int(x) for x in input().split()]
+    # arr = []
+    # for i in range(n):
+    #    z = list(input())
+    #    arr.append([int(x) for x in z if x != '\n'])
+    # b = arr
+
+    t, n, m, b = read_data('tests/t2')
+    c, s = simulated_annealing_prefixes(t, b, T0=10000, graph=True)
     z = ''.join(s)
-    print(c)
+    print(c, '\n')
     sys.stderr.write(z)
 
 

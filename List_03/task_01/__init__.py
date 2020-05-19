@@ -7,6 +7,11 @@ import numpy.random as rn
 
 eps = []
 
+def happy_cat(l):
+    x = np.linalg.norm(l)
+    x2 = pow(x, 2)
+    return 0.5 + pow(pow(x2 - 4, 2), 0.125) + 0.25 * (
+            0.5 * x2 + sum(l))
 
 def get_random_x():
     return [rn.randint(-2, 2) for _ in range(5)]
@@ -45,7 +50,7 @@ def get_previous_fittest_all(previous_exes):
     return result
 
 
-def particle_swarm(x0, t):
+def particle_swarm(x0, t,func):
     startTime = int(round(time.time() * 1000))
     endTime = startTime + t * 1000
     swarm_size = 4
@@ -64,7 +69,7 @@ def particle_swarm(x0, t):
     while int(round(time.time() * 1000)) <= endTime:
         for i in range(len(P)):
             x, v = P[i][0], P[i][1]
-            if best is False or yang(x) < yang(best):
+            if best is False or func(x) < func(best):
                 best = x
 
         for i in range(len(P)):
@@ -86,7 +91,7 @@ def particle_swarm(x0, t):
                 if P[j][0][i] < -5:
                     P[j][0][i] = -5
         for i in range(len(P)):
-            print('x', P[i][0], yang(P[i][0]))
+            print('x', P[i][0], func(P[i][0]))
             previous_exes_all[i].append(P[i][0].copy())
         print()
     x = [i for i in range(len(previous_exes_all[0]))]
@@ -109,7 +114,7 @@ def main(args):
     print('t=', t)
     print('x=', x)
     print('E=', eps)
-    best = particle_swarm(x, t)
+    best = particle_swarm(x, t,func=happy_cat)
     print(best, yang(best))
 
 

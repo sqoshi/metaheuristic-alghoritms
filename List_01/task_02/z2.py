@@ -83,7 +83,7 @@ def set_cycle(element, src):
     return element
 
 
-def tabu_search(t, graph, n, src, teleportation, resets, scale=1.5, l=100, tweaks_no=2):
+def tabu_search(t, graph, n, src, teleportation, resets, scale=1.5, l=100, tweaks_no=20):
     end_time = int(round(time.time() * 1000)) + t * 1000
     initial = get_initial(graph, n, src)
     best_path, best_dist = initial, get_distance(graph, initial)
@@ -94,7 +94,7 @@ def tabu_search(t, graph, n, src, teleportation, resets, scale=1.5, l=100, tweak
             Tabu.pop(0)
         R = set_cycle(get_swapped(x[1:len(x) - 1]), src)
         for _ in range(tweaks_no - 1):
-            W = set_cycle(get_swapped(x[1:len(x) - 1]), src)
+            W = set_cycle(get_swapped(R[1:len(R) - 1]), src)
             if W not in Tabu and (get_distance(graph, W) < get_distance(graph, R) or R in Tabu):
                 R = W
         if R not in Tabu:
@@ -118,13 +118,14 @@ def modern_tabu_search(t, graph, n, src):
     x = initial
     T = []
     while int(round(time.time() * 1000)) < end_time:
+
         neighbours = set_cycles(get_all_swaps(x[1:len(x) - 1]), src)
-        mins = get_distance(graph, neighbours[0])
+        guess_min = get_distance(graph, neighbours[0])
         for neigh in neighbours:
             if neigh not in T:
                 sample = get_distance(graph, neigh)
-                if sample <= mins:
-                    mins = sample
+                if sample <= guess_min:
+                    guess_min = sample
                     x = neigh
                     if best_dist >= sample:
                         best_dist = sample
@@ -137,7 +138,8 @@ def main():
     # t, n = [int(x) for x in input().split()]
     # g = [[int(x) for x in input().split()] for i in range(n)]
     t, n, g = read_data('tests/data1')
-    result = tabu_search(int(t), g, int(n), src=26, resets=True, teleportation=False)
+    result = tabu_search(int(t), g, int(n), src=26, resets=True, teleportation=True)
+    # result = modern_tabu_search(int(t), g, int(n), src=26)
     print(result, get_distance(g, result))
 
 

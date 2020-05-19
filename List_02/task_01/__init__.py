@@ -86,7 +86,7 @@ def main(args):
     duration = int(args.split()[0])  # in seconds
     x = [float(i) for i in args.split()[1:]]
 
-    states, costs = simulated_annealing(duration, x, T0=100, resets=False, graphs=False)
+    states, costs = simulated_annealing(duration, x, T0=100, resets=False, graphs=True)
 
     for x in states[len(states) - 1]:
         print(x, end=' ')

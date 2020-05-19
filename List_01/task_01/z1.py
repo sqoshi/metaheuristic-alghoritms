@@ -1,10 +1,10 @@
-import os
 import random
 import sys
 import time
 from math import sqrt, cos
 
 import numpy as np
+
 
 def sum_of_quadrates(l):
     s = 0
@@ -34,7 +34,7 @@ def happy_cat(l):
 
 
 def get_neighbour(x):
-    return [xi + np.random.uniform(-1, 1) * abs(xi) for xi in x]
+    return [xi + random.uniform(-1, 1) for xi in x]
 
 
 def get_func(b):
@@ -45,7 +45,7 @@ def get_func(b):
 
 
 def get_environment(x):
-    return [get_neighbour(x) for _ in range(10)]
+    return [get_neighbour(x) for _ in range(100)]
 
 
 def get_time():
@@ -97,7 +97,6 @@ def main():
     r1 = hill_climbing(t, get_func(b))
     print(result, get_func(b)(result))
     print(r1, get_func(b)(r1))
-    os.system('rm tempData')
 
 
 main()

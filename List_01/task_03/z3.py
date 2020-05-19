@@ -169,8 +169,9 @@ def is_gate_crossed(x0, y0, b, list):
             currentX += 1
         if board[currentY][currentX] == 8:
             return list[:i]
+        elif board[currentY][currentX] == 1:
+            return False
         i += 1
-    return False
 
 
 def is_gate_passed(x0, y0, b, list):
@@ -239,6 +240,8 @@ def tabu_search(t, board, l=50, tweak_no=20):
             Tabu.append(R)
         if len(S) < len(best):
             best = S
+    if not is_gate_crossed(x0, y0, board, best):
+        raise ValueError
     return best
 
 
@@ -274,7 +277,7 @@ def main():
     #    z = list(input())
     #    arr.append([int(x) for x in z if x != '\n'])
     # b = arr
-    t, n, m, b = read_data('tests/board')
+    t, n, m, b = read_data('tests/board1')
     r2 = tabu_search(t, b)
     print(r2, len(r2))
 
