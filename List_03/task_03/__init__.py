@@ -7,7 +7,9 @@ import numpy as np
 def plot_graph(costs):
     """Graphs plot for costs"""
     plt.figure()
-    plt.plot(costs, 'b')
+    print(np.array(costs).T)
+    for i in range(len(np.array(costs).T)):
+        plt.plot(np.array(costs)[:, i])
     plt.title("Costs")
     plt.show()
 
@@ -70,6 +72,14 @@ def swap(path):
     return ''.join(path_list)
 
 
+def mutate_transposition(path, board):
+    path_transposed = swap(path)
+    x, y = get_start(board)
+    while not is_path_correct(x, y, path_transposed, board):
+        path_transposed = swap(path)
+    return remove_constant_points(path_transposed)
+
+
 def get_upper(x, y, board):
     return board[y - 1][x]
 
@@ -96,7 +106,7 @@ def append_step(path, neighbours_list):
     return path + directions[index]
 
 
-def detect_wall(x, y, path, board):
+def is_path_correct(x, y, path, board):
     endX, endY = x, y
     for d in path:
         if board[endY][endX] == 1:
@@ -118,7 +128,7 @@ def detect_wall(x, y, path, board):
 def replace(path, board):
     x, y = get_start(board)
     new_path = swap(path)
-    if not detect_wall(x, y, new_path, board):
+    while not is_path_correct(x, y, new_path, board):
         new_path = swap(path)
     return new_path
 
@@ -130,43 +140,89 @@ def tournament_selection(P, board):
         beside = replace(np.random.choice(P), board)
         if len(beside) < len(best):
             best = beside
-    return best
+    return best, beside
 
 
-def get_new_2p(path1, path2, l):
-    v, w = list(path1), list(path2)
-    c, d = np.random.randint(1, l), np.random.randint(1, l)
-    if c > d:
-        c, d = d, c
-    if c != d:
-        for i in range(c, d):
-            v[i], w[i] = w[i], v[i]
-    return ''.join(v), ''.join(w)
+def slides_selection(P):
+    total_len = sum([len(pi) for pi in P])
+    quality = [len(pi) / total_len for pi in P]
+    result = [False for _ in range(len(P))]
+    while result.count(True) < 2:
+        for i in range(len(result)):
+            if result.count(True) == 2:
+                break
+            if np.random.uniform(0, 1) < quality[i]:
+                result[i] = True
+    return P[result.index(True)], P[result.index(True, 1)]
 
 
-def two_point_crossover(path1, path2, board):
+def selection(P):
+    total_len = sum([len(pi) for pi in P])
+    quality = [len(pi) / total_len for pi in P]
+    max1 = min(quality)
+    max1_ind = quality.index(max1)
+    quality.remove(max1)
+    max2 = min(quality)
+    max2_ind = quality.index(max2)
+    return P[max1_ind], P[max2_ind]
+
+
+def remove_constant_points(path):
+    z = path
+    while "UD" in z or "DU" in z or "LR" in z or "RL" in z:
+        z = z.replace("UD", "")
+        z = z.replace("DU", "")
+        z = z.replace("LR", "")
+        z = z.replace("RL", "")
+    return z
+
+
+def cross_paths(path1, path2):
+    l1, l2 = len(path1), len(path2)
+    c1, d1 = np.random.randint(0, l1 - 1), np.random.randint(0, l1 - 1)
+    c2, d2 = np.random.randint(0, l2 - 1), np.random.randint(0, l2 - 1)
+    if c1 > d1:
+        c1, d1 = d1, c1
+    if c2 > d2:
+        c2, d2 = d2, c2
+    return path1[:c1] + path2[c2:d2] + path1[d1:], path2[:c2] + path1[c1:d1] + path1[d2:]
+
+
+def two_point_crossover(path1, path2, board, n, m):
     x, y = get_start(board)
-    l = min(len(path1), len(path2))
-    new_path1, new_path2 = get_new_2p(path1, path2, l)
-    while detect_wall(x, y, new_path1, board) and detect_wall(x, y, new_path2, board):
-        new_path1, new_path2 = get_new_2p(path1, path2, l)
-    return new_path1, new_path2
+    new_path1, new_path2 = cross_paths(path1, path2)
+    while not is_path_correct(x, y, remove_constant_points(new_path1), board) or \
+            not is_path_correct(x, y, remove_constant_points(new_path2), board):
+        new_path1, new_path2 = cross_paths(path1, path2)
+    if len(path1) < n * m * len(new_path1):
+        new_path1 = path1
+    if len(path2) < n * m * len(new_path2):
+        new_path2 = path2
+    return remove_constant_points(new_path1), remove_constant_points(new_path2)
 
 
-def genetic_algorithm(t, n, m, s, p, paths, board):
+def genetic_algorithm(t, n, m, s, p, paths, board, graphs=True):
     end_time = get_millis(t) + get_current_time()
     P = paths
     # TODO: if s < P add random solution x p-s
-    best = get_min(P)
-    while get_current_time() < end_time:
+    global_best = get_min(P)
+    population_history = [[len(pi) for pi in P]]
+    while get_current_time() <= end_time:
+        # print(P)
         best = get_min(P)
         Q = []
         for _ in range(int(s / 2)):
-            Pa = tournament_selection(P, board)
-            Pb = tournament_selection(P, board)
-            Ca, Cb = two_point_crossover(Pa.copy(), Pb.copy(), board)
-            print(Pa, Pb)
-    return best
+            Pa, Pb = slides_selection(P)
+            Ca, Cb = two_point_crossover(Pa, Pb, board, n, m)
+            Q.append(mutate_transposition(Ca, board))
+            Q.append(mutate_transposition(Cb, board))
+            if len(best) < len(global_best):
+                global_best = best
+        P = Q
+        population_history.append([len(pi) for pi in P])
+        if graphs:
+            plot_graph(population_history)
+    return global_best, len(global_best)
 
 
 def main():
@@ -175,7 +231,8 @@ def main():
     print(paths)
     for level in board:
         print(level)
-    genetic_algorithm(t, n, m, s, p, paths, board)
+    result = genetic_algorithm(t, n, m, s, p, paths, board)
+    print(result)
 
 
 main()
