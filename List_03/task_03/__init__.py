@@ -1,3 +1,4 @@
+import random
 import time
 
 import matplotlib.pyplot as plt
@@ -7,7 +8,7 @@ import numpy as np
 def plot_graph(costs):
     """Graphs plot for costs"""
     plt.figure()
-    print(np.array(costs).T)
+    #print(np.array(costs).T)
     for i in range(len(np.array(costs).T)):
         plt.plot(np.array(costs)[:, i])
     plt.title("Costs")
@@ -18,7 +19,7 @@ def read_data(filename):
     """Reads data from file"""
     f = open(filename, "r")
     line = f.readline()
-    t, n, m, s, p = line.split()
+    t, n, m, s, population = line.split()
     line = f.readline()
     board = []
     paths = []
@@ -30,7 +31,7 @@ def read_data(filename):
             paths.append(line if '\n' not in line else line[:len(line) - 2])
         line = f.readline()
         i += 1
-    return int(t), int(n), int(m), int(s), int(p), paths, np.array(board)
+    return int(t), int(n), int(m), int(s), int(population), paths, np.array(board)
 
 
 def get_start(board):
@@ -133,38 +134,42 @@ def replace(path, board):
     return new_path
 
 
-def tournament_selection(P, board):
-    t = len(P)
-    best = replace(np.random.choice(P), board)
+def tournament_selection(population, board):
+    t = len(population)
+    best = replace(np.random.choice(population), board)
     for _ in (1, t):
-        beside = replace(np.random.choice(P), board)
+        beside = replace(np.random.choice(population), board)
         if len(beside) < len(best):
             best = beside
     return best, beside
 
 
-def slides_selection(P):
-    total_len = sum([len(pi) for pi in P])
-    quality = [len(pi) / total_len for pi in P]
-    result = [False for _ in range(len(P))]
+def slides_selection(population):
+    total_len = sum([len(pi) for pi in population])
+    quality = [len(pi) / total_len for pi in population]
+    result = [False for _ in range(len(population))]
+    random.shuffle(population)
     while result.count(True) < 2:
         for i in range(len(result)):
             if result.count(True) == 2:
                 break
             if np.random.uniform(0, 1) < quality[i]:
                 result[i] = True
-    return P[result.index(True)], P[result.index(True, 1)]
+    g = (i for i, e in enumerate(result) if e is True)
+    i = next(g)
+    j = next(g)
+    return population[i], population[j]
 
 
-def selection(P):
-    total_len = sum([len(pi) for pi in P])
-    quality = [len(pi) / total_len for pi in P]
+def selection(population):
+    total_len = sum([len(pi) for pi in population])
+    quality = [len(pi) / total_len for pi in population]
     max1 = min(quality)
     max1_ind = quality.index(max1)
     quality.remove(max1)
     max2 = min(quality)
     max2_ind = quality.index(max2)
-    return P[max1_ind], P[max2_ind]
+    return population[max1_ind], population[max2_ind]
 
 
 def remove_constant_points(path):
@@ -201,37 +206,37 @@ def two_point_crossover(path1, path2, board, n, m):
     return remove_constant_points(new_path1), remove_constant_points(new_path2)
 
 
-def genetic_algorithm(t, n, m, s, p, paths, board, graphs=True):
+def genetic_algorithm(t, n, m, s, population, paths, board, graphs=True):
     end_time = get_millis(t) + get_current_time()
-    P = paths
-    # TODO: if s < P add random solution x p-s
-    global_best = get_min(P)
-    population_history = [[len(pi) for pi in P]]
+    population = paths
+    # TODO: if s < population add random solution x population-s
+    global_best = get_min(population)
+    population_history = [[len(pi) for pi in population]]
     while get_current_time() <= end_time:
-        # print(P)
-        best = get_min(P)
+        print(population)
+        best = get_min(population)
         Q = []
         for _ in range(int(s / 2)):
-            Pa, Pb = slides_selection(P)
+            Pa, Pb = selection(population)
             Ca, Cb = two_point_crossover(Pa, Pb, board, n, m)
             Q.append(mutate_transposition(Ca, board))
             Q.append(mutate_transposition(Cb, board))
             if len(best) < len(global_best):
                 global_best = best
-        P = Q
-        population_history.append([len(pi) for pi in P])
+        population = Q
+        population_history.append([len(pi) for pi in population])
         if graphs:
             plot_graph(population_history)
     return global_best, len(global_best)
 
 
 def main():
-    t, n, m, s, p, paths, board = read_data('tests/t2')
-    print(t, n, m, s, p)
+    t, n, m, s, population, paths, board = read_data('tests/t2')
+    print(t, n, m, s, population)
     print(paths)
     for level in board:
         print(level)
-    result = genetic_algorithm(t, n, m, s, p, paths, board)
+    result = genetic_algorithm(t, n, m, s, population, paths, board)
     print(result)
 
 
