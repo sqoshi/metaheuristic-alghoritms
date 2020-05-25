@@ -128,7 +128,7 @@ def get_maximal_in(Population, dictionary):
 
 
 ####################################################################################
-########################### Control Section ########################################
+########################### control_population Section ########################################
 ####################################################################################
 
 def are_frequencies_right(word, frequencies):
@@ -225,7 +225,7 @@ def crossover(parent1, parent2, correct_words):
     return random.choice(available_words)
 
 
-def mutate(child, correct_words):
+def mixed_mutation(child, correct_words):
     """
     We are taking random prefix and trying to find same prefix word in
     correct_words set
@@ -246,7 +246,6 @@ def mutate(child, correct_words):
 
 def genetic_algorithm(t, correct_words, initial_words, multiset, gen_times=8):
     """
-
     :param t: time limitation
     :param correct_words: set of correct words
     :param initial_words: initial correct words
@@ -263,7 +262,7 @@ def genetic_algorithm(t, correct_words, initial_words, multiset, gen_times=8):
         for _ in range(gen_times):
             parent1, parent2 = select_parents(population, multiset)
             child = crossover(parent1, parent2, correct_words)
-            generation = mutate(child, correct_words)
+            generation = mixed_mutation(child, correct_words)
             Q.append(generation)
         population = Q
         local_best = get_maximal_in(population, multiset)

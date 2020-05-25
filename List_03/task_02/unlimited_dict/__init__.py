@@ -132,7 +132,7 @@ def get_maximal_in(Population, dictionary):
 
 
 ####################################################################################
-########################### Control Section ########################################
+########################### control_population Section ########################################
 ####################################################################################
 def is_in_dict(word):
     """
@@ -209,7 +209,7 @@ def select_parents(population, dictionary):
     return population[i], population[j]
 
 
-def cross_over(path1, path2):
+def crossover(path1, path2):
     """
     Mixing our genotypes by taking middle or side parts of string and swapping them
     operation between path1 and path2
@@ -238,7 +238,7 @@ def two_point_crossover(path1, path2, frequencies):
     :param frequencies: 
     :return: 
     """""
-    new_path1, new_path2 = cross_over(path1, path2)
+    new_path1, new_path2 = crossover(path1, path2)
     step = 0
     while not is_word_accepted(new_path1, frequencies) \
             or not is_word_accepted(new_path2, frequencies) \
@@ -246,7 +246,7 @@ def two_point_crossover(path1, path2, frequencies):
         step += 1
         if step == 2e3:
             return path1, path2
-        new_path1, new_path2 = cross_over(path1, path2)
+        new_path1, new_path2 = crossover(path1, path2)
     return new_path1, new_path2
 
 
@@ -292,7 +292,7 @@ def random_extend(child1, free_symbols):
     return child1[:index1] + random_key + child1[index1:]
 
 
-def mutate(child1, frequencies):
+def mixed_mutation(child1, frequencies):
     """
     mutation of child
     Trying to append s or d at the end of word with 50% probability
@@ -326,19 +326,20 @@ def mutate(child1, frequencies):
     return mutated
 
 
-def controlled_mutation(child1, frequencies):
+def controlled_mutation_mixed(child1, frequencies, tries=2e2):
     """
-    Controlls mutation to take correct path, and if cant find correct wrod we just dont mutate child.
+    Controlls mutation to take correct path, and if cant find correct wrod we just dont mixed_mutation child.
+    :param tries:
     :param child1:
     :param frequencies:
     :return:
     """
-    mutated = mutate(child1, frequencies)
+    mutated = mixed_mutation(child1, frequencies)
     step = 1
     while not is_word_accepted(mutated, frequencies):
         step += 1
-        if step == 2e2: return child1
-        mutated = mutate(child1, frequencies)
+        if step == tries: return child1
+        mutated = mixed_mutation(child1, frequencies)
     return mutated
 
 
@@ -375,7 +376,7 @@ def random_word_prefix(child, frequencies):
     return word
 
 
-def mutate_prefix(child, frequencies):
+def controlled_mutation_prefix(child, frequencies):
     """
     Controls mutation process of children
      and check if mutated word is correct
@@ -389,9 +390,9 @@ def mutate_prefix(child, frequencies):
     return word
 
 
-def control(population, dictionary, max_size=16):
+def control_population(population, dictionary, max_size=16):
     """
-    control size of population to max_size and remove "dead"
+    control_population size of population to max_size and remove "dead"
     words
     :param population:
     :param dictionary:
@@ -413,11 +414,11 @@ def control(population, dictionary, max_size=16):
 
 def genetic_algorithm(t, frequencies, multiset, words):
     """
-    Performs genetic algorithm to find correct words by peturbing starting words
-    :param t:
-    :param frequencies:
-    :param multiset:
-    :param words:
+    Performs genetic algorithm to find correct words by transforming starting words
+    :param t: time limitation
+    :param frequencies: frequencies from multiset
+    :param multiset: pairc pi,ci word value
+    :param words: initial solution
     :return:
     """
     end_time = get_current_time() + get_millis(t)
@@ -430,10 +431,10 @@ def genetic_algorithm(t, frequencies, multiset, words):
         for i in range(int(len(population) / 2)):
             Pa, Pb = select_parents(population, multiset)
             Ca, Cb = two_point_crossover(Pa, Pb, frequencies)
-            Q.append(controlled_mutation(Ca, frequencies))
-            Q.append(controlled_mutation(Cb, frequencies))
+            Q.append(controlled_mutation_mixed(Ca, frequencies))
+            Q.append(controlled_mutation_mixed(Cb, frequencies))
         population.extend(Q)
-        population = control(population, multiset)
+        population = control_population(population, multiset)
         if quality(local_best, multiset) > quality(global_best, multiset):
             global_best = local_best
             history.append(global_best)

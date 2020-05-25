@@ -165,7 +165,7 @@ def collect_fittest(i, previous_exes_all):
         previous_exes_all), get_fittest_all(previous_exes_all)
 
 
-def particle_swarm(x0, t, func, swarm_size=4, alpha=0.8, beta=0.75, gamma=0.9, delta=0.1, epsilon=1.0, plot=True):
+def particle_swarm(x0, t, func, swarm_size=100, alpha=0.8, beta=0.75, gamma=0.9, delta=0.1, epsilon=1.0, plot=True):
     """
     :param x0: - start vector
     :param t: time limitation
@@ -206,11 +206,12 @@ def particle_swarm(x0, t, func, swarm_size=4, alpha=0.8, beta=0.75, gamma=0.9, d
         for i in range(len(population)):
             previous_exes_all[i].append(population[i][0].copy())
     if plot is True:
-        draw_graph([i for i in range(len(previous_exes_all[0]))], previous_exes_all, func=yang)
+        draw_graph([i for i in range(len(previous_exes_all[0]))],
+                   previous_exes_all, func=yang)
     return best
 
 
-def modern_particle_swarm(x0, t, func, swarm_size=16, alpha=0.8, beta=0.95, gamma=0.6, delta=0, epsilon=1.0):
+def modern_particle_swarm(x0, t, func, swarm_size=100, alpha=0.8, beta=0.95, gamma=0.6, delta=0, epsilon=1.0):
     """
     :param x0: - start vector
     :param t: time limitation
@@ -263,6 +264,7 @@ def main(args):
     x = [float(x) for x in args[1:6]]
     eps = [float(x) for x in args[6:]]
     best1 = particle_swarm(x, t, func=yang)
+    # best1 = modern_particle_swarm(x, t, func=yang)
     print(best1, yang(best1))
 
 

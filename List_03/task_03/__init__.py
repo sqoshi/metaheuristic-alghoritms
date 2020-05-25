@@ -6,6 +6,8 @@ import numpy as np
 
 
 # from task_03.Initial import initial_solution
+
+
 def follow_way_succed(board, x, y, path):
     """
     Follow path and return path to entertance if found.
@@ -306,10 +308,11 @@ def slides_selection(population):
     :param population:
     :return:
     """
+    population = sorted(population, key=len)
     total_len = sum([len(pi) for pi in population])
     quality = [len(pi) / total_len for pi in population]
     result = [False for _ in range(len(population))]
-    random.shuffle(population)
+    # random.shuffle(population)
     while result.count(True) < 2:
         for i in range(len(result)):
             if result.count(True) == 2:
@@ -378,11 +381,25 @@ def two_point_crossover(path1, path2, board, n, m):
     return remove_constant_points(new_path1), remove_constant_points(new_path2)
 
 
-def genetic_algorithm_maze(t, n, m, s, p, paths, board, graphs=False, mutation=mutate_transposition):
+def genetic_algorithm_maze(t, n, m, s, p, paths, board, graphs=False, mutation=mutate_transposition,
+                           selection=slides_selection):
+    """
+    :param t: time limitation
+    :param n: board height
+    :param m: board width
+    :param s: quantity of initial solutions
+    :param p: population quantity
+    :param paths: initial solutions
+    :param board: maze
+    :param graphs: draw plots
+    :param mutation: decide with function use to mixed_mutation
+    :param selection: decide with function use to select parents
+    :return:
+    """
     end_time = get_millis(t) + get_current_time()
     population = paths
 
-    while s < len(population):
+    if s < len(population):
         pass  # population.append(initial_solution(copy.deepcopy(board), get_start(board)))
 
     global_best = get_min(population)
@@ -391,9 +408,8 @@ def genetic_algorithm_maze(t, n, m, s, p, paths, board, graphs=False, mutation=m
     while get_current_time() <= end_time:
         best = get_min(population)
         Q = []
-
         for _ in range(int(s / 2)):
-            Pa, Pb = slides_selection(population)
+            Pa, Pb = selection(population)
             Ca, Cb = two_point_crossover(Pa, Pb, board, n, m)
             Q.append(mutation(Ca, board))
             Q.append(mutation(Cb, board))
