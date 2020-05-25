@@ -250,7 +250,7 @@ def genetic_algorithm(t, correct_words, initial_words, multiset, gen_times=8):
     :param correct_words: set of correct words
     :param initial_words: initial correct words
     :param multiset:  dictionary of letter and frequencies (Acceptable freq)
-    :param gen_times: quantity of child to be generated
+    :param gen_times: quantity of children to be generated
     :return:
     """
     end_time = get_current_time() + get_millis(t)

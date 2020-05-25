@@ -222,7 +222,6 @@ def modern_particle_swarm(x0, t, func, swarm_size=100, alpha=0.8, beta=0.95, gam
     :param gamma: best of informants' retained
     :param delta: global best retained
     :param epsilon: size of jumps
-    :param plot: graphs
     :return:
     """
     end_time = get_current_time() + get_millis(t)
