@@ -6,6 +6,11 @@ import numpy as np
 
 
 def read_dictionary(frequencies):
+    """
+    Creates dictionary set and correct words set
+    :param frequencies:
+    :return:
+    """
     dict_set = set()
     correct_set = set()
     with open('../dict') as f:
@@ -16,13 +21,18 @@ def read_dictionary(frequencies):
                 dict_set.add(word)
                 if are_frequencies_right(word, frequencies):
                     correct_set.add(word)
-            except:
+            except ValueError:
                 print(line)
             line = f.readline()
     return dict_set, correct_set
 
 
 def read_data(filepath):
+    """
+    Reads data from given filepath
+    :param filepath:
+    :return:
+    """
     c, population = [], []
     words = []
     f = open(filepath, "r")
@@ -42,10 +52,19 @@ def read_data(filepath):
 ########################### Time Operations ########################################
 ####################################################################################
 def get_millis(seconds):
+    """
+    convert to millis
+    :param seconds:
+    :return:
+    """
     return seconds * 10 ** 3
 
 
 def get_current_time():
+    """
+    return current time
+    :return:
+    """
     return get_millis(int(time.time()))
 
 
@@ -54,6 +73,12 @@ def get_current_time():
 ####################################################################################
 
 def build_letter_dictionary(letters, weights):
+    """
+    We are making dictionary of letters with given weitghts
+    :param letters:
+    :param weights:
+    :return:
+    """
     dictionary = {}
     for i in range(len(letters)):
         dictionary[letters[i]] = weights[i]
@@ -61,6 +86,11 @@ def build_letter_dictionary(letters, weights):
 
 
 def build_frequency_dictionary(letters):
+    """
+     builds Frequency of letters dictionary
+    :param letters:
+    :return:
+    """
     return {i: int(letters.count(i)) for i in set(letters)}
 
 
@@ -68,7 +98,13 @@ def build_frequency_dictionary(letters):
 ################################ Quality ###########################################
 ####################################################################################
 def quality(word, dictionary):
-    """Quality Function"""
+    """
+    Quality Function
+    Maximalizes as in given multiset
+    :param word:
+    :param dictionary:
+    :return:
+    """
     summary = 0
     for char in word:
         try:
@@ -79,6 +115,12 @@ def quality(word, dictionary):
 
 
 def get_maximal_in(Population, dictionary):
+    """
+    maximal element in population
+    :param Population:
+    :param dictionary:
+    :return:
+    """
     qualities = []
     for word in Population:
         qualities += [quality(word, dictionary)]
@@ -90,7 +132,12 @@ def get_maximal_in(Population, dictionary):
 ####################################################################################
 
 def are_frequencies_right(word, frequencies):
-    """Function validates quantity of each symbol in word as in frequencies."""
+    """
+    Function validates quantity of each symbol in word as in frequencies.
+    :param word:
+    :param frequencies:
+    :return:
+    """
     word_dict = build_frequency_dictionary(list(word))
     for key in word_dict:
         try:
@@ -105,6 +152,12 @@ def are_frequencies_right(word, frequencies):
 
 
 def get_free_symbols(path, frequencies):
+    """
+
+    :param path:
+    :param frequencies:
+    :return: dictionary with free to use symbols from multiset
+    """
     free_symbols = copy.deepcopy(frequencies)
     c1_dict = build_frequency_dictionary(path)
     for symbol in c1_dict:
@@ -118,11 +171,22 @@ def get_free_symbols(path, frequencies):
 ########################### Main Algorithm #########################################
 ####################################################################################
 def get_probabilities(population, dictionary):
+    """
+     list of probabilities of population
+    :param population:
+    :param dictionary:
+    :return:
+    """
     return [quality(pi, dictionary) / sum([quality(pi, dictionary) for pi in population]) for pi in population]
 
 
 def select_parents(population, dictionary):
-    """Selects parents with probability (quality(x_i)/sum(quality(X))"""
+    """
+    Selects parents with probability (quality(x_i)/sum(quality(X))
+    :param population:
+    :param dictionary:
+    :return:
+    """
     random.shuffle(population)
     qualities = get_probabilities(population, dictionary)
     result = [False for _ in range(len(population))]
@@ -138,7 +202,15 @@ def select_parents(population, dictionary):
     return population[i], population[j]
 
 
-def crossover(parent1, parent2, correct_words, multiset):
+def crossover(parent1, parent2, correct_words):
+    """
+    We are taking all symbols summed of 2 parents and trying
+     to make random word from correct words set
+    :param parent1:
+    :param parent2:
+    :param correct_words:
+    :return: Crosses 2 parents and return a child
+    """
     crossed = parent1 + parent2
     available_words = []
     crossed_alphabet = build_frequency_dictionary(crossed)
@@ -148,12 +220,19 @@ def crossover(parent1, parent2, correct_words, multiset):
     try:
         available_words.remove(parent1)
         available_words.remove(parent2)
-    except:
+    except ValueError:
         pass
     return random.choice(available_words)
 
 
 def mutate(child, correct_words):
+    """
+    We are taking random prefix and trying to find same prefix word in
+    correct_words set
+    :param child:
+    :param correct_words:
+    :return:
+    """
     available_words = []
     random_prefix = child[:random.randint(0, len(child) - 1)]
     for word in correct_words:
@@ -161,23 +240,29 @@ def mutate(child, correct_words):
             available_words.append(word)
     try:
         return random.choice(available_words)
-    except:
+    except ValueError or IndexError:
         return child
 
 
+def genetic_algorithm(t, correct_words, initial_words, multiset, gen_times=8):
+    """
 
-
-def genetic_algorithm(t, frequencies, correct_words, initial_words, multiset):
+    :param t: time limitation
+    :param correct_words: set of correct words
+    :param initial_words: initial correct words
+    :param multiset:  dictionary of letter and frequencies (Acceptable freq)
+    :param gen_times: quantity of child to be generated
+    :return:
+    """
     end_time = get_current_time() + get_millis(t)
     population = initial_words
-    print(initial_words)
     global_best = get_maximal_in(population, multiset)
     while get_current_time() < end_time:
         # print(population)
         Q = []
-        for _ in range(int(8)):
+        for _ in range(gen_times):
             parent1, parent2 = select_parents(population, multiset)
-            child = crossover(parent1, parent2, correct_words, multiset)
+            child = crossover(parent1, parent2, correct_words)
             generation = mutate(child, correct_words)
             Q.append(generation)
         population = Q
@@ -193,7 +278,7 @@ def main():
     frequencies = build_frequency_dictionary(letters)
     multiset = build_letter_dictionary(letters, weights)
     all_words, correct_words = read_dictionary(frequencies)
-    path = genetic_algorithm(t, frequencies, correct_words, initial_words, multiset)
+    path = genetic_algorithm(t, correct_words, initial_words, multiset)
     print(path)
 
 
