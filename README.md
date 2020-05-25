@@ -15,21 +15,20 @@
 	- two-point crossover
 
 ## List 01
-### Task 01 - shotgun local serach, hill climbing
+### Task 01 - shotgun local search, hill climbing  ( griewank, happycat functions)
 
 Program wykorzystuje metode HillClimbing.
-   1. Najpierw z kwadratu//szescianu o wymiarach -size,size sa losowane wspolrzedne startowe x'.
+   1. Najpierw z hiperkostki o boku -size,size sa losowane wspolrzedne startowe x'.
    2. Nastepnie obliczane sa wspolrzedne sasiada.
    3. Kolejno obliczane sa wartosci zadanej funkcji dla x' i sasiada n.
    4. Badana jest roznica pomiedzy tymi wartosciami. 
    5. Jesli wartosc sasiada jest mniejsza od aktualnej, ustalamy  nowy x' jako wlasnie porownywanego sasiada.
    6. Jesli wpadniemy w lokalne minimum program jest resetowany w nowych wspolrzednych.
    7. Poprzednie minimum lokalne jest pamietane, i nadpisywane w razie znalezienia mniejszej wartosci.
-   8. Program konczy sie po okreslonej ilosci czasu t i zwraca exception TimeOut.
+   8. Program konczy sie po okreslonej ilosci czasu t .
    
-### Task 02 - tsp tabu serach cities minimal distance
+### Task 02 - Finding minimal distance path between cities(TSP)
     
-Markup:
    1. Wczytuje plik z danymi
    2. Wchodzi w procedure main ktora przerywa dzialanie po okreslonym czasie t wczytanym z pliku.
    3. w czas dzialania w petli pracuje algorytm tabu-search z zadanym startowym wierzcholkiem src.
@@ -84,8 +83,8 @@ Bez tego urywka, wszystko jest ok dla wylaczonych resetow, z resetami dla malej 
 program wykonuje sie tak szybko, ze ilosc mozliwych wywolan rekursji jest przekroczona i wyskakuje poza dobrym wynikiem, error.
 
 
-### Task 03 - maze exit tabu search
-Markup:
+### Task 03 - Finding exit in labyrinth ( no walls inside)
+
    1. Znajduje rozwiazanie poczatkowe idac do gory do sciany, pozniej w prawo, dol, lewo i znowu gora, Jesli spotka wyjscie wychodzi.
    2. Nastepnie ustalamy je jako currentBest
    3. zapamietujemy ostatni ruch bo jest on staly, nie da sie wejsc inaczej do 8mki lezacej po prawej stronie niz R.
@@ -209,8 +208,62 @@ Różni się w zasadzie tylko losowaniem sąsiada, reszta jak wyżej.
 
 Została zaimplementowana również możliwość stworzenia wykresu, gdzie możemy zaoobserwować zaimplementowane wyżarzanie.
 Wystarczy ustawic graph= na True w mainie.
-```
-c, s = simulated_annealing_prefixes(50, b, T0=1000, graph=False)
-```
+
+## List 03
+
+### Task 01 - Particle Swarm for X.S Yang function.
+    :param x0: - start vector
+    :param t: time limitation
+    :param func: quality function
+    :param swarm_size: quantity of swarms
+    :param alpha: velocity retained
+    :param beta: personal best retained
+    :param gamma: best of informants' retained
+    :param delta: global best retained
+    :param epsilon: size of jumps
+    :param plot: graphs
+1. Iniciujemy populacje losowymi rozwiązaniami, i tworzymy losowe wektory prędkości dla każdego z nich.
+2. Rejestrujemy listę personalnych bestów.
+3. Wybieramy globalnego besta.
+4. Wybieramy besta z bieżących rojów ( informowanych )
+5. Zaburzamy każdy z wektorów zgodnie z współczynnikami i wzorem  
+``                population[i][1][j] = alpha * vi[j] + b * (fittest_personal[j] - xi[j]) + c * (
+                        fittest_informants[j] - xi[j]) + d * (fittest_all[j] - xi[j])
+``
+6. Zmieniamy prędkości zgodnie z epsilon i zaburzamy współrzędne wykraczające poza dziedzinę.
+### Task 02 - Genetic algorithm to find words with given rules ( multiset ) from given dictionary of words.
+#### Limited
+    :param t: time limitation
+    :param correct_words: set of correct words
+    :param initial_words: initial correct words
+    :param multiset:  dictionary of letter and frequencies (Acceptable freq)
+    :param gen_times: quantity of children to be generated
+1. Wczytujemy zbiór liter z wartościami - multiset.
+2. Budujemy frequency table ( dopuszczalna ) restrykuje możliwe słowa do multisetu.
+3. Budujemy słownik możliwych liter z wagami.
+4. Wczytujemy słownik.txt i okrajamy nasz zbiór do słów prawidłowych dla frequency table.
+5. Wybieramy rodziców licząć prawdopodobieństwa( f(x_i)/sum(quality(X))) w każdej iteracji szufladkując listę.
+6. Krzyżujemy wybranych rodziców ( tworzymy zbiór liter z p1,p2 i próbujemy ułożyć słowo z poprawnych słów)
+7. Mutujemy dziecko zachowując jego prefix lub suffix ( szukamy innego w słowniku  o tym samym suffixie/prefixie)
+8. Podmieniamy starą populację na nową generację
+#### Unlimited
+### Task 03 - Genetic for finding exit in maze ( multiple exit ).
+    :param t: time limitation
+    :param n: board height
+    :param m: board width
+    :param s: quantity of initial solutions
+    :param p: population quantity
+    :param paths: initial solutions
+    :param board: maze
+    :param mutation: decide with function use to mixed_mutation
+    :param selection: decide with function use to select parents
+1. Wybieramy besta z ścieżek inicjalnych.
+2. Wybieramy rodziców z populacji do skrzyżowania w sposób
+    - tournament selection
+    - licząć prawdopodobieństwa( f(x_i)/sum(quality(X))) w każdej iteracji szufladkując listę
+3. Krzyżyujemy rodziców (two point crossover) wybierając losowe indexy i1,j1 ; i2,j2 i podmieniamy "środki" lub boki tworząc dzieci 
+4. Mutujemy dzieci na sposób:
+    - losowo podmieniamy dwa elementy ścieżki ( transpozycja )
+    - wybieramy losowy preffix i losujemy losowej długości suffix
 
 	
