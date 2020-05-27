@@ -1,3 +1,0 @@
-#!/bin/bash
-python3 z1.py
-rm tempData
