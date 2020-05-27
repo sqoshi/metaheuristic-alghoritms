@@ -1,104 +1,94 @@
 # Metaheuristic alghoritms
 
-1. Local Search
-2. Hill Climbing (shotgun hill climbing)
-3. Tabu Seach
+
+1. Hill Climbing With Random Restarts (Shotgun hill climbing)
+2. Local Search (own modification)
+2. Tabu Seach
 	- tabu list
-4. Simulated Annealing
+3. Simulated Annealing
 	- temperature
-5. Particle Swarm
+4. Particle Swarm
 	- velocity vector
 	- does not select parents
-6. Genetic Alghorithm
+5. Genetic Alghorithm
 	- tournament selection
 	- quality selection(random)
 	- two-point crossover
 
 ## List 01
-### Task 01 - shotgun local search, hill climbing  ( griewank, happycat functions)
+### Task 01 - Shotgun hill climbing  ( griewank, happycat functions)
 
-Program wykorzystuje metode HillClimbing.
-   1. Najpierw z hiperkostki o boku -size,size sa losowane wspolrzedne startowe x'.
-   2. Nastepnie obliczane sa wspolrzedne sasiada.
-   3. Kolejno obliczane sa wartosci zadanej funkcji dla x' i sasiada n.
-   4. Badana jest roznica pomiedzy tymi wartosciami. 
-   5. Jesli wartosc sasiada jest mniejsza od aktualnej, ustalamy  nowy x' jako wlasnie porownywanego sasiada.
-   6. Jesli wpadniemy w lokalne minimum program jest resetowany w nowych wspolrzednych.
-   7. Poprzednie minimum lokalne jest pamietane, i nadpisywane w razie znalezienia mniejszej wartosci.
-   8. Program konczy sie po okreslonej ilosci czasu t .
+#### Hill Climbing With Random Restarts
+1. Losowane jest inicjalne rozwiązanie z hiperkostki n^4 na przedziale (-5,5)
+2. Dopóki mamy czas global_time:
+    1. Losujemy przedział czasowy ( mniejszy niż odgórne t) local_time:
+    2. Dopóki mamy czas local_time:
+        1. Generujemy sąsiada zaburzując wektor x o zmienną losową z przedziału (-1,1)^4
+        2. Badamy jakość sąsiada jęsli jest lepsza to przechodzimy do niego, jeśli nie zostajemy przy S.
+    3. Porównujemy besta z lokalnym wynikiem i losujemy zupełnie nowy start ( random restart)
+
+#### Local Search
+1. Losowane jest inicjalne rozwiązanie z hiperkostki n^4 na przedziale (-5,5)
+2. Dopóki mamy czas t:
+    1. generujemy n sąsiadów bieżącego rozwiązania zaburzując wektor x o zmienną losową z przedziału (-1,1)^4 n razy
+    2. wybieramy minimalnego pod względem quality function sąsiada i do niego przechodzimy.
+    3. jeśli utknęliśmy w lokalnym optimum- random restart
+
+
+
    
 ### Task 02 - Finding minimal distance path between cities(TSP)
     
-   1. Wczytuje plik z danymi
-   2. Wchodzi w procedure main ktora przerywa dzialanie po okreslonym czasie t wczytanym z pliku.
-   3. w czas dzialania w petli pracuje algorytm tabu-search z zadanym startowym wierzcholkiem src.
-   4. Wstepnie program znajduje get_initial bazujace na algorytmie zachlannym. 
-   ( po po prostu bierze kolejne minimalne dystanse i pamieta do ktorch miast nie moze juz wstapic.)
-    Nie jest dla mnie pewne co znaczy "pierwsze miasto",
-     bo za pierwsze miasto moge chyba uznac dowolne, 
-     wiec ja uznalem ze startuje z miasta 26,
-      co nie powinno robic roznicy to w koncu cykl.
-   5. Naszym x staje sie teraz get_initial
-   6. algorytm zamyka sie w petli dopoki nie przerwie go timeout.
-    Jednak co LIMIT przejsc petli 
-    algorytm moze wpasc w lokalne
-   minima i wtedy warto uzyc resetu 
-   to znaczy losowego zespawnowania od nowa 
-   i rozpoczecia algorytmu z uwzglednieniem ostatniego przeszukiwania,
-    najlepszy wynik dotychczas jest zapisany, nie utracimy go.
-   8. Generowani sa sasiedzi aktualnego x 
-   czyli po prostu wszystkie inwersje.
-   7. za aktualnego minVal ustawiamy 
-   pierwszego sasiada (to tylko chwilowe, 
-    chyba ze nie znajdzie sie lepszy)
-   9 Przechodzimy po kazdym z sasiadow, ktory nie jest w Tabu 
-   i porowujemy jego calkowity dystans z aktualnym minimum
-   10. jesli jest mniejszy to aktualnym x'em staje 
-   sie terazniejszy sasiad
-   11 jednoczesnie sprawdzamy czy ten wynik 
-   jest wynikiem lepszym od naszego 
-   najmniejszego minimum jesli tak nadpisujemy wartosc.
-   12. Minimalne wyniki caly czas zapisuje w liscie BestSolutions, i wybiore najkrotszy path, ze wszystkich resetow.
+#### Standard
+1. Znajdź rozwiązanie inicjalne - algorytm zachłanny :
+    - wchodzi w kolejne miasta biorąc minimalne dystanse
+2. Dopóki jest czas:
+    1. sprawdź długość Tabu, jeśli jest zbyt duże pozbądź się najstarszych ścieżek.
+    2. Wybierz sąsiada R - transpozycja dowolnych dwóch miast
+    3. Tweak n razy:
+        - wybierz sąsiada W rozwiązania R - transpozycja.
+    4. Wybierz najlepszego z n x W u R
+    5. Dołącz najlepszego z nich do Tabu List.
+    6. Porównaj besty.
+    7. Jeśli dopusczone są resety to co m- iterację wróć do najlepsego miasta.
+    8. Jeśli dopusczone są teleportację co k- iterację zacznij poszukiwania od nowo wylosowanego miasta.
 
-Co do tych resetow, nie jestem pewien czy
- dokladnie tak to ma wygladac, ale jesli okazalby sie 
-ze to jest bledne wystarczy zakomentowac linijki, 
-ale skoro miasta sa w cyklu i jesli odlegosc 
-od miasta A do miasta B bylaby zerem to znaczy ze miasto A=B, wiec resety z innych poczatkow 
-i tak powinni schodzic do tej samej drogi - (miasto startowe nie ma znaczenia?)
+#### My modification TSP Tabu Search
+1. Znajdź rozwiązanie inicjalne - algorytm zachłanny :
+    - wchodzi w kolejne miasta biorąc minimalne dystanse
+2. Dopóki jest czas:
+    1. Stwórz wszystkie kombinacje ścieżek bazujące tylko na transpozycjach.
+    3. Wybierz z nich najlepszego
+    4. Dodaj najlepszego do tabu
+    4. Porównaj z bestem.
 
-    # 99 : cycles += 1
-    # 116 : tabu_search(graph, n, random.randint(0, n))  # resetuje wyszukiwanie w innym wierzcholku jesli wpadl w lokalne min
-
-Wtedy, resety sa wylaczone i algorytm skupia sie na dokladnie jednym wierzcholku i sciezce.
-Bez resetow wyniki dochodza do  srednio 400-440, a z resetami spadaja nawet do 350 dla data1:),
-natomiast sciezka dla data jest, tak szybko znajdowana, ze resety nie maja chyba nawet sensu.
-Zdaje sobie sprawe rowniez z magicznych liczb jakimi sa iteracje LIMIT, ale bez 
-```
-    limit = 100
-    if n < 25:
-        limit = 10000
-```
-Bez tego urywka, wszystko jest ok dla wylaczonych resetow, z resetami dla malej ilosc miast, 
-program wykonuje sie tak szybko, ze ilosc mozliwych wywolan rekursji jest przekroczona i wyskakuje poza dobrym wynikiem, error.
-
-
+  
 ### Task 03 - Finding exit in labyrinth ( no walls inside)
 
-   1. Znajduje rozwiazanie poczatkowe idac do gory do sciany, pozniej w prawo, dol, lewo i znowu gora, Jesli spotka wyjscie wychodzi.
-   2. Nastepnie ustalamy je jako currentBest
-   3. zapamietujemy ostatni ruch bo jest on staly, nie da sie wejsc inaczej do 8mki lezacej po prawej stronie niz R.
-   4. ustawiamy tabu na pusty
-   5. teraz performujemy swapy pozycji. 
-   6. W wyniku 5. pojawiaja sie sekwencje LR RL, ktore sa staniem w miejscu.
-   7. Problem tkwi w tym, ze mozemy przejsc za sciane w wyniku takiego algorytmu.
-   8. przegladamy kazdego sasiada ktory nie jest w Tabu, i sprawdzamy na podstawie ilosci krokow,
-    czy znalezlismy lepsze rozwiazanie, i jednoczesnie czy to rozwiazanie nie przechodzi przez sciane, tzn trasa konczy sie w odpowiednim miejscu.
-   9. jesli przekracza nasza aktualna minimalna trasne to podmieniamy,
-    a probkowane dodajemu do tabu.
+#### Standard
+1. Generujemy rozwiązanie początkowe:
+    - agent dochodzi do górnej ściany, a później podąża za ścianą dopóki nie napotka wyjścia.
+2. Dopóki jest czas:
+    1. Sprawdzaj rozmiar tabu list i wyrzucaj najstrasze ścieżki
+    2. Wybierz losową transpozycję R rozwiązania S i usuwamy punkty stałe
+    3. Tweak n razy:
+        1. Wybierz najlepszego z wszystkich tweaków W( transpozycje na R) i usuwamy punkty stałe
+        2. jeśli rozwiązanie nowe W nie jest w tabu i jest lepsze od R to przechodzimy do niego
+    4. jeśli rozwiązanie nie jest w tabu to dołączamy go 
+    5. sprawdzamy poprawność rozwiązania.
+
+#### My modification tabu search maze exiting ( no walls)
+1. Generujemy rozwiązanie początkowe:
+    - agent dochodzi do górnej ściany, a później podąża za ścianą dopóki nie napotka wyjścia.
+2. Dopóki jest czas:
+    1. Losujemy wszystkie transpzycje scieżki i usuwamy punkty stałe
+    2. prawdzamy poprawność ścieżki i wybieramy minimalną z nich
+    3. Porównujemy z bestem
+    4. Dołączamy do Tabu
+
     
-   ## List 02
- ### Task 03 - Simulated Annealing For Salomon's Function
+## List 02
+### Task 03 - Simulated Annealing For Salomon's Function
 0. Temperatura początkowa zostaje zainicjowana na wysoką wartość np.: 100, 1000, 10000
 1. Program działa w pętli dopóki nie przekroczy limitu czasowego, lub T osiąggnie wartość 0.
 2. Wyliczamy wartość funkcji Salomon'a ( quality function) na podstawie rozwiązania początkowego i zapisujemy do "historii best'ów".
@@ -247,6 +237,7 @@ Wystarczy ustawic graph= na True w mainie.
 7. Mutujemy dziecko zachowując jego prefix lub suffix ( szukamy innego w słowniku  o tym samym suffixie/prefixie)
 8. Podmieniamy starą populację na nową generację
 #### Unlimited
+
 ### Task 03 - Genetic for finding exit in maze ( multiple exit ).
     :param t: time limitation
     :param n: board height
