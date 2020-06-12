@@ -1,0 +1,186 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.4.26)  12 JUN 2020 23:53
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**ga_4_tsp.tex
+(./ga_4_tsp.tex
+LaTeX2e <2020-02-02> patch level 2
+L3 programming layer <2020-02-14>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size11.clo
+File: size11.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+)
+\c@part=\count167
+\c@section=\count168
+\c@subsection=\count169
+\c@subsubsection=\count170
+\c@paragraph=\count171
+\c@subparagraph=\count172
+\c@figure=\count173
+\c@table=\count174
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2020/02/11 v2.0o Standard LaTeX package
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2018/08/11 v1.3c Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+\lst@mode=\count175
+\lst@gtempboxa=\box45
+\lst@token=\toks17
+\lst@length=\count176
+\lst@currlwidth=\dimen135
+\lst@column=\count177
+\lst@pos=\count178
+\lst@lostspace=\dimen136
+\lst@width=\dimen137
+\lst@newlines=\count179
+\lst@lineno=\count180
+\lst@maxwidth=\dimen138
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2019/09/10 1.8c (Carsten Heinz)
+\c@lstnumber=\count181
+\lst@skipnumbers=\count182
+\lst@framebox=\box46
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2019/09/10 1.8c listings configuration
+))
+Package: listings 2019/09/10 1.8c (Carsten Heinz)
+
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
+File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
+\l__kernel_color_stack_int=\count183
+\l__pdf_internal_box=\box47
+)
+(./ga_4_tsp.aux)
+\openout1 = `ga_4_tsp.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 36.
+LaTeX Font Info:    ... okay on input line 36.
+\c@lstlisting=\count184
+
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count185
+\scratchdimen=\dimen139
+\scratchbox=\box48
+\nofMPsegments=\count186
+\nofMParguments=\count187
+\everyMPshowfont=\toks18
+\MPscratchCnt=\count188
+\MPscratchDim=\dimen140
+\MPnumerator=\count189
+\makeMPintoPDFobject=\count190
+\everyMPtoPDFconversion=\toks19
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 38.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 38.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 38.
+ [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 42.
+ [1]
+Overfull \hbox (6.96695pt too wide) in paragraph at lines 59--60
+\T1/cmr/m/n/10.95 nia rozwi¡za« o bardzo wysok-iej jako±ci. Krzy»owanie pozwala
+ na wymieszanie
+ []
+
+
+Overfull \hbox (48.16135pt too wide) in paragraph at lines 60--60
+[]\T1/cmr/bx/n/12 Kilka wybranych im-ple-men-tacji powy»szych op-er-acji(pseudo
+kod) 
+ []
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2019/09/10 1.8c listings language file
+)
+Overfull \hbox (2.33965pt too wide) in paragraph at lines 63--64
+ \T1/cmr/bx/n/10.95 Fitness-Proportionale Se-lec-tion (Roulette Se-lec-tion)[] 
+\T1/cmr/m/n/10.95 Wybier-amy os-
+ []
+
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 6
+4.
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+) [2] [3]
+(./ga_4_tsp.aux) ) 
+Here is how much of TeX's memory you used:
+ 3423 strings out of 483140
+ 44095 string characters out of 5965151
+ 536760 words of memory out of 5000000
+ 18464 multiletter control sequences out of 15000+600000
+ 543551 words of font info for 47 fonts, out of 8000000 for 9000
+ 36 hyphenation exceptions out of 8191
+ 28i,6n,42p,949b,1679s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen
+/ec/ectt0900.600pk> </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/jknappe
+n/ec/ecrm0600.600pk> </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/jknapp
+en/ec/ecbx1095.600pk> </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/jknap
+pen/ec/ecbx1200.600pk> </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/jkna
+ppen/ec/ecbx1440.600pk> </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ecrm1095.600pk> </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/jk
+nappen/ec/ecrm1200.600pk> </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/j
+knappen/ec/ecrm1728.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
+0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+
+Output written on ga_4_tsp.pdf (4 pages, 107207 bytes).
+PDF statistics:
+ 301 PDF objects out of 1000 (max. 8388607)
+ 54 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+
