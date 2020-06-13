@@ -181,4 +181,28 @@ Jak widać EBGA znajduje dużo lepsze rozwiązania niż GA.
 Tak jak już wspomnieliśmy GTSP to zgeneralizowany wariant powszechnie znanego TSP. Różnica polega na tym, że nie każde z miast musi zostać odwiedzone. Mianowicie zbiór miast C jest dzielony na m zbiorów rozłącznych tak, by ich suma była równa C, tzn każde miasto musi należeć do jakiegoś zbioru $C_i$. Tsp jest zatem specjalnym przypadkiem GTSP takim, że C jest podzielone na |C| podzbiorów. W tym przypadku skorzystamy z operacji reprodukcji, czyli skopiowaniu najlepszych elementów z populacji do nowej generacji. W tym problemie skorzystamy również z random keys w celu kodowania rozwiązań. Użycie ich jest możliwe, gdy nasz problem może opierać się na permutacjach integerów i , w których one- lub two- point crossover stwarza problemy. Przeanalizujmy metodę random- key na przykładzie. 
 Załóżmy, że mamy ścieżkę 4 2 1 5 3 , nadajemy kolejnym elementom losową wartość ( random key) na przedziale (0,1) i teraz do naszych kluczy przyporządkujemy wartości ze zbioru {1,...,n} rosnąco.
 to znaczy, że jeśli mamy 0.1 0.42 0.3 0.9 0.7 to nasz ciąg zostanie zakodowany na 1 3 2 5 4. Wróćmy do naszego zbioru C podzielonego na  załóżmy 3 podzbiory $C_i,C_j,C_k$. Najpierw wykorzystując random keye decydujemy w jakiej kolejności odwiedzimy grupy miast załóżmy, że i -> j -> k. Następnie losujemy klucze dla grup miast i decydujemy o kolejności w tych podgrupach. W tym przypadku 20\% populacji będzie przekazane do nowej generacji, 70\% stworzone przez crossover, a pozostała część zostanie wygenerowana przez imigracje. Przy reprodukcji korzystamy z strategii elitizmu. Pozwala to na zachowanie odpowiednich do mieszania genów.  Do stworzenia potomków używamy uniform crossover. Operacja imigracji co jakiś czas dodajemy po prostu generujemy nowe losowe rozwiązania, które dołączamy do nowej populacji. Ulepszenie każde nowe rozwiązanie uzyskane w GA staramy się poprawić swapując losowe miasta. Druga operacja to 2-opt próbująca usunąć dwa miejsca i wstawić je w inne miejsca tak, aby uzyskać pojedynczy tour o niższym koście. Swap pozwala zamienić miasta z innych komponentów $C_i$. Populacja zarządzamy w taki sposób, aby nie dodawać duplikatów, duplikaty to takie chromosomy, których ulepszenia są takie same. Zalety takiej implementacji to prostota implementacji, jest łatwa do przekształcenia dla innych problemów np MTP lub TCP. Schemat byłby niemal identyczy.
+\section{Algorytm genetyczny z mixed region search dla ATSP}
+W asymetrycznym TSP mamy do czynienia z różnymi dystansami z miasta A do B, a miasta B do A. Większość algorytmów stworzonych dla STSP mogą zostać zmodyfikowane do ATSP. Mamy n miast do zwiedzenia. Problem ATSP może być sformułowany w następujący sposób:
+$$ min \sum_{i=1}{n}\sum_{j=1}{n}x_{ij}c_{ij}$$, gdzie x $\in$  =1 gdy, jest jest takie bezpośrednie połączenie pomiędzy miastami i oraz j na naszej trasie lub 0, gdy nie jest. Liczba rozwiązań niewykonalnych dla ATSP z dwiema podtrasami f(n,2) może być znaleziony w taki sposób: \\
+$$f(n,2)=\sum_{i=2}^{floor(0.5n)}$$, gdzie h to ilość niewykonalnych solucji, gdzie i to ilość nodów w jednej podtrasie, a druga ma  n-i nodów. W tym algorytmie bardziej przykuwamy uwagę do operacji krzyżowania. Nasze wyniki mają być później przepuszczone przez patching algorytm Karpa.PMX i TBX czyli partially matched crossover oraz tie break crossover. TBX, którego będziemy jest lekko zmodyfikowany względem standardowego. Najpierw dzielimy naszą trasę tak jak w 2-point crossover. Następnie wybieramy losową ilość elemntów do wymiany i produkujemy nie prawidłową trasę ( z powtórzeniami miast). Kolejno losujemy losowe uniformy na przedziale 0,1 tak jak w random-key values dla miast powtarzających się tzn 1919 generuje 0.1 0.2 0.3 0.4 ciąg  ( losujemy dwa takie wektory) i dodajemy do naszych ścieżek w powtórzeniami Teraz wartości mniejsze przechodzą do mniejszej z zamienionych, a wartości większe do większych ( względem tych, które na początku podmieniliśmy). Dla Uproszczenia przykład:\\
+Wybrane jednostki:\\
+$$ (1 2 3 | 4 5 6 7 | 8 9)$$
+$$ (4 5 2 | 1 8 7 6 | 9 3)$$
+Mieszamy, tworzymy szlaki z powtórzeniami:\\
+$$ (1 2 3 | 1 8 6 7 | 8 9)$$
+$$ (4 5 2 | 4 5 7 6 | 9 3)$$
+Losujemy uniformy:\\
+$$ 0.3 0.6 0.7 0.3 $$
+$$ 0.3 0.5 0.6 0.2 $$
+Dodajemy:\\
+$$ (1.3 2 3 | 1.6 8.7 6 7 | 8.3 9)$$
+$$ (4.3 5.5 2 | 4.6 5.2 7 6 | 9 3)$$
+Pozbywamy się powtórzeń:\\
+$$ (1 2 3 | 4 8 7 6 | 5 9)$$
+$$ (1 8 2 | 4 5 6 7 | 9 3)$$
+Do reprodukcji wykorzystujemy stochastyczne próbkowanie z zamianą. ( relatywny ranking względem fitness). W celu mutacji korzystamy z three way -swapping. Korzystamy z niej, gdy nie ma żadnych zmian w wartościach funkcji fitness. W każdej iteracji wybieramy grupę elitarną 60\% . Nasze rozwiązanie poza grupami elitarnymi utrzymuje dobre rozwiązania - nie wpada w lokalne optima. Z każdej grupy 60/30/10 wybieramy przedstawicieli i mixujemy. Raz na jakiś czas do naprawienia rozwiązań, bo w naszym algorytmie generujemy błędne używamy patching algorytm. Graf porównujący:
+\begin{center}
+\includegraphics[scale=.7]{mrs.png}
+\end{center}
+Wyniki wskazują na to, że genetyczny algorytm może być wykorzystany w problemie asymetrycznym TSP i osiągnąć bardzo dobre wyniki.
 \end{document}
