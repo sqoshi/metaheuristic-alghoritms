@@ -15,8 +15,8 @@
 	- quality selection(random)
 	- two-point crossover
 
-## List 01
-### Task 01 - Shotgun hill climbing  ( griewank, happycat functions)
+## local_tabu_search
+### hill_climbing - Shotgun hill climbing  ( griewank, happycat functions)
 
 #### Hill Climbing With Random Restarts
 1. Losowane jest inicjalne rozwiązanie z hiperkostki n^4 na przedziale (-5,5)
@@ -37,7 +37,7 @@
 
 
    
-### Task 02 - Finding minimal distance path between cities(TSP)
+### tabu_search_TSP - Finding minimal distance path between cities(TSP)
     
 #### Standard
 1. Znajdź rozwiązanie inicjalne - algorytm zachłanny :
@@ -53,7 +53,7 @@
     7. Jeśli dopusczone są resety to co m- iterację wróć do najlepsego miasta.
     8. Jeśli dopusczone są teleportację co k- iterację zacznij poszukiwania od nowo wylosowanego miasta.
 
-#### My modification TSP Tabu Search
+#### My modification of  Tabu Search for TSP problem
 1. Znajdź rozwiązanie inicjalne - algorytm zachłanny :
     - wchodzi w kolejne miasta biorąc minimalne dystanse
 2. Dopóki jest czas:
@@ -63,7 +63,7 @@
     4. Porównaj z bestem.
 
   
-### Task 03 - Finding exit in labyrinth ( no walls inside)
+### tabu_search_agent_walk - Finding exit in labyrinth ( no walls inside, single exit)
 
 #### Standard
 1. Generujemy rozwiązanie początkowe:
@@ -77,7 +77,7 @@
     4. jeśli rozwiązanie nie jest w tabu to dołączamy go 
     5. sprawdzamy poprawność rozwiązania.
 
-#### My modification tabu search maze exiting ( no walls)
+#### My modification tabu search maze ( no walls, single exit)
 1. Generujemy rozwiązanie początkowe:
     - agent dochodzi do górnej ściany, a później podąża za ścianą dopóki nie napotka wyjścia.
 2. Dopóki jest czas:
@@ -87,8 +87,8 @@
     4. Dołączamy do Tabu
 
     
-## List 02
-### Task 03 - Simulated Annealing For Salomon's Function
+## simulated annealing
+### sa_Salomon  - Simulated Annealing For Salomon's Function
 0. Temperatura początkowa zostaje zainicjowana na wysoką wartość np.: 100, 1000, 10000
 1. Program działa w pętli dopóki nie przekroczy limitu czasowego, lub T osiąggnie wartość 0.
 2. Wyliczamy wartość funkcji Salomon'a ( quality function) na podstawie rozwiązania początkowego i zapisujemy do "historii best'ów".
@@ -118,7 +118,7 @@ Ewentualnie można też zrobić losowy spawn na określonym przedziale np(-10,10
 Została też zaimplementowana możliwość rysowania wykresów funkcji kosztu
 , czy nawet zmian samych współrzędnych wektora.( graphs = True w mainie aby wyświetlić)
 
-### Task 02 - Simulated Annealing For Limited Zoom
+### sa_image_zoom - simulation of image zoom using Simulated Annealing
 1. Określamy czas zakończenia.
 2. Nakładamy abstrakcyjną siatkę, tworząc po tym rozwiązanie inicjalne. 
 - Dzielimy taką siatką macierz na bloki 
@@ -152,7 +152,7 @@ i wtedy będzie wykres kolejnych wartości przez, które rzeczywiście przeszli�
 Została również zaimplementowana możliwość rysowania wykresu funkcji kosztu, 
 naturalnie jest zaimplementowana dla niepowtarzających się kosztów ( w celu zachowania przyjemnego wyglądu SA).
 
-### Task 03 - Simulated Annealing for finding exit in labyrinth
+### sa_agent_walk - finding exit in maze ( multiple exit, walls inside) using simulated annealing
 Generalnie udało mi się zaimplementować na 4 różne sąsiedztwa,
  z czego 2 były chyba zbyt losowe(bardzo wolne), dlatego ich nie publikuję.
 Po wpisaniu make będziemy korzystać z tego opartego na preffixach.( w mainie można przestawić na transpozycje)
@@ -199,9 +199,9 @@ Różni się w zasadzie tylko losowaniem sąsiada, reszta jak wyżej.
 Została zaimplementowana również możliwość stworzenia wykresu, gdzie możemy zaoobserwować zaimplementowane wyżarzanie.
 Wystarczy ustawic graph= na True w mainie.
 
-## List 03
+## population_based
 
-### Task 01 - Particle Swarm for X.S Yang function.
+### particle_swam_XS_Yang - Particle Swarm for X.S Yang function.
     :param x0: - start vector
     :param t: time limitation
     :param func: quality function
@@ -221,7 +221,7 @@ Wystarczy ustawic graph= na True w mainie.
                         fittest_informants[j] - xi[j]) + d * (fittest_all[j] - xi[j])
 ``
 6. Zmieniamy prędkości zgodnie z epsilon i zaburzamy współrzędne wykraczające poza dziedzinę.
-### Task 02 - Genetic algorithm to find words with given rules ( multiset ) from given dictionary of words.
+### genetic_algorithm scrabble - (scrabble game) creating words from characters-multiset in accordance with given dictionary 
 #### Limited
     :param t: time limitation
     :param correct_words: set of correct words
@@ -238,7 +238,7 @@ Wystarczy ustawic graph= na True w mainie.
 8. Podmieniamy starą populację na nową generację
 #### Unlimited
 
-### Task 03 - Genetic for finding exit in maze ( multiple exit ).
+### genetic_algorithm_agent_walk - Genetic for finding exit in maze ( multiple exit, walls inside ).
     :param t: time limitation
     :param n: board height
     :param m: board width
