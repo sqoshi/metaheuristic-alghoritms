@@ -149,7 +149,6 @@ Można uniknąć skalowania, ale to może stać się bardziej kosztowne obliczen
 \includegraphics[scale=1.0]{rb.png}\\
 Porównanie selekcji:
 \includegraphics[scale=.7]{cs.png}
-
 \end{center}
 \section{Algorytm genetyczny bazujący na entropii}
 \subsection{Opis}
@@ -178,5 +177,8 @@ $\frac{n}{a}$ to zwięksamy podzielność. Parametr a to po prostu integer z prz
 \includegraphics[scale=0.5]{ebga_ga.png}\\
 \flushleft
 Jak widać EBGA znajduje dużo lepsze rozwiązania niż GA.
-
+\section{Algorytm genetyczny metodą losowych kluczy dla GTSP}
+Tak jak już wspomnieliśmy GTSP to zgeneralizowany wariant powszechnie znanego TSP. Różnica polega na tym, że nie każde z miast musi zostać odwiedzone. Mianowicie zbiór miast C jest dzielony na m zbiorów rozłącznych tak, by ich suma była równa C, tzn każde miasto musi należeć do jakiegoś zbioru $C_i$. Tsp jest zatem specjalnym przypadkiem GTSP takim, że C jest podzielone na |C| podzbiorów. W tym przypadku skorzystamy z operacji reprodukcji, czyli skopiowaniu najlepszych elementów z populacji do nowej generacji. W tym problemie skorzystamy również z random keys w celu kodowania rozwiązań. Użycie ich jest możliwe, gdy nasz problem może opierać się na permutacjach integerów i , w których one- lub two- point crossover stwarza problemy. Przeanalizujmy metodę random- key na przykładzie. 
+Załóżmy, że mamy ścieżkę 4 2 1 5 3 , nadajemy kolejnym elementom losową wartość ( random key) na przedziale (0,1) i teraz do naszych kluczy przyporządkujemy wartości ze zbioru {1,...,n} rosnąco.
+to znaczy, że jeśli mamy 0.1 0.42 0.3 0.9 0.7 to nasz ciąg zostanie zakodowany na 1 3 2 5 4. Wróćmy do naszego zbioru C podzielonego na  załóżmy 3 podzbiory $C_i,C_j,C_k$. Najpierw wykorzystując random keye decydujemy w jakiej kolejności odwiedzimy grupy miast załóżmy, że i -> j -> k. Następnie losujemy klucze dla grup miast i decydujemy o kolejności w tych podgrupach. W tym przypadku 20\% populacji będzie przekazane do nowej generacji, 70\% stworzone przez crossover, a pozostała część zostanie wygenerowana przez imigracje. Przy reprodukcji korzystamy z strategii elitizmu. Pozwala to na zachowanie odpowiednich do mieszania genów.  Do stworzenia potomków używamy uniform crossover. Operacja imigracji co jakiś czas dodajemy po prostu generujemy nowe losowe rozwiązania, które dołączamy do nowej populacji. Ulepszenie każde nowe rozwiązanie uzyskane w GA staramy się poprawić swapując losowe miasta. Druga operacja to 2-opt próbująca usunąć dwa miejsca i wstawić je w inne miejsca tak, aby uzyskać pojedynczy tour o niższym koście. Swap pozwala zamienić miasta z innych komponentów $C_i$. Populacja zarządzamy w taki sposób, aby nie dodawać duplikatów, duplikaty to takie chromosomy, których ulepszenia są takie same. Zalety takiej implementacji to prostota implementacji, jest łatwa do przekształcenia dla innych problemów np MTP lub TCP. Schemat byłby niemal identyczy.
 \end{document}
