@@ -1,0 +1,130 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+\title{Algorytm genetyczny dla \\ problemu komiwojażera}
+\author{Piotr Popis}
+\date{Czerwiec 2020}
+\begin{document}
+\begin{titlepage}
+\maketitle
+\end{titlepage}
+\section{Wprowadzenie}
+\subsection{Problem komiwojażera( Traceling Salesman Problem)}
+Jest jednym z najszerzej przebadanych problemów optymalizacji kombinatorycznej. Polega na zminimalizowaniu dystansu trasy Salesmana, gdzie trasa musi przechodzić przez zadane $n$ ( załóżmy, że ) $miast$ z jego listy, które powinien przejść dokładanie raz oraz znane są odległości pomiędzy miastami. Inaczej mówiąc szukamy minimalnego cyklu Hamiltona w pełnym grafie ważonym.\\
+Problem możemy przedstawiać w różnych wariantach na przykład:
+\begin{enumerate}
+\item symetryczny sTSP
+\item asymetryczny aTSP
+\item wielokrotny mTSP
+\item zgeneralizowany gTSP
+\end{enumerate}
+W symetrycznym przypadku odległość z miasta A do B jest taka sama jak odległość z B do A. W asymetrycznym odległości te mogą być różne ( $c_{ij} \neq c_{ji}$). W 3 przypadku wielokrotnym miasto może być odwiedzone więcej niż raz, a w przypadku zgeneralizowanym( uogólnionym) nie wszystkie miasta muszą być odwiedzone.
+   Tego typu problemy powstają w różnych zastosowaniach ciekawymi przykładami są między innymi vehicle routing problem, printed circuit board punching sequence problems, wing nozzle design problem in air craft design.
+\subsection{Algorytm Genetyczny( Genetic Algorithm)}
+\subsubsection{Opis}
+Jest heurystyką, a mianowicie członkiem grupy algorytmów ewolucyjnych. Jest jedną z metod inteligencji obliczeniowej. Metodologia jest inspirowana efektywnością naturalnej selekcji w ewolucji biologicznej. W przeciwieństwie do innych metaheurystyk takich jak tabu serach czy simulated annealing nie generuje jednego rozwiązania, a grupę rozwiązań (generację). Bieżąca generacja nazywana jest populacją. Każdego członka bieżącej grupy nazywamy nieraz chromosomem. Do stworzenia nowej generacji używamy genotypów z poprzedniej generacji. Utworzenie nowego chromosomu, w zasadzie grupy chromosomów - generacji następuje zgodnie z różnymi operacjami.\\ Trzy najczęściej używane to: \begin{enumerate}
+\item selekcja( selection),
+\item krzyżowanie( crossover),
+\item mutacja( mutation). 
+\end{enumerate} 
+Operacja selekcji pozwala wybrać odpowiednich osobników do nowych generacji. Wybiera zazwyczaj tych najlepszych, ale warto zostawić dla tych gorszych pewne prawdopodobieństwo wybrania w celu ucieczki z lokalnych optimum. Istnieje też możliwość rekombinacji czyli bezpośrednim przekazywaniu najlepszym osobników z populacji do nowej generacji w celu zachowania rozwiązań o bardzo wysokiej jakości. Krzyżowanie pozwala na wymieszanie genów wybranych w selekcji osobników. Mutacja natomiast polega na zazwyczaj losowym zmienieniu niektórych genów. Każda z powyższych operacji ma wiele efektywnych implementacji, które są zależne od problemu. Znaczy to tyle, że die da się jednoznacznie określić  najlepszej implementacji, tylko jedna jest bardziej dokładna obliczeniowo, inna znacznie szybsza.
+\subsection{Kilka wybranych implementacji powyższych operacji(pseudokod)}
+\subsubsection{Selekcja}
+\paragraph{Fitness-Proportionale Selection (Roulette Selection)}
+ Wybieramy osobników proporcjonalnie do ich jakości.
+\begin{lstlisting}[language=Python]
+do once per generation
+	global p = [ind_1,...,ind_ps]
+	global f = [fitness(pi) for pi in p]
+	if f is all 0.0s:
+		convert f to all 1.0s
+	for i from 2 to l:
+		fi = fi+ f_{i-1}
+perform each time
+	n = random(0,fl)
+	for i from 2 to l:
+		if  f_{i-1}<n<=fi:
+			return pi
+    	return p1
+\end{lstlisting}
+\paragraph{Tournament Selection}Wybieramy losowo t osobników i z nich najlepszego + replace.
+\begin{lstlisting}[language=Python]
+P- population
+t- tounament size >0
+best = random.choice(P).replace()
+for i from 2 to t:
+	next = random.choice(P).replace()
+	if fitness(next)>fitness(Best)
+		best=next
+return best
+\end{lstlisting}
+
+\subsubsection{Krzyżowanie}
+\paragraph{One-point crossover}-Zamiana suffixów dwóch osobników.
+\begin{lstlisting}[language=Python ]
+v,w - vectors ( paths)
+c = randomint(1,l)
+if c!=1:
+	for i in (c,l):
+		swap(vi,wi)
+return v,w
+\end{lstlisting}
+\paragraph{Two-point crossover}Wymiana genów na zadanym przedziale c,d.
+\begin{lstlisting}[language=Python]
+v,w - vectors ( paths)
+c,d = randomint(1,l),randomint(1,l)
+if c>d:
+	c,d=d,c
+if c!=d:
+	for i in (c,d-1):
+		swap(vi,wi)
+return v,w
+\end{lstlisting}
+\paragraph{Uniform crossover}Zamiana każdego genu z prawdopodobieństwem p.
+\begin{lstlisting}[language=Python]
+p - probab of swapping an index
+v,w - vectors ( paths)
+c,d = randomint(1,l),randomint(1,l)
+for i in (1,l):
+	if p>random.uniform(0,1):
+		swap(vi,wi)
+return v,w
+\end{lstlisting}
+\subsubsection{Mutacja}
+\paragraph{Swap} Zamiana genów na pozycjach ( losowych i,j).
+\begin{lstlisting}[language=Python]
+i,j - random cities range(0,n)
+return swap(path,i,j)
+\end{lstlisting}
+Teraz znając przykładowe implementacje operacji w algorytmie genetycznym głównie opierające się na permutacjach, możemy zacząć rozważania. Możemy postawić, że naszym celem jest znalezienie jak najbardziej optymalnego rozwiązania w jak najkrótszym czasie. Problemem stają się lokalne optima, których musimy pokonać odpowiednio dobierając operacje mutacji, krzyżowania oraz selekcji. Rozważmy kilka solucji problemu komiwojażera wykorzystując optymalny algorytm genetyczny.
+\section{Algorytm genetyczny bazujący na entropii}
+\end{document}
