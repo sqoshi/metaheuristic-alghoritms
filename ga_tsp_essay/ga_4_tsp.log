@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.4.26)  13 JUN 2020 22:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.4.26)  14 JUN 2020 20:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -222,36 +222,112 @@ Overfull \hbox (32.06207pt too wide) in paragraph at lines 205--206
  [] 
  []
 
-[11 <./mrs.png>] (./ga_4_tsp.aux) ) 
+<mmotsp.png, id=70, 569.12625pt x 187.70125pt>
+File: mmotsp.png Graphic file (type png)
+<use mmotsp.png>
+Package pdftex.def Info: mmotsp.png  used on input line 211.
+(pdftex.def)             Requested size: 398.38567pt x 131.38997pt.
+
+Overfull \hbox (38.38567pt too wide) in paragraph at lines 211--212
+ [] 
+ []
+
+[11 <./mrs.png>]
+<rank.png, id=75, 654.445pt x 295.1025pt>
+File: rank.png Graphic file (type png)
+<use rank.png>
+Package pdftex.def Info: rank.png  used on input line 229.
+(pdftex.def)             Requested size: 327.2217pt x 147.55087pt.
+ [12 <./mmotsp.png>]
+<ecd100.png, id=81, 696.6025pt x 139.52126pt>
+File: ecd100.png Graphic file (type png)
+<use ecd100.png>
+Package pdftex.def Info: ecd100.png  used on input line 233.
+(pdftex.def)             Requested size: 417.96472pt x 83.7134pt.
+
+Overfull \hbox (57.96472pt too wide) in paragraph at lines 233--234
+ [] 
+ []
+
+[13 <./rank.png> <./ecd100.png>]
+Overfull \hbox (37.9275pt too wide) detected at line 256
+\OML/cmm/m/it/10.95 total[]ours\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 R\OT1/cm
+r/m/n/10.95 ) = \OML/cmm/m/it/10.95 driving[]ime\OT1/cmr/m/n/10.95 (\OML/cmm/m/
+it/10.95 R\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/it/10.95 waiting[]ime\OT1/cmr/m/n/1
+0.95 (\OML/cmm/m/it/10.95 R\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/it/10.95 service[]
+ime\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 R\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/i
+t/10.95 lunch[]ime\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 R\OT1/cmr/m/n/10.95 )
+
+ []
+
+[14]
+Overfull \hbox (83.30078pt too wide) detected at line 267
+\OML/cmm/m/it/10.95 fitness\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 R\OT1/cmr/m/
+n/10.95 ) = (\OML/cmm/m/it/10.95 a \OMS/cmsy/m/n/10.95 ^^C \OML/cmm/m/it/10.95 
+normCostPerHour\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 R\OT1/cmr/m/n/10.95 ) + 
+\OML/cmm/m/it/10.95 b \OMS/cmsy/m/n/10.95 ^^C \OT1/cmr/m/n/10.95 (1 \OMS/cmsy/m
+/n/10.95 ^^@ \OML/cmm/m/it/10.95 normImportance\OT1/cmr/m/n/10.95 (\OML/cmm/m/i
+t/10.95 R\OT1/cmr/m/n/10.95 ))) \OMS/cmsy/m/n/10.95 ^^C \OT1/cmr/m/n/10.95 (\OM
+L/cmm/m/it/10.95 c \OMS/cmsy/m/n/10.95 ^^C \OML/cmm/m/it/10.95 unvisited\OT1/cm
+r/m/n/10.95 (\OML/cmm/m/it/10.95 R\OT1/cmr/m/n/10.95 ) + 1)
+ []
+
+<pmx.png, id=90, 327.2225pt x 126.4725pt>
+File: pmx.png Graphic file (type png)
+<use pmx.png>
+Package pdftex.def Info: pmx.png  used on input line 269.
+(pdftex.def)             Requested size: 327.2217pt x 126.47218pt.
+<ex.png, id=91, 307.1475pt x 74.2775pt>
+File: ex.png Graphic file (type png)
+<use ex.png>
+Package pdftex.def Info: ex.png  used on input line 273.
+(pdftex.def)             Requested size: 307.14674pt x 74.27731pt.
+<gr1.png, id=92, 350.30875pt x 322.20375pt>
+File: gr1.png Graphic file (type png)
+<use gr1.png>
+Package pdftex.def Info: gr1.png  used on input line 276.
+(pdftex.def)             Requested size: 350.30789pt x 322.20296pt.
+<gr2.png, id=93, 338.26375pt x 141.52875pt>
+File: gr2.png Graphic file (type png)
+<use gr2.png>
+Package pdftex.def Info: gr2.png  used on input line 277.
+(pdftex.def)             Requested size: 338.26291pt x 141.5284pt.
+<gr3.png, id=94, 356.33125pt x 145.54375pt>
+File: gr3.png Graphic file (type png)
+<use gr3.png>
+Package pdftex.def Info: gr3.png  used on input line 278.
+(pdftex.def)             Requested size: 356.33037pt x 145.54338pt.
+[15 <./pmx.png> <./ex.png>] [16 <./gr1.png> <./gr2.png>] [17 <./gr3.png>]
+(./ga_4_tsp.aux) ) 
 Here is how much of TeX's memory you used:
- 3750 strings out of 483140
- 48611 string characters out of 5965151
+ 3797 strings out of 483140
+ 49133 string characters out of 5965151
  517514 words of memory out of 5000000
- 18763 multiletter control sequences out of 15000+600000
+ 18803 multiletter control sequences out of 15000+600000
  543551 words of font info for 47 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  30i,6n,42p,1454b,1805s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/piotr/.texlive2019/texmf-var/fonts/p
-k/ljfour/jknappen/ec/ectt0900.600pk> </home/piotr/.texlive2019/texmf-var/fonts/
-pk/ljfour/jknappen/ec/ecrm0600.600pk> </home/piotr/.texlive2019/texmf-var/fonts
-/pk/ljfour/jknappen/ec/ecbx1095.600pk> </home/piotr/.texlive2019/texmf-var/font
-s/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/piotr/.texlive2019/texmf-var/fon
-ts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/piotr/.texlive2019/texmf-var/fo
-nts/pk/ljfour/jknappen/ec/ecrm1095.600pk> </home/piotr/.texlive2019/texmf-var/f
-onts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </home/piotr/.texlive2019/texmf-var/
-fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on ga_4_tsp.pdf (12 pages, 307883 bytes).
+ </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen
+/ec/ectt0900.600pk> </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/jknappe
+n/ec/ecrm0600.600pk> </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/jknapp
+en/ec/ecbx1095.600pk> </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/jknap
+pen/ec/ecbx1200.600pk> </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/jkna
+ppen/ec/ecbx1440.600pk> </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/jkn
+appen/ec/ecrm1095.600pk> </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/jk
+nappen/ec/ecrm1200.600pk> </home/piotr/.texlive2019/texmf-var/fonts/pk/ljfour/j
+knappen/ec/ecrm1728.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on ga_4_tsp.pdf (18 pages, 448414 bytes).
 PDF statistics:
- 414 PDF objects out of 1000 (max. 8388607)
- 88 compressed objects within 1 object stream
+ 466 PDF objects out of 1000 (max. 8388607)
+ 101 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 81 words of extra memory for PDF output out of 10000 (max. 10000000)
 

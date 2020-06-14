@@ -205,4 +205,78 @@ Do reprodukcji wykorzystujemy stochastyczne próbkowanie z zamianą. ( relatywny
 \includegraphics[scale=.7]{mrs.png}
 \end{center}
 Wyniki wskazują na to, że genetyczny algorytm może być wykorzystany w problemie asymetrycznym TSP i osiągnąć bardzo dobre wyniki.
+\section{Algorytm genetyczny dla MOTSP( multi- objective)[ FRAMEWORK PROPOSITION]}
+Motsp polega na tym, ze skupiamy się na zminimalizowaniu lub zmaksymalizowaniu wielu funkcji np cost, distance. Jakość solucji jest ewaluowana na podstawie optymalności Pareto. Solucje takie mogą być dominujące lub nie. Zbiór dominujący, inaczej optymalność Pareo to zbiór rozwiązań, które przekłamują w przestrzeni wykonalno- decyzyjnej. Model matematyczny MOTSP:\\
+\begin{center}
+\includegraphics[scale=0.7]{mmotsp.png}
+\end{center},gdzie n to ilość miast, $c_j$ to koszt do j, a  to cykliczna permutacja n miast. Euclidean distance jest wykorzystywany do wygenerowania kosztu oraz macierzy dystansów. Dla dwóch wymiarów mamy formułę:\\
+$$ECD = \sqrt[2]{(x_2-x_1)^2 + (y_2-y_1)^2}$$.
+Na podstawie tego wzoru określamy dystans pomiędzy dwoma miastami. A Pareto jest wykorzystywany do wydobycia rozwiązań efektywnych. Algorytm:
+\begin{enumerate}
+\item Wczytaj dane dla multi- objective instaces( Euclid)
+\item Znajdź dystans dla instancji korzystając Z ECD
+\item Macierz jest formowana zgodnie z danym miastem.
+\item GA dla tak wygenerowanej macierzy.
+	\begin{enumerate}
+	\item Stwórz losową populację z macierzy.
+	\item Określ jakość chromosomów.
+	\item Skrzyżuj wybranych rodziców lub zmutuj
+	\item Sprawdź jakość rozwiązań nowych. 
+	\end{enumerate}
+\item Zwróć najlepszą trasę z odpowiednim kosztem i dystansem.
+\end{enumerate}
+\begin{center}
+\includegraphics[scale=.5]{rank.png}
+\end{center}
+GA zoptymalizowało  wszystkie pozycje i znajduje minimalne koszty/dystanse. MOTSP daje przybliżone Pareto optymalne solucje dla każdej pozycji w racjonalnym czasie. Dla EuclidCD100 :\\
+\begin{center}
+\includegraphics[scale=0.6]{ecd100.png}
+\end{center}
+Znaczy to tyle, że GA dla problemu MOTSP to bardzo dobry wybór.
+\section{Rozwiązanie problemu TSP wykorzystując algorytm genetyczny w rzeczywistej aplikacji}
+W tej sekcji zderzymy się z brutalną rzeczywistością i ilością danych jakie musimy przeanalizować. Nasze goals to:\\
+\begin{enumerate}
+\item Zmniejszyć koszt i czas podróży sprzedawcy.
+\item Zwiększyć ilość odwiedzanych na dzień.
+\item Priorytetować pewnych klientów.
+\item Uwzględnić dni pracy i weekendy oraz nadgodziny.
+\end{enumerate}
+Jednocześnie chcemy jednak zadbać o \begin{enumerate}
+\item odpowiednio się przygotować,
+\item ulepszać relacje z klientami,
+\item zwiększać pewność siebie sprzedawców,
+\item poprawić wydajność firmy ( ogólną),
+\item zmniejszyć koszty,
+\item zoptymalizować czas pracy.
+\end{enumerate}
+Dodatkowo musimy uwzględnić rzeczy jak  dni wolne, przerwy śniadaniowe, przystosować czas pracy do godzin porannych, dni preferowane do odwiedzin przez klientów.
+W celu rozwiązania problemu musimy skonstruować pewien optymalny model. Zacznijmy od minimalizacji kosztu. 
+$$ ovr_cost = distance(R) * km_cost + total_hours(R) * hour_cost$$
+gdzie R jest danym rozwiązaniem, dystans sumą sub- tras. Totalny czas możemy wyliczyć z formuły 
+$$ total_hours(R)=driving_time(R)+waiting_time(R) + service_time(R)+lunch_time(R)$$ Nasz pesymistyczny przypadek kosztu na godzinę to $worst = hour_cost + speed * km_cost$. Znormalizujmy funkcję
+$$norm_cost_per_h(R)= \frac{\frac{overall_cost}{total_hours(R)}}{worst}$$. Przejdźmy do maksymalizacji ogólnej ważności klienta. Ważność klienta będzie najlepiej oceniona jeśli osiągnie max, gdy priorytetowi klienci zostaną odwiedzeni w odpowiednich - porannych godzinach, zatem:\\
+$$ importance_{overal}(R)=\sum^H_{d=1}(\sum^N_{i=1}IMP_i * DAYWEIGHT_d * VISIT_{R,i,d})$$, visit mówi o tym ile razy powinien być odwiedzony dany klient. Aby tą funkcję znormalizować musimy znowu sprawdzić extrema.W najgorszym przypadku importance =0, kiedy klient nie został odwiedzony. W najlepszym Każdy zostaje odwiedzony w porannej odpowiedniej porze.
+$$importance_{best}= \sum^N_{i=1} IMP_i*DAYWEIGHT_1*FREQMAX_i$$
+as
+$$ norm_importance(R)= importance_{overall}(R)/ importance_{best}$$
+Kolejny czynnik, który chcemy usprawnić to minimalizacja ilości kierunków, które nie były odwiedzane. Mimo wszystko chcemy zwiedzić jak największa ilość klientów w czasie podróży, ale nie naruszając czasu pracy sprzedawcy. $$visits_{max}=\sum^N_iFREQMAX_i$$
+$$visited(R) = visits_{max} =\sum^H_{d=1}(\sum^N_{i=1}VISIT_{R,i,d})$$ 
+$$ wvisited(R)=visits_{max} - visited(R)$$ Zatem optymalizując nasz problem zbiega do zminimalizowaniu funkcji fintess(R), gdzie 
+$$fitness(R)=( a * normCostPerHour(R) +
+b * ( 1 - normImportance(R) ) ) *
+( c * unvisited(R) + 1 )$$. Nasza reprezentacja wyglądaj ka w poprzednich sekcjach są to ciągi miast 1 2 3 ... Czasem Trasa może mieć kilka dni. Jako operację krzyżowania skorzystamy z omówionego już PMX 
+\begin{center}
+\includegraphics[scale=1.0]{pmx.png}
+\end{center}
+Z takim podejściem nie musimy się martwić o duplikaty miast. Korzystamy z EM ( Exchange Mutation)
+\begin{center}
+\includegraphics[scale=1.0]{ex.png}
+\end{center}
+Dla uproszczenia nasze współczynniki a,b,c stawiamy na 1.
+\includegraphics[scale=1.0]{gr1.png}
+\includegraphics[scale=1.0]{gr2.png}
+\includegraphics[scale=1.0]{gr3.png}
+\section{Podsumowanie}
+Często duża wiedza daje duże możliwości, w naszym przypadku tą wiedzą staje się znajomość algorytmów metaheurystycznych. W rzeczywistości często napotykamy na różnego rodzaju problemy. Może się zdarzyć, że nasz problem można przybliżyć do pewnego istniejącego już problemu. Tak jak TSP w powyższym przykładzie, odpowiednie modelowanie i modyfikacje problemu mogą go zgeneralizować lub dopasować się do naszej sytuacji. Algorytm genetyczny jest natomiast jest inteligencją obliczeniową, która pozwala nam z takim problemów ( tutaj NP-trudnych) wybrnąć.
+
 \end{document}
