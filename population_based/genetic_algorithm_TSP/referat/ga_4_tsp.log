@@ -1,0 +1,339 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.4.26)  15 JUN 2020 20:35
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**ga_4_tsp.tex
+(./ga_4_tsp.tex
+LaTeX2e <2020-02-02> patch level 2
+L3 programming layer <2020-02-14>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size11.clo
+File: size11.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+)
+\c@part=\count167
+\c@section=\count168
+\c@subsection=\count169
+\c@subsubsection=\count170
+\c@paragraph=\count171
+\c@subparagraph=\count172
+\c@figure=\count173
+\c@table=\count174
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2020/02/11 v2.0o Standard LaTeX package
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2018/08/11 v1.3c Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+\lst@mode=\count175
+\lst@gtempboxa=\box45
+\lst@token=\toks17
+\lst@length=\count176
+\lst@currlwidth=\dimen135
+\lst@column=\count177
+\lst@pos=\count178
+\lst@lostspace=\dimen136
+\lst@width=\dimen137
+\lst@newlines=\count179
+\lst@lineno=\count180
+\lst@maxwidth=\dimen138
+
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2019/09/10 1.8c (Carsten Heinz)
+\c@lstnumber=\count181
+\lst@skipnumbers=\count182
+\lst@framebox=\box46
+)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2019/09/10 1.8c listings configuration
+))
+Package: listings 2019/09/10 1.8c (Carsten Heinz)
+
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+)
+\Gin@req@height=\dimen139
+\Gin@req@width=\dimen140
+)
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
+File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
+\l__kernel_color_stack_int=\count183
+\l__pdf_internal_box=\box47
+)
+(./ga_4_tsp.aux)
+\openout1 = `ga_4_tsp.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+\c@lstlisting=\count184
+
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count185
+\scratchdimen=\dimen141
+\scratchbox=\box48
+\nofMPsegments=\count186
+\nofMParguments=\count187
+\everyMPshowfont=\toks18
+\MPscratchCnt=\count188
+\MPscratchDim=\dimen142
+\MPnumerator=\count189
+\makeMPintoPDFobject=\count190
+\everyMPtoPDFconversion=\toks19
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 37.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 37.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 37.
+
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 41.
+ [1]
+Overfull \hbox (6.96695pt too wide) in paragraph at lines 58--59
+\T1/cmr/m/n/10.95 nia rozwi¡za« o bardzo wysok-iej jako±ci. Krzy»owanie pozwala
+ na wymieszanie
+ []
+
+<ga_ex.png, id=19, 578.16pt x 284.06125pt>
+File: ga_ex.png Graphic file (type png)
+<use ga_ex.png>
+Package pdftex.def Info: ga_ex.png  used on input line 61.
+(pdftex.def)             Requested size: 289.07928pt x 142.03026pt.
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2019/09/10 1.8c listings language file
+)
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 6
+6.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+) [2 <./ga_ex.png>]
+[3]
+<ts.png, id=29, 225.84375pt x 120.45pt>
+File: ts.png Graphic file (type png)
+<use ts.png>
+Package pdftex.def Info: ts.png  used on input line 107.
+(pdftex.def)             Requested size: 225.84319pt x 120.44969pt.
+<pwr.png, id=31, 286.06876pt x 145.54375pt>
+File: pwr.png Graphic file (type png)
+<use pwr.png>
+Package pdftex.def Info: pwr.png  used on input line 122.
+(pdftex.def)             Requested size: 228.85532pt x 116.43513pt.
+ [4 <./ts.png>]
+<rb.png, id=39, 254.9525pt x 115.43124pt>
+File: rb.png Graphic file (type png)
+<use rb.png>
+Package pdftex.def Info: rb.png  used on input line 144.
+(pdftex.def)             Requested size: 254.95186pt x 115.43095pt.
+ [5 <./pwr.png>]
+<cs.png, id=44, 442.65375pt x 206.7725pt>
+File: cs.png Graphic file (type png)
+<use cs.png>
+Package pdftex.def Info: cs.png  used on input line 146.
+(pdftex.def)             Requested size: 309.8555pt x 144.73975pt.
+<locus.png, id=45, 298.11375pt x 173.64874pt>
+File: locus.png Graphic file (type png)
+<use locus.png>
+Package pdftex.def Info: locus.png  used on input line 152.
+(pdftex.def)             Requested size: 208.67819pt x 121.55328pt.
+ [6 <./rb.png> <./cs.png>] [7 <./locus.png>]
+<ebga_ga.png, id=58, 528.97626pt x 310.15875pt>
+File: ebga_ga.png Graphic file (type png)
+<use ebga_ga.png>
+Package pdftex.def Info: ebga_ga.png  used on input line 172.
+(pdftex.def)             Requested size: 264.48747pt x 155.079pt.
+
+[8 <./ebga_ga.png>] [9] [10]
+<mrs.png, id=69, 560.0925pt x 301.125pt>
+File: mrs.png Graphic file (type png)
+<use mrs.png>
+Package pdftex.def Info: mrs.png  used on input line 200.
+(pdftex.def)             Requested size: 392.06207pt x 210.78606pt.
+
+Overfull \hbox (32.06207pt too wide) in paragraph at lines 200--201
+ [] 
+ []
+
+<mmotsp.png, id=70, 569.12625pt x 187.70125pt>
+File: mmotsp.png Graphic file (type png)
+<use mmotsp.png>
+Package pdftex.def Info: mmotsp.png  used on input line 206.
+(pdftex.def)             Requested size: 398.38567pt x 131.38997pt.
+
+Overfull \hbox (38.38567pt too wide) in paragraph at lines 206--207
+ [] 
+ []
+
+[11 <./mrs.png>]
+<rank.png, id=75, 654.445pt x 295.1025pt>
+File: rank.png Graphic file (type png)
+<use rank.png>
+Package pdftex.def Info: rank.png  used on input line 224.
+(pdftex.def)             Requested size: 327.2217pt x 147.55087pt.
+ [12 <./mmotsp.png>]
+<ecd100.png, id=81, 696.6025pt x 139.52126pt>
+File: ecd100.png Graphic file (type png)
+<use ecd100.png>
+Package pdftex.def Info: ecd100.png  used on input line 228.
+(pdftex.def)             Requested size: 417.96472pt x 83.7134pt.
+
+Overfull \hbox (57.96472pt too wide) in paragraph at lines 228--229
+ [] 
+ []
+
+[13 <./rank.png> <./ecd100.png>]
+Overfull \hbox (37.9275pt too wide) detected at line 251
+\OML/cmm/m/it/10.95 total[]ours\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 R\OT1/cm
+r/m/n/10.95 ) = \OML/cmm/m/it/10.95 driving[]ime\OT1/cmr/m/n/10.95 (\OML/cmm/m/
+it/10.95 R\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/it/10.95 waiting[]ime\OT1/cmr/m/n/1
+0.95 (\OML/cmm/m/it/10.95 R\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/it/10.95 service[]
+ime\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 R\OT1/cmr/m/n/10.95 ) + \OML/cmm/m/i
+t/10.95 lunch[]ime\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 R\OT1/cmr/m/n/10.95 )
+
+ []
+
+[14]
+Overfull \hbox (83.30078pt too wide) detected at line 262
+\OML/cmm/m/it/10.95 fitness\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 R\OT1/cmr/m/
+n/10.95 ) = (\OML/cmm/m/it/10.95 a \OMS/cmsy/m/n/10.95 ^^C \OML/cmm/m/it/10.95 
+normCostPerHour\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 R\OT1/cmr/m/n/10.95 ) + 
+\OML/cmm/m/it/10.95 b \OMS/cmsy/m/n/10.95 ^^C \OT1/cmr/m/n/10.95 (1 \OMS/cmsy/m
+/n/10.95 ^^@ \OML/cmm/m/it/10.95 normImportance\OT1/cmr/m/n/10.95 (\OML/cmm/m/i
+t/10.95 R\OT1/cmr/m/n/10.95 ))) \OMS/cmsy/m/n/10.95 ^^C \OT1/cmr/m/n/10.95 (\OM
+L/cmm/m/it/10.95 c \OMS/cmsy/m/n/10.95 ^^C \OML/cmm/m/it/10.95 unvisited\OT1/cm
+r/m/n/10.95 (\OML/cmm/m/it/10.95 R\OT1/cmr/m/n/10.95 ) + 1)
+ []
+
+<pmx.png, id=90, 327.2225pt x 126.4725pt>
+File: pmx.png Graphic file (type png)
+<use pmx.png>
+Package pdftex.def Info: pmx.png  used on input line 264.
+(pdftex.def)             Requested size: 327.2217pt x 126.47218pt.
+<ex.png, id=91, 307.1475pt x 74.2775pt>
+File: ex.png Graphic file (type png)
+<use ex.png>
+Package pdftex.def Info: ex.png  used on input line 268.
+(pdftex.def)             Requested size: 307.14674pt x 74.27731pt.
+<gr1.png, id=92, 350.30875pt x 322.20375pt>
+File: gr1.png Graphic file (type png)
+<use gr1.png>
+Package pdftex.def Info: gr1.png  used on input line 271.
+(pdftex.def)             Requested size: 350.30789pt x 322.20296pt.
+<gr2.png, id=93, 338.26375pt x 141.52875pt>
+File: gr2.png Graphic file (type png)
+<use gr2.png>
+Package pdftex.def Info: gr2.png  used on input line 272.
+(pdftex.def)             Requested size: 338.26291pt x 141.5284pt.
+<gr3.png, id=94, 356.33125pt x 145.54375pt>
+File: gr3.png Graphic file (type png)
+<use gr3.png>
+Package pdftex.def Info: gr3.png  used on input line 273.
+(pdftex.def)             Requested size: 356.33037pt x 145.54338pt.
+[15 <./pmx.png> <./ex.png>] [16 <./gr1.png> <./gr2.png>] [17 <./gr3.png>]
+[18] [19]
+<resultsga.png, id=116, 490.83376pt x 370.38374pt>
+File: resultsga.png Graphic file (type png)
+<use resultsga.png>
+Package pdftex.def Info: resultsga.png  used on input line 395.
+(pdftex.def)             Requested size: 343.58128pt x 259.26685pt.
+ [20 <./resultsga.png>] [21] (./ga_4_tsp.aux) ) 
+Here is how much of TeX's memory you used:
+ 3851 strings out of 483140
+ 49826 string characters out of 5965151
+ 621420 words of memory out of 5000000
+ 18856 multiletter control sequences out of 15000+600000
+ 543551 words of font info for 47 fonts, out of 8000000 for 9000
+ 36 hyphenation exceptions out of 8191
+ 30i,6n,42p,1454b,1681s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/piotr/.texlive2019/texmf
+-var/fonts/pk/ljfour/jknappen/ec/ectt0900.600pk> </home/piotr/.texlive2019/texm
+f-var/fonts/pk/ljfour/jknappen/ec/ecrm0600.600pk> </home/piotr/.texlive2019/tex
+mf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.600pk> </home/piotr/.texlive2019/te
+xmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/piotr/.texlive2019/t
+exmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/piotr/.texlive2019/
+texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.600pk> </home/piotr/.texlive2019
+/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </home/piotr/.texlive201
+9/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
+8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on ga_4_tsp.pdf (22 pages, 542550 bytes).
+PDF statistics:
+ 509 PDF objects out of 1000 (max. 8388607)
+ 110 compressed objects within 2 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 86 words of extra memory for PDF output out of 10000 (max. 10000000)
+
