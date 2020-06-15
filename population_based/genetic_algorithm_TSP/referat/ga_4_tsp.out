@@ -1,0 +1,30 @@
+\BOOKMARK [1][-]{section.1}{Wprowadzenie}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Problem komiwojazera\( Traveling Salesman Problem\)}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Algorytm Genetyczny\( Genetic Algorithm\)}{section.1}% 3
+\BOOKMARK [3][-]{subsubsection.1.2.1}{Opis}{subsection.1.2}% 4
+\BOOKMARK [3][-]{subsubsection.1.2.2}{Schemat}{subsection.1.2}% 5
+\BOOKMARK [2][-]{subsection.1.3}{Kilka wybranych implementacji operacji\(pseudokod\)}{section.1}% 6
+\BOOKMARK [3][-]{subsubsection.1.3.1}{Krzyzowanie}{subsection.1.3}% 7
+\BOOKMARK [3][-]{subsubsection.1.3.2}{Mutacja}{subsection.1.3}% 8
+\BOOKMARK [1][-]{section.2}{R\363zne strategie selekcji}{}% 9
+\BOOKMARK [2][-]{subsection.2.1}{Tournament Selection}{section.2}% 10
+\BOOKMARK [2][-]{subsection.2.2}{Proportional Roulette Wheel Selection}{section.2}% 11
+\BOOKMARK [2][-]{subsection.2.3}{Rank-based Roulette Wheel Selection}{section.2}% 12
+\BOOKMARK [1][-]{section.3}{Algorytm genetyczny bazujacy na entropii}{}% 13
+\BOOKMARK [2][-]{subsection.3.1}{Opis}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.2}{Podsumowanie}{section.3}% 15
+\BOOKMARK [1][-]{section.4}{Algorytm genetyczny metoda losowych kluczy dla GTSP}{}% 16
+\BOOKMARK [1][-]{section.5}{Algorytm genetyczny z mixed region search dla ATSP}{}% 17
+\BOOKMARK [1][-]{section.6}{Algorytm genetyczny dla MOTSP\( multi- objective\)[ FRAMEWORK PROPOSITION]}{}% 18
+\BOOKMARK [1][-]{section.7}{Rozwiazanie problemu TSP wykorzystujac algorytm genetyczny w rzeczywistej aplikacji}{}% 19
+\BOOKMARK [1][-]{section.8}{Addytywnie w\233asna implementacja}{}% 20
+\BOOKMARK [2][-]{subsection.8.1}{Reprezentacja}{section.8}% 21
+\BOOKMARK [2][-]{subsection.8.2}{Populacja poczatkowa}{section.8}% 22
+\BOOKMARK [2][-]{subsection.8.3}{Selekcja}{section.8}% 23
+\BOOKMARK [2][-]{subsection.8.4}{Krzyzowanie}{section.8}% 24
+\BOOKMARK [2][-]{subsection.8.5}{Mutacja}{section.8}% 25
+\BOOKMARK [2][-]{subsection.8.6}{Reprodukcja i zwiekszanie r\363znorodnosci w populacji}{section.8}% 26
+\BOOKMARK [2][-]{subsection.8.7}{Zarys ca\233ego algorytmu}{section.8}% 27
+\BOOKMARK [2][-]{subsection.8.8}{Wyniki}{section.8}% 28
+\BOOKMARK [2][-]{subsection.8.9}{Konkluzja}{section.8}% 29
+\BOOKMARK [1][-]{section.9}{Podsumowanie \(Semestralne?\)}{}% 30

@@ -4,6 +4,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{graphicx}
+\usepackage{hyperref}
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
@@ -271,7 +272,7 @@ Dla uproszczenia nasze współczynniki a,b,c stawiamy na 1.
 \includegraphics[scale=1.0]{gr1.png}
 \includegraphics[scale=1.0]{gr2.png}
 \includegraphics[scale=1.0]{gr3.png}
-\section{Własna implementacja}
+\section{Addytywnie własna implementacja}
 Implementując GA dla problemu aTSP w python3.
 \subsection{Reprezentacja}
 Ścieżki są reprezentowane w listach.Przykład dla 100 miast.
@@ -356,7 +357,7 @@ Co jakiś czas dodaje do generacji nowe rozwiązanie zachłanne.
 \begin{lstlisting}[language=Python]
         population.append(get_good_initial(distances, n, random.randint(0, n - 1)))
 \end{lstlisting}
-\section{Zarys całego algorytmu}
+\subsection{Zarys całego algorytmu}
 \begin{lstlisting}[language=Python]
 def genetic_algorithm(t, n, distances, pop_size=24, plot=True, prcx=0.5):
     his = []
@@ -389,13 +390,15 @@ def genetic_algorithm(t, n, distances, pop_size=24, plot=True, prcx=0.5):
         plot_graph(his)
     return best
 \end{lstlisting}
-\section{Wyniki}
+\subsection{Wyniki}
 Dla porównania i pokazania, że mój algorytm nie zamyka się w optimach i stale sięga po nowe rozwiązania plot poniżej.
 \begin{center}
 \includegraphics[scale=.7]{resultsga.png}
 \end{center}
-\section{Konkluzja}
-Niestety, aż tak dobrych wyników jak Szanownym Panom Profesorom z artykułów nie udało mi się uzyskać( błąd jest pewnie większy niż 5\%). Jednak jak widać korzystając z operacji w powyższych artykułach udało mi się dobrnąć do dość optymalnego rozwiązania, co było celem algorytmu. 
+\subsection{Konkluzja}
+
+Niestety, aż tak dobrych wyników jak Szanownym Panom Profesorom z artykułów nie udało mi się uzyskać( błąd jest pewnie większy niż 5\%). Jednak jak widać korzystając z operacji w powyższych artykułach udało mi się dobrnąć do dość optymalnego rozwiązania dla problemu TSP, co było celem wykorzystania algorytmu genetycznego. Link do całego kodu:
+\href{https://github.com/sqoshi/metaheuristic-alghoritms/tree/master/population_based/genetic_algorithm_TSP}{GITHUB}
 \section{Podsumowanie (Semestralne?)}
 Często duża wiedza daje duże możliwości, w naszym przypadku tą wiedzą staje się znajomość algorytmów metaheurystycznych. W rzeczywistości często napotykamy na różnego rodzaju problemy. Może się zdarzyć, że nasz problem można przybliżyć do pewnego istniejącego już problemu. Tak jak TSP w powyższym przykładzie lub na przykład odszukiwanie odpowiedniego kształtu (ilość neuronów na layer ) w sieci neuronowej i dobór odpowiednich aktywacji (tanh,sigmoid,..) wykorzystując np hill climbing, odpowiednie modelowanie i modyfikacje problemu mogą go zgeneralizować lub dopasować się do naszej sytuacji. Algorytm genetyczny jest natomiast jest inteligencją obliczeniową, która pozwala nam z takim problemów ( tutaj NP-trudnych) wybrnąć.
 
