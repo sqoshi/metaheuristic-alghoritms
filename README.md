@@ -7,13 +7,16 @@
 	- tabu list
 3. Simulated Annealing
 	- temperature
+	- accept worse 
 4. Particle Swarm
 	- velocity vector
 	- does not select parents
 5. Genetic Alghorithm
-	- tournament selection
-	- quality selection(random)
-	- two-point crossover
+	- selection
+	- mutation
+	- crossover
+	- reproduction
+	- generation improvement
 
 ## local_tabu_search
 ### hill_climbing - Shotgun hill climbing  ( griewank, happycat functions)
