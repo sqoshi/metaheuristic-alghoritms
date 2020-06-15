@@ -8,6 +8,9 @@ import numpy as np
 
 
 def rotate(A):
+    """
+    Rotating rows with columns in given matrix
+    """
     B = []
     added = True
     while added:
@@ -24,6 +27,9 @@ def rotate(A):
 
 
 def plot_graph(arr):
+    """
+    Draws multiple lines - plot
+    """
     transposed_array = rotate(arr)
     if len(arr) > 2:
         for sub in transposed_array:
@@ -52,6 +58,9 @@ def read_data(filename):
 
 
 def get_next_city(graph, T):
+    """
+    Next random avaible city
+    """
     city = T[0]
     initial_min = 0
     row = graph[T[len(T) - 1]]
@@ -64,6 +73,9 @@ def get_next_city(graph, T):
 
 
 def get_good_initial(graph, n, src):
+    """
+    find a goof solution by something like DFS
+    """
     T = [src]
     for i in range(n):
         minimalCity = get_next_city(graph, T)
@@ -98,6 +110,9 @@ def compute_distance(path, distance_matrix):
 
 
 def get_random_population(n, pop_size):
+    """
+    Random population respawner
+    """
     num_list = [i for i in range(n)]
     pop = [num_list.copy() for _ in range(pop_size)]
     for x in pop:
@@ -105,11 +120,10 @@ def get_random_population(n, pop_size):
     return pop
 
 
-def evaluate(path, distances):
-    return 1 / (compute_distance(path, distances) + distances[path[len(path) - 1]][path[0]])
-
-
 def get_min(population, distances):
+    """
+    Find minimal distance track in population
+    """
     best = random.choice(population)
     for x in population:
         if compute_distance(x, distances) < compute_distance(best, distances):
@@ -118,6 +132,9 @@ def get_min(population, distances):
 
 
 def cycle_crossover(p1, p2, prc):
+    """
+    Exchanges genes in 2 parents p1,p2 with prob prc
+    """
     for i in range(len(p1)):
         if random.uniform(0, 1) < prc:
             p1[p1.index(p2[i])], p2[p2.index(p1[i])] = p1[i], p2[i]
@@ -126,6 +143,9 @@ def cycle_crossover(p1, p2, prc):
 
 
 def tournament_selection(population, distances):
+    """
+    Tournament selection of parent from population (random)
+    """
     ts = 3
     best = random.choice(population)
     for i in range(0, ts):
@@ -143,6 +163,9 @@ def get_locus(population, i):
 
 
 def improve_and_reproduce(population, pop_size, distances):
+    """
+    Improving current population by reproducig 20% of current best to new generation and selecting rest by randomly
+    """
     selected = []
     popu = population.copy()
     while len(selected) < pop_size // 3:
@@ -157,6 +180,9 @@ def improve_and_reproduce(population, pop_size, distances):
 
 
 def hard_mutate(path):
+    """
+    Mutation by changing a hard big part of gens.
+    """
     i, j = random.sample([i for i in range(len(path))], 2)
     s, b = i, j
     if j < i:
@@ -165,6 +191,9 @@ def hard_mutate(path):
 
 
 def genetic_algorithm(t, n, distances, pop_size=24, plot=True, prcx=0.5):
+    """
+    Performs ga for a TSP problem.
+    """
     his = []
     end_time = get_current_time() + get_millis(t)
     population = get_random_population(n, pop_size)
