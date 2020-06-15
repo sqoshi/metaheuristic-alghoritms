@@ -256,5 +256,21 @@ Wystarczy ustawic graph= na True w mainie.
 4. Mutujemy dzieci na sposób:
     - losowo podmieniamy dwa elementy ścieżki ( transpozycja )
     - wybieramy losowy preffix i losujemy losowej długości suffix
+ 
+### genetic_algorithm_TSP - ga for TSP problem.
+1. Inicjujemy losową populację początkową random shuffles + kilka rozwiązań utworzonych przy użyciu pseudo- zachłannego algorytmu like DFS
+2. Wybieramy besta z bieżacej populacji.
+3. Dopóki jest czas
+    1. Dopóki lista generowanych nie jest pełna (pop_size)
+        1. Wygeneruj rodziców p1,p2 ( tournament selection)
+        2. Zastosuj cycle crossover
+        3. random swap dla dwójki utworzonych dzieci ( osobne swapy)
+        4. Dołącz dzieci do nowej generacji
+    2. Powiększ populację o nową generację
+    3. Dodaj losowe rozwiązanie zachłanne (good quality)
+    4. Przeprowadź reprodukcję tzn zachowaj 30% najlepszych osobników, a resztę dobierz losowo
+    5. sprawdzaj Besta
+4. Narysuj wykres propozycja besta vs best
+5. Zwróć besta 
 
 	
